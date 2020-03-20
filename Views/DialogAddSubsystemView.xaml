@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutomationProjectBuilder.Views"
+        xmlns:converter="clr-namespace:AutomationProjectBuilder.Misc"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Add a new subsystem" Height="450" Width="400">
+        Title="Add a new subsystem" Height="200" Width="400">
+    <Window.Resources>
+        <converter:EnumConverterToList x:Key="EnumToList" />
+    </Window.Resources>
     <Grid>
         <StackPanel Margin="10">
             <TextBox Text="{Binding TextInput}" 
@@ -14,6 +18,7 @@
             <Button Content="Add subsystem"
                     Command="{Binding CmdCreateNewComponent}"
                     Margin="0,0,0,10"/>
+            <ComboBox ItemsSource="{Binding Path=ComponentTypeSelection, Converter={StaticResource EnumToList}, Mode=OneTime}"/>
         </StackPanel>
     </Grid>
 </Window>

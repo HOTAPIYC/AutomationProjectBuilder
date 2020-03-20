@@ -1,5 +1,7 @@
 ﻿using AutomationProjectBuilder.Misc;
+using AutomationProjectBuilder.Model;
 using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace AutomationProjectBuilder.ViewModels
@@ -8,6 +10,21 @@ namespace AutomationProjectBuilder.ViewModels
     {
         private ICommand _cmdCreateNewComponent;
         private string _textInput;
+        private ComponentType _componentTypeSelection;
+
+        public ComponentType ComponentTypeSelection
+        {
+            get
+            {
+                return _componentTypeSelection;
+            }
+            set
+            {
+                _componentTypeSelection = value;
+                NotifyPropertChanged("ComponentTypeSelection");
+            }
+        }
+
 
         public string TextInput 
         {
@@ -31,6 +48,8 @@ namespace AutomationProjectBuilder.ViewModels
         public DialogAddSubsystemViewModel()
         {
             _cmdCreateNewComponent = new DelegateCommand(x => CreateComponent());
+
+            
         }
 
         public void CreateComponent()

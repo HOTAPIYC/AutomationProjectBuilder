@@ -1,5 +1,4 @@
 ﻿using AutomationProjectBuilder.Misc;
-using AutomationProjectBuilder.Model;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -28,7 +27,7 @@ namespace AutomationProjectBuilder.ViewModels
             get { return _cmdSelectedItem; }
         }
 
-        public ObservableCollection<ProjectComponent> ProjectStructure { get; } = new ObservableCollection<ProjectComponent>();
+        public ObservableCollection<TreeItemViewModel> ProjectStructure { get; } = new ObservableCollection<TreeItemViewModel>();
 
         public MainViewModel(IDialogService dialogService)
         {
@@ -42,11 +41,11 @@ namespace AutomationProjectBuilder.ViewModels
 
         private void LoadLatestConfig()
         {
-            var root = new ProjectComponent("Project", _dialogService);
+            var root = new TreeItemViewModel("Project", _dialogService);
             
-            var subsys1 = new ProjectComponent("Subsystem 1", _dialogService);
-            var subsys2 = new ProjectComponent("Subsystem 2", _dialogService);
-            var subsys3 = new ProjectComponent("Subsystem 3", _dialogService);
+            var subsys1 = new TreeItemViewModel("Subsystem 1", _dialogService);
+            var subsys2 = new TreeItemViewModel("Subsystem 2", _dialogService);
+            var subsys3 = new TreeItemViewModel("Subsystem 3", _dialogService);
 
             subsys2.AddSubsystem(subsys3);
 
@@ -58,7 +57,7 @@ namespace AutomationProjectBuilder.ViewModels
 
         private void GetSelectedItem(object x)
         {
-            var selectedItem = ProjectStructure[0].GetSelectedItem(new ProjectComponent());
+            var selectedItem = ProjectStructure[0].GetSelectedItem(new TreeItemViewModel());
 
             DetailsPage = new DetailsViewModel(selectedItem.Name);
         }

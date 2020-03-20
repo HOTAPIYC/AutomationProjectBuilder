@@ -1,29 +1,20 @@
 ﻿using AutomationProjectBuilder.Misc;
+using AutomationProjectBuilder.Model;
 using AutomationProjectBuilder.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace AutomationProjectBuilder.Model
+namespace AutomationProjectBuilder.ViewModels
 {
-    public enum ComponentType
-    {
-        Function,
-        FunctionBlock,
-        BasicCtrlM,
-        ComplexCtrlM,
-        EqM,
-        ProcessCell,
-        RecipePhase
-    }
-
-    public class ProjectComponent
+    public class TreeItemViewModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public ProjectComponent Parent { get; set; }
+        public TreeItemViewModel Parent { get; set; }
+        public ComponentType ItemType { get; set; }
         public bool IsSelected { get; set; }
-        public ObservableCollection<ProjectComponent> Subsystems { get; } = new ObservableCollection<ProjectComponent>();
+        public ObservableCollection<TreeItemViewModel> Subsystems { get; } = new ObservableCollection<TreeItemViewModel>();
 
         private ICommand _cmdAddSubsystem;
         private ICommand _cmdDeleteSubsystem;
@@ -39,12 +30,12 @@ namespace AutomationProjectBuilder.Model
             get { return _cmdDeleteSubsystem; }
         }
 
-        public ProjectComponent()
+        public TreeItemViewModel()
         {
             // empty constructor
         }
 
-        public ProjectComponent(string name, IDialogService dialogService)
+        public TreeItemViewModel(string name, IDialogService dialogService)
         {
             Id = Guid.NewGuid();
             Name = name;
@@ -59,16 +50,16 @@ namespace AutomationProjectBuilder.Model
         {
             var dialog = new DialogAddSubsystemViewModel();
 
-            var result = _dialogService.ShowDialog(dialog);         
+            _dialogService.ShowDialog(dialog);         
 
             if(dialog.TextInput != "")
             {
-                var subsystem = new ProjectComponent(dialog.TextInput, _dialogService);
+                var subsystem = new TreeItemViewModel(dialog.TextInput, _dialogService);
                 AddSubsystem(subsystem);
             }       
         }
 
-        public void AddSubsystem(ProjectComponent subsystem)
+        public void AddSubsystem(TreeItemViewModel subsystem)
         {
             subsystem.Parent = this;
             Subsystems.Add(subsystem);
@@ -79,7 +70,7 @@ namespace AutomationProjectBuilder.Model
             Parent.Subsystems.Remove(this);
         }
 
-        public ProjectComponent GetSelectedItem(ProjectComponent treeitem)
+        public TreeItemViewModel GetSelectedItem(TreeItemViewModel treeitem)
         {          
             if(IsSelected)
             {
@@ -87,7 +78,7 @@ namespace AutomationProjectBuilder.Model
             }
             else
             {
-                foreach(ProjectComponent item in Subsystems)
+                foreach(TreeItemViewModel item in Subsystems)
                 {
                     treeitem = item.GetSelectedItem(treeitem);
                 }
