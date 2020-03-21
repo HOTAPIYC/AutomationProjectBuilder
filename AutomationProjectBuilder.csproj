@@ -10,4 +10,10 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Views\ViewDialogTextInput.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

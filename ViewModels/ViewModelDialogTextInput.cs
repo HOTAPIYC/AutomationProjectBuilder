@@ -1,17 +1,15 @@
 ﻿using AutomationProjectBuilder.Misc;
-using AutomationProjectBuilder.Model;
 using System;
 using System.Windows.Input;
 
 namespace AutomationProjectBuilder.ViewModels
 {
-    public class ViewModelDialogTreeItem : ViewModelBase, IDialogRequestClose
+    public class ViewModelDialogTextInput : ViewModelBase, IDialogRequestClose
     {
         private ICommand _cmdSave;
         private ICommand _cmdCancel;
 
-        private string _itemName;
-        private ItemTypeISA88 _itemTypeSelection;
+        private string _textInput;
 
         public ICommand CmdSave
         {
@@ -23,38 +21,24 @@ namespace AutomationProjectBuilder.ViewModels
             get { return _cmdCancel; }
         }
 
-        public string ItemName
+        public string TextInput
         {
             get
             {
-                return _itemName;
+                return _textInput;
             }
             set
             {
-                _itemName = value;
-                NotifyPropertChanged("ItemName");
-            }
-        }
-
-        public ItemTypeISA88 ItemTypeSelection
-        {
-            get
-            {
-                return _itemTypeSelection;
-            }
-            set
-            {
-                _itemTypeSelection = value;
-                NotifyPropertChanged("ItemTypeSelection");
+                _textInput = value;
+                NotifyPropertChanged("TextInput");
             }
         }
 
         public event EventHandler<DialogCloseRequestedEventArgs> CloseRequested;
 
-        public ViewModelDialogTreeItem(ViewModelTreeItem item)
+        public ViewModelDialogTextInput(string text)
         {
-            ItemName = item.ItemName;
-            ItemTypeSelection = item.ItemType;
+            TextInput = text;
             
             _cmdSave = new DelegateCommand(x => CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(true)));
             _cmdCancel = new DelegateCommand(x => CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(false)));

@@ -23,6 +23,7 @@ namespace AutomationProjectBuilder
             IDialogService dialogService = new DialogService(MainWindow);
 
             dialogService.Register<ViewModelDialogTreeItem, ViewDialogTreeItem>();
+            dialogService.Register<ViewModelDialogTextInput, ViewDialogTextInput>();
 
             ViewMain mainView = new ViewMain() { DataContext = new ViewModelMain(dialogService) };
 

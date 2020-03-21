@@ -81,7 +81,7 @@ namespace AutomationProjectBuilder.ViewModels
             switch (_selectedItem.ItemType)
             {
                 case ItemTypeISA88.ComplexCtrlModule:
-                    DetailsPage = new ViewModelDetailsComplexCtrlModule();
+                    DetailsPage = new ViewModelDetailsComplexCtrlModule(_dialogService);
                     break;
                 default:
                     DetailsPage = new ViewModelDetailsBlank();
