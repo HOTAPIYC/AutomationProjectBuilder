@@ -7,17 +7,45 @@ using System.Windows.Input;
 
 namespace AutomationProjectBuilder.ViewModels
 {
-    public class TreeItemViewModel
+    public class TreeItemViewModel : ViewModelBase
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
+        private string _itemName;
+        private ItemTypeISA88 _itemType;
+
+        public Guid ItemId { get; set; }
         public TreeItemViewModel Parent { get; set; }
-        public ComponentType ItemType { get; set; }
         public bool IsSelected { get; set; }
         public ObservableCollection<TreeItemViewModel> Subsystems { get; } = new ObservableCollection<TreeItemViewModel>();
 
+        public string ItemName
+        {
+            get
+            {
+                return _itemName;
+            }
+            set
+            {
+                _itemName = value;
+                NotifyPropertChanged("ItemName");
+            }
+        }
+
+        public ItemTypeISA88 ItemType
+        {
+            get
+            {
+                return _itemType;
+            }
+            set
+            {
+                _itemType = value;
+                NotifyPropertChanged("ItemType");
+            }
+        }
+
         private ICommand _cmdAddSubsystem;
         private ICommand _cmdDeleteSubsystem;
+        private ICommand _cmdEditSubsystem;
 
         private IDialogService _dialogService;
 
@@ -25,9 +53,15 @@ namespace AutomationProjectBuilder.ViewModels
         {
             get { return _cmdAddSubsystem; }
         }
+
         public ICommand CmdDeleteSubsystem
         {
             get { return _cmdDeleteSubsystem; }
+        }
+
+        public ICommand CmdEditSubsystem
+        {
+            get { return _cmdEditSubsystem; }
         }
 
         public TreeItemViewModel()
@@ -35,26 +69,31 @@ namespace AutomationProjectBuilder.ViewModels
             // empty constructor
         }
 
-        public TreeItemViewModel(string name, IDialogService dialogService)
+        public TreeItemViewModel(string name, ItemTypeISA88 itemType, IDialogService dialogService)
         {
-            Id = Guid.NewGuid();
-            Name = name;
+            ItemId = Guid.NewGuid();
+            ItemName = name;
+            ItemType = itemType;
 
             _dialogService = dialogService;
 
             _cmdAddSubsystem = new DelegateCommand(x => CreateSubsystem());
             _cmdDeleteSubsystem = new DelegateCommand(x => DeleteSubsystem());
+            _cmdEditSubsystem = new DelegateCommand(x => EditSubsystem());
         }
 
         public void CreateSubsystem()
         {
-            var dialog = new DialogAddSubsystemViewModel();
+            var dialog = new DialogTreeItemViewModel(new TreeItemViewModel());
 
-            _dialogService.ShowDialog(dialog);         
+            var result = _dialogService.ShowDialog(dialog);         
 
-            if(dialog.TextInput != "")
+            if(result.Value)
             {
-                var subsystem = new TreeItemViewModel(dialog.TextInput, _dialogService);
+                var subsystem = new TreeItemViewModel(
+                    dialog.ItemName, 
+                    dialog.ItemTypeSelection,
+                    _dialogService);
                 AddSubsystem(subsystem);
             }       
         }
@@ -68,6 +107,19 @@ namespace AutomationProjectBuilder.ViewModels
         public void DeleteSubsystem()
         {
             Parent.Subsystems.Remove(this);
+        }
+
+        public void EditSubsystem()
+        {
+            var dialog = new DialogTreeItemViewModel(this);
+
+            var result = _dialogService.ShowDialog(dialog);
+
+            if (result.Value)
+            {
+                ItemName = dialog.ItemName;
+                ItemType = dialog.ItemTypeSelection;
+            }
         }
 
         public TreeItemViewModel GetSelectedItem(TreeItemViewModel treeitem)

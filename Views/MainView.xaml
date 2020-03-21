@@ -21,11 +21,12 @@
         <TreeView x:Name="ProjectTree" ItemsSource="{Binding ProjectStructure}" Grid.Column="0" SelectedValuePath="Name">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Subsystems}">
-                    <TextBlock x:Name="TreeItemName" Text="{Binding Name}">
+                    <TextBlock x:Name="TreeItemName" Text="{Binding ItemName, Mode=TwoWay}">
                         <TextBlock.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Add node" Command="{Binding CmdAddSubsystem}"/>
-                                <MenuItem Header="Delete node" Command="{Binding CmdDeleteSubsystem}"/>
+                                <MenuItem Header="Add" Command="{Binding CmdAddSubsystem}"/>
+                                <MenuItem Header="Delete" Command="{Binding CmdDeleteSubsystem}"/>
+                                <MenuItem Header="Edit" Command="{Binding CmdEditSubsystem}"/>
                             </ContextMenu>
                         </TextBlock.ContextMenu>
                     </TextBlock>
@@ -48,8 +49,9 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Row="0">
-                <TextBlock Text="{Binding ElementName=ProjectTree, Path=SelectedItem.Name}"/>
-                <TextBlock Text="{Binding ElementName=ProjectTree, Path=SelectedItem.ItemType, Converter={StaticResource EnumToString}}"/>
+                <TextBlock Text="{Binding ElementName=ProjectTree, Path=SelectedItem.ItemName}" Margin="5"/>
+                <TextBlock Text="{Binding ElementName=ProjectTree, Path=SelectedItem.ItemType, Converter={StaticResource EnumToString}}" Margin="0,5,5,5"/>
+                <Button Content="Edit" DataContext="{Binding ElementName=ProjectTree, Path=SelectedItem}" Command="{Binding CmdEditSubsystem}"/>
             </StackPanel>
             <ContentControl Content="{Binding DetailsPage}" Grid.Row="1"/>
         </Grid>

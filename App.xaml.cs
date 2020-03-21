@@ -22,7 +22,7 @@ namespace AutomationProjectBuilder
 
             IDialogService dialogService = new DialogService(MainWindow);
 
-            dialogService.Register<DialogAddSubsystemViewModel, DialogAddSubsystemView>();
+            dialogService.Register<DialogTreeItemViewModel, DialogTreeItemView>();
 
             var mainViewModel = new MainViewModel(dialogService);
             MainView mainView = new MainView(mainViewModel);

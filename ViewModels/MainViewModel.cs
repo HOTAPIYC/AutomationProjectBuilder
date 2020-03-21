@@ -1,4 +1,5 @@
 ﻿using AutomationProjectBuilder.Misc;
+using AutomationProjectBuilder.Model;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -41,11 +42,11 @@ namespace AutomationProjectBuilder.ViewModels
 
         private void LoadLatestConfig()
         {
-            var root = new TreeItemViewModel("Project", _dialogService);
+            var root = new TreeItemViewModel("Project", ItemTypeISA88.ProcessCell, _dialogService);
             
-            var subsys1 = new TreeItemViewModel("Subsystem 1", _dialogService);
-            var subsys2 = new TreeItemViewModel("Subsystem 2", _dialogService);
-            var subsys3 = new TreeItemViewModel("Subsystem 3", _dialogService);
+            var subsys1 = new TreeItemViewModel("Subsystem 1", ItemTypeISA88.EquipmentModule, _dialogService);
+            var subsys2 = new TreeItemViewModel("Subsystem 2", ItemTypeISA88.EquipmentModule, _dialogService);
+            var subsys3 = new TreeItemViewModel("Subsystem 3", ItemTypeISA88.EquipmentModule, _dialogService);
 
             subsys2.AddSubsystem(subsys3);
 
@@ -59,7 +60,7 @@ namespace AutomationProjectBuilder.ViewModels
         {
             var selectedItem = ProjectStructure[0].GetSelectedItem(new TreeItemViewModel());
 
-            DetailsPage = new DetailsViewModel(selectedItem.Name);
+            DetailsPage = new DetailsViewModel(selectedItem.ItemName);
         }
     }
 }
