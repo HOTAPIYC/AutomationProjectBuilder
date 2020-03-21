@@ -16,9 +16,9 @@ namespace AutomationProjectBuilder.Views
     /// <summary>
     /// Interaktionslogik für DetailsView.xaml
     /// </summary>
-    public partial class DetailsView : UserControl
+    public partial class ViewDetails : UserControl
     {
-        public DetailsView()
+        public ViewDetails()
         {
             InitializeComponent();
         }

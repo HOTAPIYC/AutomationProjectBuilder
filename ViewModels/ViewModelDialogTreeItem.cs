@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace AutomationProjectBuilder.ViewModels
 {
-    public class DialogTreeItemViewModel : ViewModelBase, IDialogRequestClose
+    public class ViewModelDialogTreeItem : ViewModelBase, IDialogRequestClose
     {
         private ICommand _cmdSave;
         private ICommand _cmdCancel;
@@ -52,7 +52,7 @@ namespace AutomationProjectBuilder.ViewModels
 
         public event EventHandler<DialogCloseRequestedEventArgs> CloseRequested;
 
-        public DialogTreeItemViewModel(TreeItemViewModel item)
+        public ViewModelDialogTreeItem(ViewModelTreeItem item)
         {
             ItemName = item.ItemName;
             ItemTypeSelection = item.ItemType;

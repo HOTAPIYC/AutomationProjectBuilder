@@ -3,19 +3,20 @@ using AutomationProjectBuilder.Model;
 using AutomationProjectBuilder.ViewModels;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Input;
 
 namespace AutomationProjectBuilder.ViewModels
 {
-    public class TreeItemViewModel : ViewModelBase
+    public class ViewModelTreeItem : ViewModelBase
     {
         private string _itemName;
         private ItemTypeISA88 _itemType;
 
         public Guid ItemId { get; set; }
-        public TreeItemViewModel Parent { get; set; }
+        public ViewModelTreeItem Parent { get; set; }
         public bool IsSelected { get; set; }
-        public ObservableCollection<TreeItemViewModel> Subsystems { get; } = new ObservableCollection<TreeItemViewModel>();
+        public ObservableCollection<ViewModelTreeItem> Subsystems { get; } = new ObservableCollection<ViewModelTreeItem>();
 
         public string ItemName
         {
@@ -64,12 +65,12 @@ namespace AutomationProjectBuilder.ViewModels
             get { return _cmdEditSubsystem; }
         }
 
-        public TreeItemViewModel()
+        public ViewModelTreeItem()
         {
             // empty constructor
         }
 
-        public TreeItemViewModel(string name, ItemTypeISA88 itemType, IDialogService dialogService)
+        public ViewModelTreeItem(string name, ItemTypeISA88 itemType, IDialogService dialogService)
         {
             ItemId = Guid.NewGuid();
             ItemName = name;
@@ -84,13 +85,13 @@ namespace AutomationProjectBuilder.ViewModels
 
         public void CreateSubsystem()
         {
-            var dialog = new DialogTreeItemViewModel(new TreeItemViewModel());
+            var dialog = new ViewModelDialogTreeItem(new ViewModelTreeItem());
 
             var result = _dialogService.ShowDialog(dialog);         
 
             if(result.Value)
             {
-                var subsystem = new TreeItemViewModel(
+                var subsystem = new ViewModelTreeItem(
                     dialog.ItemName, 
                     dialog.ItemTypeSelection,
                     _dialogService);
@@ -98,7 +99,7 @@ namespace AutomationProjectBuilder.ViewModels
             }       
         }
 
-        public void AddSubsystem(TreeItemViewModel subsystem)
+        public void AddSubsystem(ViewModelTreeItem subsystem)
         {
             subsystem.Parent = this;
             Subsystems.Add(subsystem);
@@ -111,7 +112,7 @@ namespace AutomationProjectBuilder.ViewModels
 
         public void EditSubsystem()
         {
-            var dialog = new DialogTreeItemViewModel(this);
+            var dialog = new ViewModelDialogTreeItem(this);
 
             var result = _dialogService.ShowDialog(dialog);
 
@@ -122,7 +123,7 @@ namespace AutomationProjectBuilder.ViewModels
             }
         }
 
-        public TreeItemViewModel GetSelectedItem(TreeItemViewModel treeitem)
+        public ViewModelTreeItem GetSelectedItem(ViewModelTreeItem treeitem)
         {          
             if(IsSelected)
             {
@@ -130,7 +131,7 @@ namespace AutomationProjectBuilder.ViewModels
             }
             else
             {
-                foreach(TreeItemViewModel item in Subsystems)
+                foreach(ViewModelTreeItem item in Subsystems)
                 {
                     treeitem = item.GetSelectedItem(treeitem);
                 }

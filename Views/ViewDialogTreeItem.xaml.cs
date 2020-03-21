@@ -6,9 +6,9 @@ namespace AutomationProjectBuilder.Views
     /// <summary>
     /// Interaktionslogik für NewSubSystemView.xaml
     /// </summary>
-    public partial class DialogTreeItemView : Window, IDialog
+    public partial class ViewDialogTreeItem : Window, IDialog
     {
-        public DialogTreeItemView()
+        public ViewDialogTreeItem()
         {
             InitializeComponent();
         }
