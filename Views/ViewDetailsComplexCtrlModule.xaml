@@ -6,18 +6,32 @@
              xmlns:local="clr-namespace:AutomationProjectBuilder.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <ListView ItemsSource="{Binding ModuleFunctions}" Margin="5" Background="Azure">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding Name}"  />
-                </GridView>
-            </ListView.View>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+    <Grid Margin="5" Background="Beige">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Margin="5">
+            <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                <TextBlock Text="Functions" Margin="0,5"/>
+                <Button Content="Add" Command="{Binding CmdAddFunction}" Width="50" Margin="5,0,0,0"/>
+            </StackPanel>
+            <ListView ItemsSource="{Binding ModuleFunctions}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding Name}"  />
+                    </GridView>
+                </ListView.View>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Margin="5">
+            <TextBlock Text="Description" Margin="0,5"/>
+            <TextBox Margin="0,5" MinLines="5"/>
+        </StackPanel>
     </Grid>
 </UserControl>

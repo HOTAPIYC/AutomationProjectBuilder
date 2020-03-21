@@ -7,7 +7,7 @@
              xmlns:viewmodels="clr-namespace:AutomationProjectBuilder.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Yellow">
+    <Grid Background="Yellow" Margin="5">
         <TextBlock Text="Automation project builder" VerticalAlignment="Center" HorizontalAlignment="Center"/>
     </Grid>
 </UserControl>

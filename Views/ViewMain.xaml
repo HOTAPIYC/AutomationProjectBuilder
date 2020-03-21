@@ -19,7 +19,8 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="4"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <TreeView x:Name="ProjectTree" ItemsSource="{Binding ProjectStructure}" Grid.Column="0">
@@ -48,15 +49,17 @@
                 </behaviors:EventTrigger>
             </behaviors:Interaction.Triggers>
         </TreeView>
-        <Grid Grid.Column="1">
+        <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch" />
+        <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" Grid.Row="0" Visibility="{Binding ElementName=ProjectTree, Path=SelectedItem, Converter={StaticResource SelectionToVisibility}}">
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,5,0,0" Visibility="{Binding ElementName=ProjectTree, Path=SelectedItem, Converter={StaticResource SelectionToVisibility}}">
                 <TextBlock Text="{Binding ElementName=ProjectTree, Path=SelectedItem.ItemName}" Margin="5"/>
                 <TextBlock Text="{Binding ElementName=ProjectTree, Path=SelectedItem.ItemType, Converter={StaticResource EnumToString}}" Margin="0,5,5,5"/>
-                <Button Content="Edit" 
+                <Button Content="Edit"
+                        Width="50"
                         DataContext="{Binding ElementName=ProjectTree, Path=SelectedItem}" 
                         Command="{Binding CmdEditSubsystem}"/>
             </StackPanel>
