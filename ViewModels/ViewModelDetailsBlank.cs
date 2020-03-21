@@ -5,11 +5,11 @@ using System.Text;
 
 namespace AutomationProjectBuilder.ViewModels
 {
-    class ViewModelDetails : ViewModelDetailsBase
+    class ViewModelDetailsBlank : ViewModelDetailsBase
     {       
-        public ViewModelDetails(string name)
+        public ViewModelDetailsBlank()
         {
-            Name = name;
+            // empty
         }
     }
 }

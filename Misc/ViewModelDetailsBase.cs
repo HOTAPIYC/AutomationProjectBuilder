@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using AutomationProjectBuilder.Model;
+using System.ComponentModel;
 
 namespace AutomationProjectBuilder.Misc
 {
@@ -18,5 +19,6 @@ namespace AutomationProjectBuilder.Misc
                 NotifyPropertChanged("Name");
             }
         }
+        public ItemTypeISA88 ViewItemType { get; set; }
     }
 }

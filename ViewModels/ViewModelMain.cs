@@ -38,7 +38,7 @@ namespace AutomationProjectBuilder.ViewModels
             _dialogService = dialogService;
             _cmdSelectedItem = new DelegateCommand(x => GetSelectedItem(x));
 
-            DetailsPage = new ViewModelDetails("No item selected");
+            DetailsPage = new ViewModelDetailsBlank();
 
             LoadLatestConfig();
         }
@@ -65,14 +65,28 @@ namespace AutomationProjectBuilder.ViewModels
 
             _selectedItem.PropertyChanged += HandleListChangeEvent;
 
-            DetailsPage = new ViewModelDetails(_selectedItem.ItemName);
+            LoadSelectedItemPage();
         }
 
         private void HandleListChangeEvent(object sender, EventArgs e)
         {
-            if(DetailsPage.Name != _selectedItem.ItemName)
+            if(DetailsPage.ViewItemType != _selectedItem.ItemType)
             {
-                DetailsPage = new ViewModelDetails(_selectedItem.ItemName);
+                LoadSelectedItemPage();
+            }
+        }
+
+        private void LoadSelectedItemPage()
+        {
+            switch (_selectedItem.ItemType)
+            {
+                case ItemTypeISA88.ComplexCtrlModule:
+                    DetailsPage = new ViewModelDetailsComplexCtrlModule();
+                    break;
+                default:
+                    DetailsPage = new ViewModelDetailsBlank();
+                    DetailsPage.ViewItemType = _selectedItem.ItemType;
+                    break;
             }
         }
     }

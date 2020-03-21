@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace AutomationProjectBuilder.Views
 {
     /// <summary>
-    /// Interaktionslogik für DetailsView.xaml
+    /// Interaktionslogik für ViewDetailsComplexCtrlModule.xaml
     /// </summary>
-    public partial class ViewDetails : UserControl
+    public partial class ViewDetailsComplexCtrlModule : UserControl
     {
-        public ViewDetails()
+        public ViewDetailsComplexCtrlModule()
         {
             InitializeComponent();
         }

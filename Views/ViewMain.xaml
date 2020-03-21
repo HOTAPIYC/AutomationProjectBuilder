@@ -8,8 +8,11 @@
         WindowStartupLocation="CenterScreen"
         Title="AutomationProjectBuilder" Height="450" Width="800">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type viewmodels:ViewModelDetails}">
-            <views:ViewDetails/>
+        <DataTemplate DataType="{x:Type viewmodels:ViewModelDetailsBlank}">
+            <views:ViewDetailsBlank/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:ViewModelDetailsComplexCtrlModule}">
+            <views:ViewDetailsComplexCtrlModule/>
         </DataTemplate>
         <converter:EnumConverterToString x:Key="EnumToString" />
         <converter:SelectionConverterToVisibility x:Key="SelectionToVisibility" />
@@ -19,7 +22,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TreeView x:Name="ProjectTree" ItemsSource="{Binding ProjectStructure}" Grid.Column="0" SelectedValuePath="Name">
+        <TreeView x:Name="ProjectTree" ItemsSource="{Binding ProjectStructure}" Grid.Column="0">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Subsystems}">
                     <TextBlock x:Name="TreeItemName" Text="{Binding ItemName, Mode=TwoWay}">
