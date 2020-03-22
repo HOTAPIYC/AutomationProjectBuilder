@@ -21,11 +21,12 @@ namespace AutomationProjectBuilder
             base.OnStartup(e);
 
             IDialogService dialogService = new DialogService(MainWindow);
+            IDataService dataService = new DataService();
 
             dialogService.Register<ViewModelDialogTreeItem, ViewDialogTreeItem>();
             dialogService.Register<ViewModelDialogTextInput, ViewDialogTextInput>();
 
-            ViewMain mainView = new ViewMain() { DataContext = new ViewModelMain(dialogService) };
+            ViewMain mainView = new ViewMain() { DataContext = new ViewModelMain(dialogService,dataService) };
 
             mainView.Show();
         }

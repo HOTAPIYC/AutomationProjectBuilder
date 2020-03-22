@@ -1,5 +1,5 @@
 ﻿using AutomationProjectBuilder.Model;
-using System.ComponentModel;
+using System;
 
 namespace AutomationProjectBuilder.Misc
 {
@@ -20,5 +20,6 @@ namespace AutomationProjectBuilder.Misc
             }
         }
         public ItemTypeISA88 ViewItemType { get; set; }
+        public Guid ViewItemId { get; set; }
     }
 }

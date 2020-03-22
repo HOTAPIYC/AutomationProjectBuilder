@@ -10,9 +10,16 @@ namespace AutomationProjectBuilder.ViewModels
 {
     public class ViewModelTreeItem : ViewModelBase
     {
+        private IDialogService _dialogService;
+        private IDataService _dataService;
+
+        private ICommand _cmdAddSubsystem;
+        private ICommand _cmdDeleteSubsystem;
+        private ICommand _cmdEditSubsystem;
+
         private string _itemName;
         private ItemTypeISA88 _itemType;
-
+        
         public Guid ItemId { get; set; }
         public ViewModelTreeItem Parent { get; set; }
         public bool IsSelected { get; set; }
@@ -44,12 +51,6 @@ namespace AutomationProjectBuilder.ViewModels
             }
         }
 
-        private ICommand _cmdAddSubsystem;
-        private ICommand _cmdDeleteSubsystem;
-        private ICommand _cmdEditSubsystem;
-
-        private IDialogService _dialogService;
-
         public ICommand CmdAddSubsystem
         {
             get { return _cmdAddSubsystem; }
@@ -70,13 +71,19 @@ namespace AutomationProjectBuilder.ViewModels
             // empty constructor
         }
 
-        public ViewModelTreeItem(string name, ItemTypeISA88 itemType, IDialogService dialogService)
+        public ViewModelTreeItem(ProjectItem item, IDialogService dialogService, IDataService dataService)
         {
-            ItemId = Guid.NewGuid();
-            ItemName = name;
-            ItemType = itemType;
-
             _dialogService = dialogService;
+            _dataService = dataService;
+
+            ItemId = item.Id;
+            ItemName = item.Name;
+            ItemType = item.Type;
+
+            foreach(ProjectItem projectItem in item.SubItems)
+            {
+                Subsystems.Add(new ViewModelTreeItem(projectItem, dialogService, dataService));
+            }           
 
             _cmdAddSubsystem = new DelegateCommand(x => CreateSubsystem());
             _cmdDeleteSubsystem = new DelegateCommand(x => DeleteSubsystem());
@@ -92,9 +99,11 @@ namespace AutomationProjectBuilder.ViewModels
             if(result.Value)
             {
                 var subsystem = new ViewModelTreeItem(
-                    dialog.ItemName, 
-                    dialog.ItemTypeSelection,
-                    _dialogService);
+                    new ProjectItem(
+                        dialog.ItemName, 
+                        dialog.ItemTypeSelection),
+                    _dialogService,
+                    _dataService);
                 AddSubsystem(subsystem);
             }       
         }

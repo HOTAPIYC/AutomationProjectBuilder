@@ -10,9 +10,11 @@ namespace AutomationProjectBuilder.ViewModels
 {
     public class ViewModelDetailsComplexCtrlModule : ViewModelDetailsBase
     {
+        private IDialogService _dialogService;
+        private IDataService _dataService;
+
         private ICommand _cmdAddFunction;
         private ICommand _cmdDeleteFunction;
-        private IDialogService _dialogService;
 
         public ICommand CmdAddFunction
         {
@@ -26,17 +28,18 @@ namespace AutomationProjectBuilder.ViewModels
 
         public ObservableCollection<ModuleFunction> ModuleFunctions { get; set; } = new ObservableCollection<ModuleFunction>();
                        
-        public ViewModelDetailsComplexCtrlModule(IDialogService dialogService)
+        public ViewModelDetailsComplexCtrlModule(Guid moduleId, IDialogService dialogService,IDataService dataService)
         {
+            _dialogService = dialogService;
+            _dataService = dataService;
+
+            ViewItemId = moduleId;
             ViewItemType = ItemTypeISA88.ComplexCtrlModule;
 
-            ModuleFunctions.Add(new ModuleFunction("Function 1"));
-            ModuleFunctions.Add(new ModuleFunction("Function 2"));
+            ModuleFunctions = dataService.GetItemFunctions(moduleId);
 
             _cmdAddFunction = new DelegateCommand(x => AddFunction());
             _cmdDeleteFunction = new DelegateCommand(x => DeleteFunction());
-
-            _dialogService = dialogService;
         }
 
         private void AddFunction()
@@ -47,7 +50,10 @@ namespace AutomationProjectBuilder.ViewModels
 
             if (result.Value)
             {
-                var moduleFunction = new ModuleFunction(dialog.TextInput);
+                var moduleFunction = new ModuleFunction(ViewItemId, dialog.TextInput);
+
+                _dataService.AddModuleFunction(moduleFunction);
+
                 ModuleFunctions.Add(moduleFunction);
             }
         }

@@ -10,6 +10,8 @@ namespace AutomationProjectBuilder.ViewModels
     public class ViewModelMain : ViewModelBase
     {
         private IDialogService _dialogService;
+        private IDataService _dataService;
+
         private ViewModelDetailsBase _detailsPage;
         private ICommand _cmdSelectedItem;
         private ViewModelTreeItem _selectedItem;
@@ -33,9 +35,11 @@ namespace AutomationProjectBuilder.ViewModels
 
         public ObservableCollection<ViewModelTreeItem> ProjectStructure { get; } = new ObservableCollection<ViewModelTreeItem>();
 
-        public ViewModelMain(IDialogService dialogService)
+        public ViewModelMain(IDialogService dialogService, IDataService dataService)
         {
             _dialogService = dialogService;
+            _dataService = dataService;
+
             _cmdSelectedItem = new DelegateCommand(x => GetSelectedItem(x));
 
             DetailsPage = new ViewModelDetailsBlank();
@@ -45,18 +49,9 @@ namespace AutomationProjectBuilder.ViewModels
 
         private void LoadLatestConfig()
         {
-            var root = new ViewModelTreeItem("Project", ItemTypeISA88.ProcessCell, _dialogService);
-            
-            var subsys1 = new ViewModelTreeItem("Subsystem 1", ItemTypeISA88.EquipmentModule, _dialogService);
-            var subsys2 = new ViewModelTreeItem("Subsystem 2", ItemTypeISA88.EquipmentModule, _dialogService);
-            var subsys3 = new ViewModelTreeItem("Subsystem 3", ItemTypeISA88.EquipmentModule, _dialogService);
+            var projectRoot = _dataService.GetProject();
 
-            subsys2.AddSubsystem(subsys3);
-
-            root.AddSubsystem(subsys1);
-            root.AddSubsystem(subsys2);
-
-            ProjectStructure.Add(root);
+            ProjectStructure.Add(new ViewModelTreeItem(projectRoot, _dialogService,_dataService));
         }
 
         private void GetSelectedItem(object x)
@@ -70,7 +65,7 @@ namespace AutomationProjectBuilder.ViewModels
 
         private void HandleListChangeEvent(object sender, EventArgs e)
         {
-            if(DetailsPage.ViewItemType != _selectedItem.ItemType)
+            if(DetailsPage.ViewItemType != _selectedItem.ItemType || DetailsPage.ViewItemId != _selectedItem.ItemId)
             {
                 LoadSelectedItemPage();
             }
@@ -81,7 +76,7 @@ namespace AutomationProjectBuilder.ViewModels
             switch (_selectedItem.ItemType)
             {
                 case ItemTypeISA88.ComplexCtrlModule:
-                    DetailsPage = new ViewModelDetailsComplexCtrlModule(_dialogService);
+                    DetailsPage = new ViewModelDetailsComplexCtrlModule(_selectedItem.ItemId,_dialogService, _dataService);
                     break;
                 default:
                     DetailsPage = new ViewModelDetailsBlank();

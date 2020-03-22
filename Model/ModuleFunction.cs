@@ -6,10 +6,12 @@ namespace AutomationProjectBuilder.Model
 {
     public class ModuleFunction
     {
+        public Guid ModuleId { get; set; }
         public string Name { get; set; }
 
-        public ModuleFunction(string name)
+        public ModuleFunction(Guid moduleId, string name)
         {
+            ModuleId = moduleId;
             Name = name;
         }
     }
