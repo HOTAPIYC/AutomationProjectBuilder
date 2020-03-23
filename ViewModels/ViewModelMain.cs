@@ -14,6 +14,8 @@ namespace AutomationProjectBuilder.ViewModels
 
         private ViewModelDetailsBase _detailsPage;
         private ICommand _cmdSelectedItem;
+        private ICommand _cmdSaveFile;
+        private ICommand _cmdOpenFile;
         private ViewModelTreeItem _selectedItem;
 
         public ViewModelDetailsBase DetailsPage
@@ -28,9 +30,20 @@ namespace AutomationProjectBuilder.ViewModels
                 NotifyPropertChanged("DetailsPage");
             }
         }
+        
         public ICommand CmdSelectedItem
         {
             get { return _cmdSelectedItem; }
+        }
+
+        public ICommand CmdSaveFile
+        {
+            get { return _cmdSaveFile; }
+        }
+
+        public ICommand CmdOpenFile
+        {
+            get { return _cmdOpenFile; }
         }
 
         public ObservableCollection<ViewModelTreeItem> ProjectStructure { get; } = new ObservableCollection<ViewModelTreeItem>();
@@ -40,7 +53,9 @@ namespace AutomationProjectBuilder.ViewModels
             _dialogService = dialogService;
             _dataService = dataService;
 
-            _cmdSelectedItem = new DelegateCommand(x => GetSelectedItem(x));
+            _cmdSelectedItem = new DelegateCommand(x => GetSelectedItem());
+            _cmdSaveFile = new DelegateCommand(x => SaveData());
+            _cmdOpenFile = new DelegateCommand(x => LoadData());
 
             DetailsPage = new ViewModelDetailsBlank();
 
@@ -54,7 +69,7 @@ namespace AutomationProjectBuilder.ViewModels
             ProjectStructure.Add(new ViewModelTreeItem(projectRoot, _dialogService,_dataService));
         }
 
-        private void GetSelectedItem(object x)
+        private void GetSelectedItem()
         {
             _selectedItem = ProjectStructure[0].GetSelectedViewModel(new ViewModelTreeItem());
 
@@ -83,6 +98,20 @@ namespace AutomationProjectBuilder.ViewModels
                     DetailsPage.ViewItemType = _selectedItem.ItemType;
                     break;
             }
+        }
+
+        private void LoadData()
+        {
+            var settings = new FileDialogSettings();
+
+            var result = _dialogService.ShowOpenFileDialog(settings);
+        }
+
+        private void SaveData()
+        {
+            var settings = new FileDialogSettings();
+
+            var result = _dialogService.ShowSaveFileDialog(settings);
         }
     }
 }

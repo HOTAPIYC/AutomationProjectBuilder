@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 
@@ -55,6 +56,37 @@ namespace AutomationProjectBuilder.Misc
             dialog.Owner = owner;
 
             return dialog.ShowDialog();
+        }
+
+        public bool? ShowOpenFileDialog(FileDialogSettings settings)
+        {
+            var dialog = new OpenFileDialog();
+
+            dialog.Filter = settings.Filter;
+            dialog.CheckFileExists = settings.CheckFileExists;
+            dialog.CheckPathExists = settings.CheckPathExists;
+
+            var result = dialog.ShowDialog();
+
+            settings.FileName = dialog.FileName;
+
+            return result;
+        }
+
+        public bool? ShowSaveFileDialog(FileDialogSettings settings)
+        {
+            var dialog = new SaveFileDialog();
+
+            dialog.FileName = settings.FileName;
+            dialog.Filter = settings.Filter;
+            dialog.CheckFileExists = settings.CheckFileExists;
+            dialog.CheckPathExists = settings.CheckPathExists;
+
+            var result = dialog.ShowDialog();
+
+            settings.FileName = dialog.FileName;
+
+            return result;
         }
     }
 }
