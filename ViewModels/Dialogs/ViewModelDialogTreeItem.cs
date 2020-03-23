@@ -10,7 +10,7 @@ namespace AutomationProjectBuilder.ViewModels
         private ICommand _cmdSave;
         private ICommand _cmdCancel;
 
-        private string _itemName;
+        private string _itemNameInput;
         private ItemTypeISA88 _itemTypeSelection;
 
         public ICommand CmdSave
@@ -23,15 +23,15 @@ namespace AutomationProjectBuilder.ViewModels
             get { return _cmdCancel; }
         }
 
-        public string ItemName
+        public string ItemNameInput
         {
             get
             {
-                return _itemName;
+                return _itemNameInput;
             }
             set
             {
-                _itemName = value;
+                _itemNameInput = value;
                 NotifyPropertChanged("ItemName");
             }
         }
@@ -51,10 +51,10 @@ namespace AutomationProjectBuilder.ViewModels
 
         public event EventHandler<DialogCloseRequestedEventArgs> CloseRequested;
 
-        public ViewModelDialogTreeItem(ViewModelTreeItem item)
+        public ViewModelDialogTreeItem(ProjectItem item)
         {
-            ItemName = item.ItemName;
-            ItemTypeSelection = item.ItemType;
+            ItemNameInput = item.Name;
+            ItemTypeSelection = item.Type;
             
             _cmdSave = new DelegateCommand(x => CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(true)));
             _cmdCancel = new DelegateCommand(x => CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(false)));

@@ -49,14 +49,14 @@ namespace AutomationProjectBuilder.ViewModels
 
         private void LoadLatestConfig()
         {
-            var projectRoot = _dataService.GetProject();
+            var projectRoot = _dataService.GetProjectRoot();
 
             ProjectStructure.Add(new ViewModelTreeItem(projectRoot, _dialogService,_dataService));
         }
 
         private void GetSelectedItem(object x)
         {
-            _selectedItem = ProjectStructure[0].GetSelectedItem(new ViewModelTreeItem());
+            _selectedItem = ProjectStructure[0].GetSelectedViewModel(new ViewModelTreeItem());
 
             _selectedItem.PropertyChanged += HandleListChangeEvent;
 

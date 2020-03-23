@@ -25,7 +25,7 @@
         </Grid.ColumnDefinitions>
         <TreeView x:Name="ProjectTree" ItemsSource="{Binding ProjectStructure}" Grid.Column="0">
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Subsystems}">
+                <HierarchicalDataTemplate ItemsSource="{Binding SubViewModels}">
                     <TextBlock x:Name="TreeItemName" Text="{Binding ItemName, Mode=TwoWay}">
                         <TextBlock.ContextMenu>
                             <ContextMenu>

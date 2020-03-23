@@ -32,17 +32,44 @@ namespace AutomationProjectBuilder.Misc
         
         public ObservableCollection<ModuleFunction> GetItemFunctions(Guid ItemId)
         {
-            return new ObservableCollection<ModuleFunction>(_moduleFunctions.Where(w => w.ModuleId == ItemId).ToList());
+            return new ObservableCollection<ModuleFunction>(_moduleFunctions.Where(fct => fct.ModuleId == ItemId).ToList());
         }
 
-        public void AddModuleFunction(ModuleFunction function)
+        public void AddModuleFunction(ModuleFunction moduleFunction)
         {
-            _moduleFunctions.Add(function);
+            _moduleFunctions.Add(moduleFunction);
         }
 
-        public ProjectItem GetProject()
+        public ProjectItem GetProjectRoot()
         {
             return _projectRoot;
+        }
+
+        public void UpdateProjectItem(ProjectItem item)
+        {
+            if(item.Id == _projectRoot.Id)
+            {
+                _projectRoot = item;
+            }
+            else
+            {
+                FindItem(item, _projectRoot);
+            }
+        }
+
+        private void FindItem(ProjectItem newItem, ProjectItem root)
+        {
+            if(root.SubItems.Where(item => item.Id == newItem.Id).ToList().Count > 0)
+            {
+                root.SubItems[root.SubItems.IndexOf(root.SubItems.Where(item => item.Id == newItem.Id).ToList().FirstOrDefault())] = newItem;
+            }
+            else
+            {
+                foreach(ProjectItem subitem in root.SubItems)
+                {
+                    FindItem(newItem, subitem);
+                }
+            }
         }
     }
 }

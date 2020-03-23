@@ -13,7 +13,7 @@
     </Window.Resources>
     <Grid>
         <StackPanel Margin="10">
-            <TextBox Text="{Binding ItemName}" 
+            <TextBox Text="{Binding ItemNameInput}" 
                      Margin="0,0,0,10"/>
             <ComboBox ItemsSource="{Binding Path=ItemTypeSelection, Converter={StaticResource EnumToList}, Mode=OneTime}"
                       SelectedValuePath="Value"

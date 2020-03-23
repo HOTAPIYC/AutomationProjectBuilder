@@ -17,23 +17,22 @@ namespace AutomationProjectBuilder.ViewModels
         private ICommand _cmdDeleteSubsystem;
         private ICommand _cmdEditSubsystem;
 
-        private string _itemName;
-        private ItemTypeISA88 _itemType;
-        
-        public Guid ItemId { get; set; }
+        private ProjectItem _item;
+      
         public ViewModelTreeItem Parent { get; set; }
         public bool IsSelected { get; set; }
-        public ObservableCollection<ViewModelTreeItem> Subsystems { get; } = new ObservableCollection<ViewModelTreeItem>();
+
+        public ObservableCollection<ViewModelTreeItem> SubViewModels { get; } = new ObservableCollection<ViewModelTreeItem>();
 
         public string ItemName
         {
             get
             {
-                return _itemName;
+                return _item.Name;
             }
             set
             {
-                _itemName = value;
+                _item.Name = value;
                 NotifyPropertChanged("ItemName");
             }
         }
@@ -42,12 +41,20 @@ namespace AutomationProjectBuilder.ViewModels
         {
             get
             {
-                return _itemType;
+                return _item.Type;
             }
             set
             {
-                _itemType = value;
+                _item.Type = value;
                 NotifyPropertChanged("ItemType");
+            }
+        }
+
+        public Guid ItemId
+        {
+            get
+            {
+                return _item.Id;
             }
         }
 
@@ -68,7 +75,7 @@ namespace AutomationProjectBuilder.ViewModels
 
         public ViewModelTreeItem()
         {
-            // empty constructor
+            //
         }
 
         public ViewModelTreeItem(ProjectItem item, IDialogService dialogService, IDataService dataService)
@@ -76,76 +83,81 @@ namespace AutomationProjectBuilder.ViewModels
             _dialogService = dialogService;
             _dataService = dataService;
 
-            ItemId = item.Id;
-            ItemName = item.Name;
-            ItemType = item.Type;
+            _item = item;
 
-            foreach(ProjectItem projectItem in item.SubItems)
+            foreach (ProjectItem projectItem in item.SubItems)
             {
-                Subsystems.Add(new ViewModelTreeItem(projectItem, dialogService, dataService));
+                SubViewModels.Add(new ViewModelTreeItem(projectItem, dialogService, dataService));
             }           
 
-            _cmdAddSubsystem = new DelegateCommand(x => CreateSubsystem());
-            _cmdDeleteSubsystem = new DelegateCommand(x => DeleteSubsystem());
-            _cmdEditSubsystem = new DelegateCommand(x => EditSubsystem());
+            _cmdAddSubsystem = new DelegateCommand(x => CreateSubViewModel());
+            _cmdDeleteSubsystem = new DelegateCommand(x => DeleteSubViewModel());
+            _cmdEditSubsystem = new DelegateCommand(x => EditSubViewModel());
+
+            PropertyChanged += UpdateItem;
+            SubViewModels.CollectionChanged += UpdateItem;
         }
 
-        public void CreateSubsystem()
+        public void CreateSubViewModel()
         {
-            var dialog = new ViewModelDialogTreeItem(new ViewModelTreeItem());
+            var dialog = new ViewModelDialogTreeItem(new ProjectItem());
 
             var result = _dialogService.ShowDialog(dialog);         
 
             if(result.Value)
             {
-                var subsystem = new ViewModelTreeItem(
-                    new ProjectItem(
-                        dialog.ItemName, 
-                        dialog.ItemTypeSelection),
-                    _dialogService,
-                    _dataService);
-                AddSubsystem(subsystem);
+                var newItem = new ProjectItem(dialog.ItemNameInput, dialog.ItemTypeSelection);
+
+                _item.SubItems.Add(newItem);
+
+                AddSubViewModel(new ViewModelTreeItem(newItem, _dialogService, _dataService));
             }       
         }
 
-        public void AddSubsystem(ViewModelTreeItem subsystem)
+        public void AddSubViewModel(ViewModelTreeItem subsystem)
         {
             subsystem.Parent = this;
-            Subsystems.Add(subsystem);
+
+            SubViewModels.Add(subsystem);
         }
 
-        public void DeleteSubsystem()
+        public void DeleteSubViewModel()
         {
-            Parent.Subsystems.Remove(this);
+            Parent.SubViewModels.Remove(this);
         }
 
-        public void EditSubsystem()
+        public void EditSubViewModel()
         {
-            var dialog = new ViewModelDialogTreeItem(this);
+            var dialog = new ViewModelDialogTreeItem(_item);
 
             var result = _dialogService.ShowDialog(dialog);
 
             if (result.Value)
             {
-                ItemName = dialog.ItemName;
+                ItemName = dialog.ItemNameInput;
                 ItemType = dialog.ItemTypeSelection;
             }
         }
 
-        public ViewModelTreeItem GetSelectedItem(ViewModelTreeItem treeitem)
+        public ViewModelTreeItem GetSelectedViewModel(ViewModelTreeItem viewModel)
         {          
             if(IsSelected)
             {
-                treeitem = this;
+                viewModel = this;
             }
             else
             {
-                foreach(ViewModelTreeItem item in Subsystems)
+                foreach(ViewModelTreeItem item in SubViewModels)
                 {
-                    treeitem = item.GetSelectedItem(treeitem);
+                    viewModel = item.GetSelectedViewModel(viewModel);
                 }
             }
-            return treeitem;
+            return viewModel;
+        }
+
+        private void UpdateItem(object sender, EventArgs e)
+        {         
+            _dataService.UpdateProjectItem(_item);
         }
     }
 }
