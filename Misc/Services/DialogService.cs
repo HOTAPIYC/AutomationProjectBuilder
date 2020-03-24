@@ -57,36 +57,5 @@ namespace AutomationProjectBuilder.Misc
 
             return dialog.ShowDialog();
         }
-
-        public bool? ShowOpenFileDialog(FileDialogSettings settings)
-        {
-            var dialog = new OpenFileDialog();
-
-            dialog.Filter = settings.Filter;
-            dialog.CheckFileExists = settings.CheckFileExists;
-            dialog.CheckPathExists = settings.CheckPathExists;
-
-            var result = dialog.ShowDialog();
-
-            settings.FileName = dialog.FileName;
-
-            return result;
-        }
-
-        public bool? ShowSaveFileDialog(FileDialogSettings settings)
-        {
-            var dialog = new SaveFileDialog();
-
-            dialog.FileName = settings.FileName;
-            dialog.Filter = settings.Filter;
-            dialog.CheckFileExists = settings.CheckFileExists;
-            dialog.CheckPathExists = settings.CheckPathExists;
-
-            var result = dialog.ShowDialog();
-
-            settings.FileName = dialog.FileName;
-
-            return result;
-        }
     }
 }

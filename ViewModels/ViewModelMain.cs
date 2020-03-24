@@ -2,7 +2,6 @@
 using AutomationProjectBuilder.Model;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Input;
 
 namespace AutomationProjectBuilder.ViewModels
@@ -16,6 +15,8 @@ namespace AutomationProjectBuilder.ViewModels
         private ICommand _cmdSelectedItem;
         private ICommand _cmdSaveFile;
         private ICommand _cmdOpenFile;
+        private ICommand _cmdSaveAsFile;
+        private ICommand _cmdNewFile;
         private ViewModelTreeItem _selectedItem;
 
         public ViewModelDetailsBase DetailsPage
@@ -46,6 +47,16 @@ namespace AutomationProjectBuilder.ViewModels
             get { return _cmdOpenFile; }
         }
 
+        public ICommand CmdSaveAsFile
+        {
+            get { return _cmdSaveAsFile; }
+        }
+
+        public ICommand CmdNewFile
+        {
+            get { return _cmdNewFile; }
+        }
+
         public ObservableCollection<ViewModelTreeItem> ProjectStructure { get; } = new ObservableCollection<ViewModelTreeItem>();
 
         public ViewModelMain(IDialogService dialogService, IDataService dataService)
@@ -54,27 +65,28 @@ namespace AutomationProjectBuilder.ViewModels
             _dataService = dataService;
 
             _cmdSelectedItem = new DelegateCommand(x => GetSelectedItem());
-            _cmdSaveFile = new DelegateCommand(x => SaveData());
-            _cmdOpenFile = new DelegateCommand(x => LoadData());
+            _cmdSaveFile = new DelegateCommand(x => _dataService.Save());
+            _cmdSaveAsFile = new DelegateCommand(x => _dataService.SaveAs());
+            _cmdOpenFile = new DelegateCommand(x => OpenFile());
+            _cmdNewFile = new DelegateCommand(x => New());
 
             DetailsPage = new ViewModelDetailsBlank();
 
-            LoadLatestConfig();
-        }
+            _dataService.Load();
 
-        private void LoadLatestConfig()
-        {
-            ProjectStructure.Clear();
-            ProjectStructure.Add(new ViewModelTreeItem(_dataService.GetProjectRoot(), _dialogService,_dataService));
+            Reload();
         }
 
         private void GetSelectedItem()
         {
-            _selectedItem = ProjectStructure[0].GetSelectedViewModel(new ViewModelTreeItem());
+            if (ProjectStructure.Count > 0)
+            {
+                _selectedItem = ProjectStructure[0].GetSelectedViewModel(new ViewModelTreeItem());
 
-            _selectedItem.PropertyChanged += HandleListChangeEvent;
+                _selectedItem.PropertyChanged += HandleListChangeEvent;
 
-            LoadSelectedItemPage();
+                LoadSelectedItemPage();
+            }
         }
 
         private void HandleListChangeEvent(object sender, EventArgs e)
@@ -90,7 +102,10 @@ namespace AutomationProjectBuilder.ViewModels
             switch (_selectedItem.ItemType)
             {
                 case ItemTypeISA88.ComplexCtrlModule:
-                    DetailsPage = new ViewModelDetailsComplexCtrlModule(_selectedItem.ItemId,_dialogService, _dataService);
+                    DetailsPage = new ViewModelDetailsComplexCtrlModule(
+                        _selectedItem.ItemId, 
+                        _dialogService, 
+                        _dataService);
                     break;
                 default:
                     DetailsPage = new ViewModelDetailsBlank();
@@ -99,24 +114,33 @@ namespace AutomationProjectBuilder.ViewModels
             }
         }
 
-        private void LoadData()
+        private void OpenFile()
         {
-            var settings = new FileDialogSettings();
+            _dataService.Open();
 
-            var result = _dialogService.ShowOpenFileDialog(settings);
-
-            _dataService.ReadFromFile(settings.FileName);
-
-            LoadLatestConfig();
+            Reload();         
         }
 
-        private void SaveData()
+        private void Reload()
+        {        
+            ProjectStructure.Clear();
+
+            ProjectStructure.Add(
+                new ViewModelTreeItem(
+                    _dataService.GetProjectRoot(), 
+                    _dialogService, 
+                    _dataService));
+        }
+
+        private void New()
         {
-            var settings = new FileDialogSettings();
+            ProjectStructure.Clear();
 
-            var result = _dialogService.ShowSaveFileDialog(settings);
-
-            _dataService.SaveToFile(settings.FileName);
+            ProjectStructure.Add(
+                new ViewModelTreeItem(
+                    _dataService.Reset(),
+                    _dialogService,
+                    _dataService));
         }
     }
 }

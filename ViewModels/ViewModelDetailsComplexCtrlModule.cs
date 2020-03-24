@@ -36,7 +36,7 @@ namespace AutomationProjectBuilder.ViewModels
             ViewItemId = moduleId;
             ViewItemType = ItemTypeISA88.ComplexCtrlModule;
 
-            ModuleFunctions = dataService.GetModuleFunctions(moduleId);
+            ModuleFunctions = dataService.GetFunctions(moduleId);
 
             _cmdAddFunction = new DelegateCommand(x => AddFunction());
             _cmdDeleteFunction = new DelegateCommand(x => DeleteFunction());
@@ -52,7 +52,7 @@ namespace AutomationProjectBuilder.ViewModels
             {
                 var moduleFunction = new ModuleFunction(ViewItemId, dialog.TextInput);
 
-                _dataService.AddModuleFunction(moduleFunction);
+                _dataService.AddFunction(moduleFunction);
 
                 ModuleFunctions.Add(moduleFunction);
             }
