@@ -64,9 +64,8 @@ namespace AutomationProjectBuilder.ViewModels
 
         private void LoadLatestConfig()
         {
-            var projectRoot = _dataService.GetProjectRoot();
-
-            ProjectStructure.Add(new ViewModelTreeItem(projectRoot, _dialogService,_dataService));
+            ProjectStructure.Clear();
+            ProjectStructure.Add(new ViewModelTreeItem(_dataService.GetProjectRoot(), _dialogService,_dataService));
         }
 
         private void GetSelectedItem()
@@ -105,6 +104,10 @@ namespace AutomationProjectBuilder.ViewModels
             var settings = new FileDialogSettings();
 
             var result = _dialogService.ShowOpenFileDialog(settings);
+
+            _dataService.ReadFromFile(settings.FileName);
+
+            LoadLatestConfig();
         }
 
         private void SaveData()
@@ -112,6 +115,8 @@ namespace AutomationProjectBuilder.ViewModels
             var settings = new FileDialogSettings();
 
             var result = _dialogService.ShowSaveFileDialog(settings);
+
+            _dataService.SaveToFile(settings.FileName);
         }
     }
 }

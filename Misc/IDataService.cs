@@ -8,9 +8,13 @@ namespace AutomationProjectBuilder.Misc
 {
     public interface IDataService
     {
-        public ObservableCollection<ModuleFunction> GetItemFunctions(Guid ItemId);
+        public ObservableCollection<ModuleFunction> GetModuleFunctions(Guid ItemId);
         public void AddModuleFunction(ModuleFunction function);
+
         public ProjectItem GetProjectRoot();
         public void UpdateProjectItem(ProjectItem item);
+
+        public void SaveToFile(string filePath);
+        public void ReadFromFile(string filePath);
     }
 }

@@ -9,12 +9,15 @@ namespace AutomationProjectBuilder.Misc
 {
     public class DataService : IDataService
     {
-        private ObservableCollection<ModuleFunction> _moduleFunctions;
+        private List<ModuleFunction> _moduleFunctions;
         private ProjectItem _projectRoot;
+        private FileReadWrite _fileReadWrite;
 
         public DataService()
         {
-            _moduleFunctions = new ObservableCollection<ModuleFunction>();
+            _fileReadWrite = new FileReadWrite();
+            
+            _moduleFunctions = new List<ModuleFunction>();
             _projectRoot = new ProjectItem("Project",ItemTypeISA88.ProcessCell);
 
             var item1 = new ProjectItem("Item 1", ItemTypeISA88.EquipmentModule);
@@ -30,7 +33,7 @@ namespace AutomationProjectBuilder.Misc
             _moduleFunctions.Add(new ModuleFunction(item3.Id, "Move up"));
         }
         
-        public ObservableCollection<ModuleFunction> GetItemFunctions(Guid ItemId)
+        public ObservableCollection<ModuleFunction> GetModuleFunctions(Guid ItemId)
         {
             return new ObservableCollection<ModuleFunction>(_moduleFunctions.Where(fct => fct.ModuleId == ItemId).ToList());
         }
@@ -70,6 +73,19 @@ namespace AutomationProjectBuilder.Misc
                     FindItem(newItem, subitem);
                 }
             }
+        }
+
+        public void SaveToFile(string filePath)
+        {
+            _fileReadWrite.CreateFile(_projectRoot, _moduleFunctions, filePath);
+        }
+
+        public void ReadFromFile(string filePath)
+        {
+            _fileReadWrite.ReadFile(filePath);
+
+            _projectRoot = _fileReadWrite.RootModule;
+            _moduleFunctions = _fileReadWrite.ModuleFunctions;
         }
     }
 }
