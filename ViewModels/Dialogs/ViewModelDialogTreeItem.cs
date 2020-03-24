@@ -10,8 +10,8 @@ namespace AutomationProjectBuilder.ViewModels
         private ICommand _cmdSave;
         private ICommand _cmdCancel;
 
-        private string _itemNameInput;
-        private ItemTypeISA88 _itemTypeSelection;
+        private string _moduleNameInput;
+        private ModuleType _moduleTypeSelection;
 
         public ICommand CmdSave
         {
@@ -23,38 +23,38 @@ namespace AutomationProjectBuilder.ViewModels
             get { return _cmdCancel; }
         }
 
-        public string ItemNameInput
+        public string ModuleNameInput
         {
             get
             {
-                return _itemNameInput;
+                return _moduleNameInput;
             }
             set
             {
-                _itemNameInput = value;
-                NotifyPropertChanged("ItemName");
+                _moduleNameInput = value;
+                NotifyPropertChanged("ModuleName");
             }
         }
 
-        public ItemTypeISA88 ItemTypeSelection
+        public ModuleType ModuleTypeSelection
         {
             get
             {
-                return _itemTypeSelection;
+                return _moduleTypeSelection;
             }
             set
             {
-                _itemTypeSelection = value;
-                NotifyPropertChanged("ItemTypeSelection");
+                _moduleTypeSelection = value;
+                NotifyPropertChanged("ModuleTypeSelection");
             }
         }
 
         public event EventHandler<DialogCloseRequestedEventArgs> CloseRequested;
 
-        public ViewModelDialogTreeItem(ProjectItem item)
+        public ViewModelDialogTreeItem(ProjectModule item)
         {
-            ItemNameInput = item.Name;
-            ItemTypeSelection = item.Type;
+            ModuleNameInput = item.Name;
+            ModuleTypeSelection = item.Type;
             
             _cmdSave = new DelegateCommand(x => CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(true)));
             _cmdCancel = new DelegateCommand(x => CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(false)));

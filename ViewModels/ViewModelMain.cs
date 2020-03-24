@@ -74,7 +74,7 @@ namespace AutomationProjectBuilder.ViewModels
 
             _dataService.Load();
 
-            Reload();
+            GetProjectStructure();
         }
 
         private void GetSelectedItem()
@@ -85,31 +85,31 @@ namespace AutomationProjectBuilder.ViewModels
 
                 _selectedItem.PropertyChanged += HandleListChangeEvent;
 
-                LoadSelectedItemPage();
+                LoadSelectedModulePage();
             }
         }
 
         private void HandleListChangeEvent(object sender, EventArgs e)
         {
-            if(DetailsPage.ViewItemType != _selectedItem.ItemType || DetailsPage.ViewItemId != _selectedItem.ItemId)
+            if(DetailsPage.ViewModuleType != _selectedItem.ModuleType || DetailsPage.ViewModuleId != _selectedItem.ModuleId)
             {
-                LoadSelectedItemPage();
+                LoadSelectedModulePage();
             }
         }
 
-        private void LoadSelectedItemPage()
+        private void LoadSelectedModulePage()
         {
-            switch (_selectedItem.ItemType)
+            switch (_selectedItem.ModuleType)
             {
-                case ItemTypeISA88.ComplexCtrlModule:
+                case ModuleType.ComplexCtrlModule:
                     DetailsPage = new ViewModelDetailsComplexCtrlModule(
-                        _selectedItem.ItemId, 
+                        _selectedItem.ModuleId, 
                         _dialogService, 
                         _dataService);
                     break;
                 default:
                     DetailsPage = new ViewModelDetailsBlank();
-                    DetailsPage.ViewItemType = _selectedItem.ItemType;
+                    DetailsPage.ViewModuleType = _selectedItem.ModuleType;
                     break;
             }
         }
@@ -118,10 +118,10 @@ namespace AutomationProjectBuilder.ViewModels
         {
             _dataService.Open();
 
-            Reload();         
+            GetProjectStructure();         
         }
 
-        private void Reload()
+        private void GetProjectStructure()
         {        
             ProjectStructure.Clear();
 

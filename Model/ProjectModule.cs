@@ -5,21 +5,21 @@ using System.Text;
 
 namespace AutomationProjectBuilder.Model
 {
-    public class ProjectItem
+    public class ProjectModule
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public ItemTypeISA88 Type { get; set; }
-        public ObservableCollection<ProjectItem> SubItems { get; set; } = new ObservableCollection<ProjectItem>();
+        public ModuleType Type { get; set; }
+        public ObservableCollection<ProjectModule> SubModules { get; set; } = new ObservableCollection<ProjectModule>();
 
-        public ProjectItem()
+        public ProjectModule()
         {
             Id = Guid.NewGuid();
             Name = "";
-            Type = ItemTypeISA88.Uncategorized;
+            Type = ModuleType.Uncategorized;
         }
         
-        public ProjectItem(string name, ItemTypeISA88 type)
+        public ProjectModule(string name, ModuleType type)
         {
             Id = Guid.NewGuid();
             Name = name;

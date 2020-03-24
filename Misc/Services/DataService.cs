@@ -12,7 +12,7 @@ namespace AutomationProjectBuilder.Misc
     public class DataService : IDataService
     {
         private List<ModuleFunction> _moduleFunctions;
-        private ProjectItem _projectRoot;
+        private ProjectModule _projectRoot;
         private FileReadWrite _fileReadWrite = new FileReadWrite();
         private IConfigService _settings;
 
@@ -21,7 +21,7 @@ namespace AutomationProjectBuilder.Misc
             _settings = configService;
 
             _moduleFunctions = new List<ModuleFunction>();
-            _projectRoot = new ProjectItem("Project",ItemTypeISA88.ProcessCell);
+            _projectRoot = new ProjectModule("Project",ModuleType.ProcessCell);
         }
         
         public ObservableCollection<ModuleFunction> GetFunctions(Guid ItemId)
@@ -34,12 +34,12 @@ namespace AutomationProjectBuilder.Misc
             _moduleFunctions.Add(moduleFunction);
         }
 
-        public ProjectItem GetProjectRoot()
+        public ProjectModule GetProjectRoot()
         {
             return _projectRoot;
         }
 
-        public void Update(ProjectItem item)
+        public void Update(ProjectModule item)
         {
             if(item.Id == _projectRoot.Id)
             {
@@ -51,15 +51,15 @@ namespace AutomationProjectBuilder.Misc
             }
         }
 
-        private void FindItem(ProjectItem newItem, ProjectItem root)
+        private void FindItem(ProjectModule newItem, ProjectModule root)
         {
-            if(root.SubItems.Where(item => item.Id == newItem.Id).ToList().Count > 0)
+            if(root.SubModules.Where(item => item.Id == newItem.Id).ToList().Count > 0)
             {
-                root.SubItems[root.SubItems.IndexOf(root.SubItems.Where(item => item.Id == newItem.Id).ToList().FirstOrDefault())] = newItem;
+                root.SubModules[root.SubModules.IndexOf(root.SubModules.Where(item => item.Id == newItem.Id).ToList().FirstOrDefault())] = newItem;
             }
             else
             {
-                foreach(ProjectItem subitem in root.SubItems)
+                foreach(ProjectModule subitem in root.SubModules)
                 {
                     FindItem(newItem, subitem);
                 }
@@ -109,7 +109,7 @@ namespace AutomationProjectBuilder.Misc
             }
             else
             {
-                _projectRoot = new ProjectItem("Empty project", ItemTypeISA88.Uncategorized);
+                _projectRoot = new ProjectModule("Empty project", ModuleType.Uncategorized);
                 _moduleFunctions.Clear();
             }
         }
@@ -128,9 +128,9 @@ namespace AutomationProjectBuilder.Misc
             }
         }
 
-        public ProjectItem Reset()
+        public ProjectModule Reset()
         {
-            _projectRoot = new ProjectItem("Empty project", ItemTypeISA88.Uncategorized);
+            _projectRoot = new ProjectModule("Empty project", ModuleType.Uncategorized);
             _moduleFunctions.Clear();
 
             return _projectRoot;

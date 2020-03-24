@@ -9,10 +9,10 @@ namespace AutomationProjectBuilder.Misc
 {
     public class FileReadWrite
     {
-        public ProjectItem RootModule { get; set; }
+        public ProjectModule RootModule { get; set; }
         public List<ModuleFunction> ModuleFunctions { get; set; } = new List<ModuleFunction>();
 
-        public void CreateFile(ProjectItem project, List<ModuleFunction> moduleFunctions, string filePath)
+        public void CreateFile(ProjectModule project, List<ModuleFunction> moduleFunctions, string filePath)
         {
             var doc = new XDocument();
 
@@ -21,7 +21,7 @@ namespace AutomationProjectBuilder.Misc
             doc.Save(filePath);
         }
 
-        private XElement CreateXmlModules(ProjectItem item, List<ModuleFunction> moduleFunctions)
+        private XElement CreateXmlModules(ProjectModule item, List<ModuleFunction> moduleFunctions)
         {
             var module = new XElement("Module", 
                 new XAttribute("Name", item.Name),
@@ -29,7 +29,7 @@ namespace AutomationProjectBuilder.Misc
 
             var submodules = new XElement("SubModules");
 
-            foreach(ProjectItem subitem in item.SubItems)
+            foreach(ProjectModule subitem in item.SubModules)
             {
                 submodules.Add(CreateXmlModules(subitem, moduleFunctions));
             }
@@ -57,18 +57,18 @@ namespace AutomationProjectBuilder.Misc
             RootModule = ReadXmlModules(doc.Elements("Module").FirstOrDefault());
         }
 
-        private ProjectItem ReadXmlModules(XElement xmlModule)
+        private ProjectModule ReadXmlModules(XElement xmlModule)
         {
-            ItemTypeISA88 moduleType;
+            ModuleType moduleType;
             Enum.TryParse((string)xmlModule.Attribute("Type"), out moduleType);
 
-            var projectModule = new ProjectItem((string)xmlModule.Attribute("Name"), moduleType);
+            var projectModule = new ProjectModule((string)xmlModule.Attribute("Name"), moduleType);
 
             var xmlSubModules = xmlModule.Element("SubModules");
 
             foreach(XElement xmlSubModule in xmlSubModules.Elements("Module").ToList())
             {
-                projectModule.SubItems.Add(ReadXmlModules(xmlSubModule));
+                projectModule.SubModules.Add(ReadXmlModules(xmlSubModule));
             }
 
             var xmlFunctions = xmlModule.Element("Functions");

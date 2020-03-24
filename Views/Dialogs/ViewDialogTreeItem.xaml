@@ -12,22 +12,24 @@
     </Window.Resources>
     <Grid>
         <StackPanel Margin="10">
-            <TextBox Text="{Binding ItemNameInput}" 
+            <TextBox Text="{Binding ModuleNameInput}" 
                      Margin="0,0,0,10"/>
-            <ComboBox ItemsSource="{Binding Path=ItemTypeSelection, Converter={StaticResource EnumToList}, Mode=OneTime}"
+            <ComboBox ItemsSource="{Binding Path=ModuleTypeSelection, Converter={StaticResource EnumToList}, Mode=OneTime}"
                       SelectedValuePath="Value"
                       DisplayMemberPath="Description"
-                      SelectedValue="{Binding ItemTypeSelection}"
+                      SelectedValue="{Binding ModuleTypeSelection}"
                       Margin="0,0,0,10"/>
         </StackPanel>
         <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <Button Content="OK"
                     Command="{Binding CmdSave}"
                     MinWidth="100"
+                    Height="26"
                     Margin="10,0,0,0"/>
             <Button Content="Cancel"
-                    Command="{Binding CmdSave}"
+                    Command="{Binding CmdCancel}"
                     MinWidth="100"
+                    Height="26"
                     Margin="10,0,0,0"/>
         </StackPanel>
     </Grid>
