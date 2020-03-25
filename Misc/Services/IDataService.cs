@@ -10,6 +10,7 @@ namespace AutomationProjectBuilder.Misc
     {
         public ObservableCollection<ModuleFunction> GetFunctions(Guid ItemId);
         public void AddFunction(ModuleFunction function);
+        public void UpdateFunction(ModuleFunction function);
 
         public ProjectModule GetProjectRoot();
         public ProjectModule Reset();

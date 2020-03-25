@@ -29,9 +29,16 @@ namespace AutomationProjectBuilder.Misc
             return new ObservableCollection<ModuleFunction>(_moduleFunctions.Where(fct => fct.ModuleId == ItemId).ToList());
         }
 
-        public void AddFunction(ModuleFunction moduleFunction)
+        public void AddFunction(ModuleFunction function)
         {
-            _moduleFunctions.Add(moduleFunction);
+            _moduleFunctions.Add(function);
+        }
+
+        public void UpdateFunction(ModuleFunction function)
+        {
+            var index = _moduleFunctions.FindIndex(fct => fct.ModuleId == function.ModuleId);
+
+            _moduleFunctions[index] = function;
         }
 
         public ProjectModule GetProjectRoot()

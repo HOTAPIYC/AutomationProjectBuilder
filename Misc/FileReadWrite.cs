@@ -40,7 +40,9 @@ namespace AutomationProjectBuilder.Misc
             {
                 if(function.ModuleId == item.Id)
                 {
-                    functions.Add(new XElement("Function", function.Name));
+                    functions.Add(new XElement("Function", 
+                        new XAttribute("Name",function.Name), 
+                        new XAttribute("Description",function.Description)));
                 }
             }
 
@@ -75,7 +77,9 @@ namespace AutomationProjectBuilder.Misc
 
             foreach(XElement xmlFunction in xmlFunctions.Elements("Function").ToList())
             {
-                ModuleFunctions.Add(new ModuleFunction(projectModule.Id, (string)xmlFunction.Value));
+                ModuleFunctions.Add(new ModuleFunction(projectModule.Id, 
+                    (string)xmlFunction.Attribute("Name"), 
+                    (string)xmlFunction.Attribute("Description")));
             }
 
             return projectModule;
