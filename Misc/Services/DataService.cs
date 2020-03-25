@@ -11,7 +11,8 @@ namespace AutomationProjectBuilder.Misc
 {
     public class DataService : IDataService
     {
-        private List<ModuleFunction> _moduleFunctions;
+        private List<ModuleFunction> _moduleFunctions = new List<ModuleFunction>();
+        private List<ConfigValue> _customParameters = new List<ConfigValue>();
         private List<ConfigGroup> _customConfig;
         private ProjectModule _projectRoot;
         private FileReadWrite _fileReadWrite = new FileReadWrite();
@@ -22,9 +23,6 @@ namespace AutomationProjectBuilder.Misc
             _settings = configService;
 
             _customConfig = _fileReadWrite.ReadConfiguration("G:\\CustomConfig.xml");
-
-            _moduleFunctions = new List<ModuleFunction>();
-            _projectRoot = new ProjectModule("Project",ModuleType.ProcessCell);
         }
         
         // Module functions
@@ -89,6 +87,21 @@ namespace AutomationProjectBuilder.Misc
         }
 
         // Configuration
+
+        public void SetCustomParameters(Guid ModuleId,List<ConfigValue> parameters)
+        {
+            _customParameters.RemoveAll(values => values.ModuleId == ModuleId);
+            
+            foreach(ConfigValue parameter in parameters)
+            {
+                _customParameters.Add(parameter);
+            }
+        }
+
+        public List<ConfigValue> GetCustomParameters(Guid ItemId)
+        {
+            return _customParameters.Where(parameter => parameter.ModuleId == ItemId).ToList();
+        }
 
         public List<ConfigGroup> GetLoadedConfigs()
         {

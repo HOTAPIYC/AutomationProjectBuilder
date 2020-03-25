@@ -14,16 +14,16 @@ namespace AutomationProjectBuilder.Misc
 
         // Project file
 
-        public void CreateFile(ProjectModule project, List<ModuleFunction> moduleFunctions, string filePath)
+        public void CreateFile(ProjectModule project, List<ModuleFunction> moduleFunctions, List<ConfigValue> moduleParameters, string filePath)
         {
             var doc = new XDocument();
 
-            doc.Add(CreateXmlModules(project, moduleFunctions));
+            doc.Add(CreateXmlModules(project, moduleFunctions, moduleParameters));
 
             doc.Save(filePath);
         }
 
-        private XElement CreateXmlModules(ProjectModule item, List<ModuleFunction> moduleFunctions)
+        private XElement CreateXmlModules(ProjectModule item, List<ModuleFunction> moduleFunctions, List<ConfigValue> moduleParameters)
         {
             var module = new XElement("Module", 
                 new XAttribute("Name", item.Name),

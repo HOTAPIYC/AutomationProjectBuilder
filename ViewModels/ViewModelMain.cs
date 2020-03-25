@@ -107,6 +107,12 @@ namespace AutomationProjectBuilder.ViewModels
                         _dialogService, 
                         _dataService);
                     break;
+                case ModuleType.BasicCtrlModule:
+                    DetailsPage = new ViewModelDetailsBasicCtrlModule(
+                        _selectedItem.ModuleId,
+                        _dialogService,
+                        _dataService);
+                    break;
                 default:
                     DetailsPage = new ViewModelDetailsBlank();
                     DetailsPage.ViewModuleType = _selectedItem.ModuleType;
