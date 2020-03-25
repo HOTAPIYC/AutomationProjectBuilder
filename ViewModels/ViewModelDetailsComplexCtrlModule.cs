@@ -16,9 +16,6 @@ namespace AutomationProjectBuilder.ViewModels
 
         private ICommand _cmdAddFunction;
         private ICommand _cmdDeleteFunction;
-        private ICommand _cmdUpdate;
-
-        private ModuleFunction _selectedFunction;
 
         public ICommand CmdAddFunction
         {
@@ -28,24 +25,6 @@ namespace AutomationProjectBuilder.ViewModels
         public ICommand CmdDeleteFunction
         {
             get { return _cmdDeleteFunction; }
-        }
-
-        public ICommand CmdUpdate
-        {
-            get { return _cmdUpdate; }
-        }
-
-        public ModuleFunction SelectedFunction
-        {
-            get
-            {
-                return _selectedFunction;
-            }
-            set
-            {
-                _selectedFunction = value;
-                NotifyPropertChanged("SelectedFunction");
-            }
         }
 
         public ObservableCollection<ModuleFunction> ModuleFunctions { get; set; } = new ObservableCollection<ModuleFunction>();
@@ -83,14 +62,6 @@ namespace AutomationProjectBuilder.ViewModels
         private void DeleteFunction()
         {
 
-        }
-      
-        private void UpdateFunction(object sender, EventArgs e)
-        {
-            if (SelectedFunction != null)
-            {
-                _dataService.UpdateFunction(SelectedFunction);
-            }           
         }
     }
 }

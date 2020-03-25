@@ -12,6 +12,8 @@ namespace AutomationProjectBuilder.Misc
         public ProjectModule RootModule { get; set; }
         public List<ModuleFunction> ModuleFunctions { get; set; } = new List<ModuleFunction>();
 
+        // Project file
+
         public void CreateFile(ProjectModule project, List<ModuleFunction> moduleFunctions, string filePath)
         {
             var doc = new XDocument();
@@ -83,6 +85,37 @@ namespace AutomationProjectBuilder.Misc
             }
 
             return projectModule;
+        }
+
+        // Custom configuration
+
+        public List<ConfigGroup> ReadConfiguration(string filePath)
+        {
+            var doc = XDocument.Load(filePath);
+            var content = doc.Element("CustomConfiguration");
+
+            var customconfig = new List<ConfigGroup>();
+
+            foreach(XElement group in content.Elements("ConfigurationGroup"))
+            {
+                var customgroup = new ConfigGroup((string)group.Attribute("Name"));
+
+                foreach(XElement config in group.Elements("Configuration"))
+                {
+                    var customconfiguration = new ModuleConfig((string)config.Attribute("Name"));
+
+                    foreach(XElement param in config.Elements("Parameter"))
+                    {
+                        customconfiguration.Parameters.Add(new ConfigValue((string)param.Attribute("Name")));
+                    }
+
+                    customgroup.Configurations.Add(customconfiguration);
+                }
+
+                customconfig.Add(customgroup);
+            }
+
+            return customconfig;
         }
     }
 }

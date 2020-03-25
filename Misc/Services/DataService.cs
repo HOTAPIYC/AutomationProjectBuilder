@@ -12,6 +12,7 @@ namespace AutomationProjectBuilder.Misc
     public class DataService : IDataService
     {
         private List<ModuleFunction> _moduleFunctions;
+        private List<ConfigGroup> _customConfig;
         private ProjectModule _projectRoot;
         private FileReadWrite _fileReadWrite = new FileReadWrite();
         private IConfigService _settings;
@@ -20,10 +21,14 @@ namespace AutomationProjectBuilder.Misc
         {
             _settings = configService;
 
+            _customConfig = _fileReadWrite.ReadConfiguration("G:\\CustomConfig.xml");
+
             _moduleFunctions = new List<ModuleFunction>();
             _projectRoot = new ProjectModule("Project",ModuleType.ProcessCell);
         }
         
+        // Module functions
+
         public ObservableCollection<ModuleFunction> GetFunctions(Guid ItemId)
         {
             return new ObservableCollection<ModuleFunction>(_moduleFunctions.Where(fct => fct.ModuleId == ItemId).ToList());
@@ -41,12 +46,22 @@ namespace AutomationProjectBuilder.Misc
             _moduleFunctions[index] = function;
         }
 
+        // Project tree
+
         public ProjectModule GetProjectRoot()
         {
             return _projectRoot;
         }
 
-        public void Update(ProjectModule item)
+        public ProjectModule ResetProjectRoot()
+        {
+            _projectRoot = new ProjectModule("Empty project", ModuleType.Uncategorized);
+            _moduleFunctions.Clear();
+
+            return _projectRoot;
+        }
+
+        public void UpdateModule(ProjectModule item)
         {
             if(item.Id == _projectRoot.Id)
             {
@@ -54,24 +69,33 @@ namespace AutomationProjectBuilder.Misc
             }
             else
             {
-                FindItem(item, _projectRoot);
+                ReplaceSubModule(item, _projectRoot);
             }
         }
 
-        private void FindItem(ProjectModule newItem, ProjectModule root)
+        private void ReplaceSubModule(ProjectModule newModule, ProjectModule root)
         {
-            if(root.SubModules.Where(item => item.Id == newItem.Id).ToList().Count > 0)
+            if(root.SubModules.Where(module => module.Id == newModule.Id).ToList().Count > 0)
             {
-                root.SubModules[root.SubModules.IndexOf(root.SubModules.Where(item => item.Id == newItem.Id).ToList().FirstOrDefault())] = newItem;
+                root.SubModules[root.SubModules.IndexOf(root.SubModules.Where(module => module.Id == newModule.Id).ToList().FirstOrDefault())] = newModule;
             }
             else
             {
                 foreach(ProjectModule subitem in root.SubModules)
                 {
-                    FindItem(newItem, subitem);
+                    ReplaceSubModule(newModule, subitem);
                 }
             }
         }
+
+        // Configuration
+
+        public List<ConfigGroup> GetLoadedConfigs()
+        {
+            return _customConfig;
+        }
+
+        // File interface
 
         public void Save()
         {
@@ -135,12 +159,5 @@ namespace AutomationProjectBuilder.Misc
             }
         }
 
-        public ProjectModule Reset()
-        {
-            _projectRoot = new ProjectModule("Empty project", ModuleType.Uncategorized);
-            _moduleFunctions.Clear();
-
-            return _projectRoot;
-        }
     }
 }

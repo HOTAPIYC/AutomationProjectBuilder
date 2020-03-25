@@ -138,7 +138,7 @@ namespace AutomationProjectBuilder.ViewModels
 
             ProjectStructure.Add(
                 new ViewModelTreeItem(
-                    _dataService.Reset(),
+                    _dataService.ResetProjectRoot(),
                     _dialogService,
                     _dataService));
         }

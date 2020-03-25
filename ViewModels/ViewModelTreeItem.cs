@@ -157,7 +157,7 @@ namespace AutomationProjectBuilder.ViewModels
 
         private void UpdateItem(object sender, EventArgs e)
         {         
-            _dataService.Update(_module);
+            _dataService.UpdateModule(_module);
         }
     }
 }

@@ -17,7 +17,7 @@
                 <TextBlock Text="Functions" Margin="0,5"/>
                 <Button Content="Add" Command="{Binding CmdAddFunction}" Width="50" Margin="5,0,0,0"/>
             </StackPanel>
-            <ListView x:Name="FunctionList" ItemsSource="{Binding ModuleFunctions}" SelectedItem="{Binding SelectedFunction}">
+            <ListView x:Name="FunctionList" ItemsSource="{Binding ModuleFunctions}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"  />
@@ -28,11 +28,6 @@
                         <TextBlock Text="{Binding Name}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                <behaviors:Interaction.Triggers>
-                    <behaviors:EventTrigger EventName="SelectionChanged" SourceObject="{Binding ElementName=FunctionList}">
-                        <behaviors:InvokeCommandAction Command="{Binding CmdUpdate}"/>
-                    </behaviors:EventTrigger>
-                </behaviors:Interaction.Triggers>
             </ListView>
         </StackPanel>
         <StackPanel Grid.Column="1" Margin="5">
