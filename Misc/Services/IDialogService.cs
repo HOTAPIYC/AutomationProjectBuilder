@@ -14,8 +14,7 @@ namespace AutomationProjectBuilder.Misc
 
     public interface IDialogService
     {
-        public void Register<TViewModel, TView>() where TViewModel : IDialogRequestClose
-                                           where TView : IDialog;
+        public void Register<TViewModel, TView>() where TViewModel : IDialogRequestClose where TView : IDialog;
 
         public bool? ShowDialog<TViewModel>(TViewModel viewModel) where TViewModel : IDialogRequestClose;
     }

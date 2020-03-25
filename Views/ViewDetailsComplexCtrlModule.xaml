@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AutomationProjectBuilder.Views"
+             xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Margin="5" Background="Beige">
@@ -16,10 +17,10 @@
                 <TextBlock Text="Functions" Margin="0,5"/>
                 <Button Content="Add" Command="{Binding CmdAddFunction}" Width="50" Margin="5,0,0,0"/>
             </StackPanel>
-            <ListView ItemsSource="{Binding ModuleFunctions}">
+            <ListView x:Name="FunctionList" ItemsSource="{Binding ModuleFunctions}" SelectedItem="{Binding SelectedFunction}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding Name}"  />
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"  />
                     </GridView>
                 </ListView.View>
                 <ListView.ItemTemplate>
@@ -27,11 +28,16 @@
                         <TextBlock Text="{Binding Name}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                <behaviors:Interaction.Triggers>
+                    <behaviors:EventTrigger EventName="SelectionChanged" SourceObject="{Binding ElementName=FunctionList}">
+                        <behaviors:InvokeCommandAction Command="{Binding CmdUpdate}"/>
+                    </behaviors:EventTrigger>
+                </behaviors:Interaction.Triggers>
             </ListView>
         </StackPanel>
         <StackPanel Grid.Column="1" Margin="5">
             <TextBlock Text="Description" Margin="0,5"/>
-            <TextBox Margin="0,5" MinLines="5"/>
+            <TextBox Text="{Binding ElementName=FunctionList, Path=SelectedItem.Description}" Margin="0,5" MinLines="5"/>
         </StackPanel>
     </Grid>
 </UserControl>

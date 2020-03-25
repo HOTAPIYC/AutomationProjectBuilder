@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AutomationProjectBuilder.Model
 {
-    public enum ItemTypeISA88
+    public enum ModuleType
     {
         [Description("Uncategorized")]
         Uncategorized,

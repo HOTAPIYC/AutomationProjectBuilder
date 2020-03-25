@@ -2,7 +2,6 @@
 using AutomationProjectBuilder.Model;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Input;
 
 namespace AutomationProjectBuilder.ViewModels
@@ -14,6 +13,10 @@ namespace AutomationProjectBuilder.ViewModels
 
         private ViewModelDetailsBase _detailsPage;
         private ICommand _cmdSelectedItem;
+        private ICommand _cmdSaveFile;
+        private ICommand _cmdOpenFile;
+        private ICommand _cmdSaveAsFile;
+        private ICommand _cmdNewFile;
         private ViewModelTreeItem _selectedItem;
 
         public ViewModelDetailsBase DetailsPage
@@ -28,9 +31,30 @@ namespace AutomationProjectBuilder.ViewModels
                 NotifyPropertChanged("DetailsPage");
             }
         }
+        
         public ICommand CmdSelectedItem
         {
             get { return _cmdSelectedItem; }
+        }
+
+        public ICommand CmdSaveFile
+        {
+            get { return _cmdSaveFile; }
+        }
+
+        public ICommand CmdOpenFile
+        {
+            get { return _cmdOpenFile; }
+        }
+
+        public ICommand CmdSaveAsFile
+        {
+            get { return _cmdSaveAsFile; }
+        }
+
+        public ICommand CmdNewFile
+        {
+            get { return _cmdNewFile; }
         }
 
         public ObservableCollection<ViewModelTreeItem> ProjectStructure { get; } = new ObservableCollection<ViewModelTreeItem>();
@@ -40,49 +64,83 @@ namespace AutomationProjectBuilder.ViewModels
             _dialogService = dialogService;
             _dataService = dataService;
 
-            _cmdSelectedItem = new DelegateCommand(x => GetSelectedItem(x));
+            _cmdSelectedItem = new DelegateCommand(x => GetSelectedItem());
+            _cmdSaveFile = new DelegateCommand(x => _dataService.Save());
+            _cmdSaveAsFile = new DelegateCommand(x => _dataService.SaveAs());
+            _cmdOpenFile = new DelegateCommand(x => OpenFile());
+            _cmdNewFile = new DelegateCommand(x => New());
 
             DetailsPage = new ViewModelDetailsBlank();
 
-            LoadLatestConfig();
+            _dataService.Load();
+
+            GetProjectStructure();
         }
 
-        private void LoadLatestConfig()
+        private void GetSelectedItem()
         {
-            var projectRoot = _dataService.GetProjectRoot();
+            if (ProjectStructure.Count > 0)
+            {
+                _selectedItem = ProjectStructure[0].GetSelectedViewModel(new ViewModelTreeItem());
 
-            ProjectStructure.Add(new ViewModelTreeItem(projectRoot, _dialogService,_dataService));
-        }
+                _selectedItem.PropertyChanged += HandleListChangeEvent;
 
-        private void GetSelectedItem(object x)
-        {
-            _selectedItem = ProjectStructure[0].GetSelectedViewModel(new ViewModelTreeItem());
-
-            _selectedItem.PropertyChanged += HandleListChangeEvent;
-
-            LoadSelectedItemPage();
+                LoadSelectedModulePage();
+            }
         }
 
         private void HandleListChangeEvent(object sender, EventArgs e)
         {
-            if(DetailsPage.ViewItemType != _selectedItem.ItemType || DetailsPage.ViewItemId != _selectedItem.ItemId)
+            if(DetailsPage.ViewModuleType != _selectedItem.ModuleType || DetailsPage.ViewModuleId != _selectedItem.ModuleId)
             {
-                LoadSelectedItemPage();
+                LoadSelectedModulePage();
             }
         }
 
-        private void LoadSelectedItemPage()
+        private void LoadSelectedModulePage()
         {
-            switch (_selectedItem.ItemType)
+            switch (_selectedItem.ModuleType)
             {
-                case ItemTypeISA88.ComplexCtrlModule:
-                    DetailsPage = new ViewModelDetailsComplexCtrlModule(_selectedItem.ItemId,_dialogService, _dataService);
+                case ModuleType.ComplexCtrlModule:
+                    DetailsPage = new ViewModelDetailsComplexCtrlModule(
+                        _selectedItem.ModuleId, 
+                        _dialogService, 
+                        _dataService);
                     break;
                 default:
                     DetailsPage = new ViewModelDetailsBlank();
-                    DetailsPage.ViewItemType = _selectedItem.ItemType;
+                    DetailsPage.ViewModuleType = _selectedItem.ModuleType;
                     break;
             }
+        }
+
+        private void OpenFile()
+        {
+            _dataService.Open();
+
+            GetProjectStructure();         
+        }
+
+        private void GetProjectStructure()
+        {        
+            ProjectStructure.Clear();
+
+            ProjectStructure.Add(
+                new ViewModelTreeItem(
+                    _dataService.GetProjectRoot(), 
+                    _dialogService, 
+                    _dataService));
+        }
+
+        private void New()
+        {
+            ProjectStructure.Clear();
+
+            ProjectStructure.Add(
+                new ViewModelTreeItem(
+                    _dataService.Reset(),
+                    _dialogService,
+                    _dataService));
         }
     }
 }

@@ -3,6 +3,7 @@ using AutomationProjectBuilder.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
@@ -15,6 +16,9 @@ namespace AutomationProjectBuilder.ViewModels
 
         private ICommand _cmdAddFunction;
         private ICommand _cmdDeleteFunction;
+        private ICommand _cmdUpdate;
+
+        private ModuleFunction _selectedFunction;
 
         public ICommand CmdAddFunction
         {
@@ -26,6 +30,24 @@ namespace AutomationProjectBuilder.ViewModels
             get { return _cmdDeleteFunction; }
         }
 
+        public ICommand CmdUpdate
+        {
+            get { return _cmdUpdate; }
+        }
+
+        public ModuleFunction SelectedFunction
+        {
+            get
+            {
+                return _selectedFunction;
+            }
+            set
+            {
+                _selectedFunction = value;
+                NotifyPropertChanged("SelectedFunction");
+            }
+        }
+
         public ObservableCollection<ModuleFunction> ModuleFunctions { get; set; } = new ObservableCollection<ModuleFunction>();
                        
         public ViewModelDetailsComplexCtrlModule(Guid moduleId, IDialogService dialogService,IDataService dataService)
@@ -33,10 +55,10 @@ namespace AutomationProjectBuilder.ViewModels
             _dialogService = dialogService;
             _dataService = dataService;
 
-            ViewItemId = moduleId;
-            ViewItemType = ItemTypeISA88.ComplexCtrlModule;
+            ViewModuleId = moduleId;
+            ViewModuleType = ModuleType.ComplexCtrlModule;
 
-            ModuleFunctions = dataService.GetItemFunctions(moduleId);
+            ModuleFunctions = dataService.GetFunctions(moduleId);
 
             _cmdAddFunction = new DelegateCommand(x => AddFunction());
             _cmdDeleteFunction = new DelegateCommand(x => DeleteFunction());
@@ -50,9 +72,9 @@ namespace AutomationProjectBuilder.ViewModels
 
             if (result.Value)
             {
-                var moduleFunction = new ModuleFunction(ViewItemId, dialog.TextInput);
+                var moduleFunction = new ModuleFunction(ViewModuleId, dialog.TextInput);
 
-                _dataService.AddModuleFunction(moduleFunction);
+                _dataService.AddFunction(moduleFunction);
 
                 ModuleFunctions.Add(moduleFunction);
             }
@@ -61,6 +83,14 @@ namespace AutomationProjectBuilder.ViewModels
         private void DeleteFunction()
         {
 
+        }
+      
+        private void UpdateFunction(object sender, EventArgs e)
+        {
+            if (SelectedFunction != null)
+            {
+                _dataService.UpdateFunction(SelectedFunction);
+            }           
         }
     }
 }

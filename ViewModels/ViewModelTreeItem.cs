@@ -17,44 +17,44 @@ namespace AutomationProjectBuilder.ViewModels
         private ICommand _cmdDeleteSubsystem;
         private ICommand _cmdEditSubsystem;
 
-        private ProjectItem _item;
+        private ProjectModule _module;
       
         public ViewModelTreeItem Parent { get; set; }
         public bool IsSelected { get; set; }
 
         public ObservableCollection<ViewModelTreeItem> SubViewModels { get; } = new ObservableCollection<ViewModelTreeItem>();
 
-        public string ItemName
+        public string ModuleName
         {
             get
             {
-                return _item.Name;
+                return _module.Name;
             }
             set
             {
-                _item.Name = value;
-                NotifyPropertChanged("ItemName");
+                _module.Name = value;
+                NotifyPropertChanged("ModuleName");
             }
         }
 
-        public ItemTypeISA88 ItemType
+        public ModuleType ModuleType
         {
             get
             {
-                return _item.Type;
+                return _module.Type;
             }
             set
             {
-                _item.Type = value;
-                NotifyPropertChanged("ItemType");
+                _module.Type = value;
+                NotifyPropertChanged("ModuleType");
             }
         }
 
-        public Guid ItemId
+        public Guid ModuleId
         {
             get
             {
-                return _item.Id;
+                return _module.Id;
             }
         }
 
@@ -78,16 +78,16 @@ namespace AutomationProjectBuilder.ViewModels
             //
         }
 
-        public ViewModelTreeItem(ProjectItem item, IDialogService dialogService, IDataService dataService)
+        public ViewModelTreeItem(ProjectModule module, IDialogService dialogService, IDataService dataService)
         {
             _dialogService = dialogService;
             _dataService = dataService;
 
-            _item = item;
+            _module = module;
 
-            foreach (ProjectItem projectItem in item.SubItems)
+            foreach (ProjectModule projectItem in module.SubModules)
             {
-                SubViewModels.Add(new ViewModelTreeItem(projectItem, dialogService, dataService));
+                AddSubViewModel(new ViewModelTreeItem(projectItem, dialogService, dataService));
             }           
 
             _cmdAddSubsystem = new DelegateCommand(x => CreateSubViewModel());
@@ -100,15 +100,15 @@ namespace AutomationProjectBuilder.ViewModels
 
         public void CreateSubViewModel()
         {
-            var dialog = new ViewModelDialogTreeItem(new ProjectItem());
+            var dialog = new ViewModelDialogTreeItem(new ProjectModule());
 
             var result = _dialogService.ShowDialog(dialog);         
 
             if(result.Value)
             {
-                var newItem = new ProjectItem(dialog.ItemNameInput, dialog.ItemTypeSelection);
+                var newItem = new ProjectModule(dialog.ModuleNameInput, dialog.ModuleTypeSelection);
 
-                _item.SubItems.Add(newItem);
+                _module.SubModules.Add(newItem);
 
                 AddSubViewModel(new ViewModelTreeItem(newItem, _dialogService, _dataService));
             }       
@@ -128,14 +128,14 @@ namespace AutomationProjectBuilder.ViewModels
 
         public void EditSubViewModel()
         {
-            var dialog = new ViewModelDialogTreeItem(_item);
+            var dialog = new ViewModelDialogTreeItem(_module);
 
             var result = _dialogService.ShowDialog(dialog);
 
             if (result.Value)
             {
-                ItemName = dialog.ItemNameInput;
-                ItemType = dialog.ItemTypeSelection;
+                ModuleName = dialog.ModuleNameInput;
+                ModuleType = dialog.ModuleTypeSelection;
             }
         }
 
@@ -157,7 +157,7 @@ namespace AutomationProjectBuilder.ViewModels
 
         private void UpdateItem(object sender, EventArgs e)
         {         
-            _dataService.UpdateProjectItem(_item);
+            _dataService.Update(_module);
         }
     }
 }
