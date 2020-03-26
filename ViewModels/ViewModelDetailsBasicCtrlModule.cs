@@ -15,76 +15,76 @@ namespace AutomationProjectBuilder.ViewModels
 
         private ICommand _cmdEdit;
 
-        private ConfigGroup _selectedConfigGroup;
-        private ModuleConfig _selectedModuleConfig;
+        private ParameterGroup _selectedParameterGroup;
+        private ParameterSet _selectedParameterSet;
 
         public ICommand CmdEdit
         {
             get { return _cmdEdit; }
         }
 
-        public ConfigGroup SelectedConfigGroup
+        public ParameterGroup SelectedParameterGroup
         {
             get
             {
-                return _selectedConfigGroup;
+                return _selectedParameterGroup;
             }
             set
             {
-                _selectedConfigGroup = value;
-                NotifyPropertChanged("SelectedConfigGroup");
+                _selectedParameterGroup = value;
+                NotifyPropertChanged("SelectedParameterGroup");
             }
         }
 
-        public ModuleConfig SelectedModuleConfig
+        public ParameterSet SelectedParameterSet
         {
             get
             {
-                return _selectedModuleConfig;
+                return _selectedParameterSet;
             }
             set
             {
-                _selectedModuleConfig = value;
-                NotifyPropertChanged("SelectedModuleConfig");
+                _selectedParameterSet = value;
+                NotifyPropertChanged("SelectedParameterSet");
             }
         }
 
-        public ObservableCollection<ConfigValue> Parameters { get; set; } = new ObservableCollection<ConfigValue>();
+        public ObservableCollection<ModuleParameter> Parameters { get; set; } = new ObservableCollection<ModuleParameter>();
 
         public ViewModelDetailsBasicCtrlModule(Guid moduleId, IDialogService dialogService, IDataService dataService)
         {
             _dialogService = dialogService;
             _dataService = dataService;
 
-            ViewModuleId = moduleId;
-            ViewModuleType = ModuleType.ComplexCtrlModule;
+            ModuleId = moduleId;
+            ModuleType = ModuleType.ComplexCtrlModule;
 
-            _cmdEdit = new DelegateCommand(x => LoadConfigParam());
+            _cmdEdit = new DelegateCommand(x => LoadParameterSet());
 
-            Parameters = new ObservableCollection<ConfigValue>(_dataService.GetCustomParameters(ViewModuleId));
+            Parameters = new ObservableCollection<ModuleParameter>(_dataService.GetParameters(ModuleId));
         }
 
-        private void LoadConfigParam() 
+        private void LoadParameterSet() 
         {
             var dialog = new ViewModelDialogConfig(_dataService);
 
             var result = _dialogService.ShowDialog(dialog);
             
-            if(result.Value && dialog.SelectedConfigGroup != null && dialog.SelectedModuleConfig != null)
+            if(result.Value && dialog.SelectedParameterGroup != null && dialog.SelectedParameterSet != null)
             {
-                SelectedConfigGroup = dialog.SelectedConfigGroup;
-                SelectedModuleConfig = dialog.SelectedModuleConfig;
+                SelectedParameterGroup = dialog.SelectedParameterGroup;
+                SelectedParameterSet = dialog.SelectedParameterSet;
 
                 Parameters.Clear();
 
-                foreach(ConfigValue param in SelectedModuleConfig.Parameters)
+                foreach(ModuleParameter param in SelectedParameterSet.Parameters)
                 {
-                    param.ModuleId = ViewModuleId;
+                    param.ModuleId = ModuleId;
                     
                     Parameters.Add(param);
                 }
 
-                _dataService.SetCustomParameters(ViewModuleId, new List<ConfigValue>(Parameters));
+                _dataService.SetParameters(ModuleId, new List<ModuleParameter>(Parameters));
             }
         }
     }

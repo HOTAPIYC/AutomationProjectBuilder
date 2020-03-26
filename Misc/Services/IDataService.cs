@@ -16,9 +16,9 @@ namespace AutomationProjectBuilder.Misc
         public ProjectModule ResetProjectRoot();
         public void UpdateModule(ProjectModule item);
 
-        public void SetCustomParameters(Guid ModuleId, List<ConfigValue> parameters);
-        public List<ConfigValue> GetCustomParameters(Guid ItemId);
-        public List<ConfigGroup> GetLoadedConfigs();
+        public void SetParameters(Guid ModuleId, List<ModuleParameter> parameters);
+        public List<ModuleParameter> GetParameters(Guid ItemId);
+        public List<ParameterGroup> GetParameterGroups();
 
         public void Save();
         public void SaveAs();

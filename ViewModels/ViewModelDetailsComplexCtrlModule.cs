@@ -34,8 +34,8 @@ namespace AutomationProjectBuilder.ViewModels
             _dialogService = dialogService;
             _dataService = dataService;
 
-            ViewModuleId = moduleId;
-            ViewModuleType = ModuleType.ComplexCtrlModule;
+            ModuleId = moduleId;
+            ModuleType = ModuleType.ComplexCtrlModule;
 
             ModuleFunctions = dataService.GetFunctions(moduleId);
 
@@ -51,7 +51,7 @@ namespace AutomationProjectBuilder.ViewModels
 
             if (result.Value)
             {
-                var moduleFunction = new ModuleFunction(ViewModuleId, dialog.TextInput);
+                var moduleFunction = new ModuleFunction(ModuleId, dialog.TextInput);
 
                 _dataService.AddFunction(moduleFunction);
 

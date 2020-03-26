@@ -91,7 +91,7 @@ namespace AutomationProjectBuilder.ViewModels
 
         private void HandleListChangeEvent(object sender, EventArgs e)
         {
-            if(DetailsPage.ViewModuleType != _selectedItem.ModuleType || DetailsPage.ViewModuleId != _selectedItem.ModuleId)
+            if(DetailsPage.ModuleType != _selectedItem.ModuleType || DetailsPage.ModuleId != _selectedItem.ModuleId)
             {
                 LoadSelectedModulePage();
             }
@@ -115,7 +115,7 @@ namespace AutomationProjectBuilder.ViewModels
                     break;
                 default:
                     DetailsPage = new ViewModelDetailsBlank();
-                    DetailsPage.ViewModuleType = _selectedItem.ModuleType;
+                    DetailsPage.ModuleType = _selectedItem.ModuleType;
                     break;
             }
         }

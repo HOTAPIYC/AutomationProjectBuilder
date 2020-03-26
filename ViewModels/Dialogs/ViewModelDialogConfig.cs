@@ -13,8 +13,8 @@ namespace AutomationProjectBuilder.ViewModels
         private ICommand _cmdApply;
         private ICommand _cmdCancel;
 
-        private ConfigGroup _selectedConfigGroup;
-        private ModuleConfig _selectedModuleConfig;
+        private ParameterGroup _selectedParameterGroup;
+        private ParameterSet _selectedParameterSet;
 
         public ICommand CmdApply
         {
@@ -26,33 +26,33 @@ namespace AutomationProjectBuilder.ViewModels
             get { return _cmdCancel; }
         }
 
-        public ConfigGroup SelectedConfigGroup
+        public ParameterGroup SelectedParameterGroup
         {
             get
             {
-                return _selectedConfigGroup;
+                return _selectedParameterGroup;
             }
             set
             {
-                _selectedConfigGroup = value;
-                NotifyPropertChanged("SelectedConfigGroup");
+                _selectedParameterGroup = value;
+                NotifyPropertChanged("SelectedParameterGroup");
             }
         }
 
-        public ModuleConfig SelectedModuleConfig
+        public ParameterSet SelectedParameterSet
         {
             get
             {
-                return _selectedModuleConfig;
+                return _selectedParameterSet;
             }
             set
             {
-                _selectedModuleConfig = value;
-                NotifyPropertChanged("SelectedModuleConfig");
+                _selectedParameterSet = value;
+                NotifyPropertChanged("SelectedParameterSet");
             }
         }
 
-        public ObservableCollection<ConfigGroup> ConfigGroups { get; set; }
+        public ObservableCollection<ParameterGroup> ParameterGroups { get; set; }
 
         public event EventHandler<DialogCloseRequestedEventArgs> CloseRequested;
 
@@ -61,7 +61,7 @@ namespace AutomationProjectBuilder.ViewModels
             _cmdApply = new DelegateCommand(x => CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(true)));
             _cmdCancel = new DelegateCommand(x => CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(false)));
 
-            ConfigGroups = new ObservableCollection<ConfigGroup>(dataService.GetLoadedConfigs());
+            ParameterGroups = new ObservableCollection<ParameterGroup>(dataService.GetParameterGroups());
         }
     }
 }

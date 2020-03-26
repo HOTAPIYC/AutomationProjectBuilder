@@ -12,8 +12,8 @@ namespace AutomationProjectBuilder.Misc
     public class DataService : IDataService
     {
         private List<ModuleFunction> _moduleFunctions = new List<ModuleFunction>();
-        private List<ConfigValue> _customParameters = new List<ConfigValue>();
-        private List<ConfigGroup> _customConfig;
+        private List<ModuleParameter> _moduleParameters = new List<ModuleParameter>();
+        private List<ParameterGroup> _customConfig;
         private ProjectModule _projectRoot;
         private FileReadWrite _fileReadWrite = new FileReadWrite();
         private IConfigService _settings;
@@ -88,22 +88,22 @@ namespace AutomationProjectBuilder.Misc
 
         // Configuration
 
-        public void SetCustomParameters(Guid ModuleId,List<ConfigValue> parameters)
+        public void SetParameters(Guid moduleId,List<ModuleParameter> parameters)
         {
-            _customParameters.RemoveAll(values => values.ModuleId == ModuleId);
+            _moduleParameters.RemoveAll(values => values.ModuleId == moduleId);
             
-            foreach(ConfigValue parameter in parameters)
+            foreach(ModuleParameter parameter in parameters)
             {
-                _customParameters.Add(parameter);
+                _moduleParameters.Add(parameter);
             }
         }
 
-        public List<ConfigValue> GetCustomParameters(Guid ItemId)
+        public List<ModuleParameter> GetParameters(Guid moduleId)
         {
-            return _customParameters.Where(parameter => parameter.ModuleId == ItemId).ToList();
+            return _moduleParameters.Where(parameter => parameter.ModuleId == moduleId).ToList();
         }
 
-        public List<ConfigGroup> GetLoadedConfigs()
+        public List<ParameterGroup> GetParameterGroups()
         {
             return _customConfig;
         }
@@ -117,6 +117,7 @@ namespace AutomationProjectBuilder.Misc
                 _fileReadWrite.CreateFile(
                     _projectRoot, 
                     _moduleFunctions,
+                    _moduleParameters,
                     (string)_settings.Get("LastFilePath"));
             }
             else
@@ -138,6 +139,7 @@ namespace AutomationProjectBuilder.Misc
                 _fileReadWrite.CreateFile(
                     _projectRoot,
                     _moduleFunctions,
+                    _moduleParameters,
                     (string)_settings.Get("LastFilePath"));
             }
         }
@@ -150,11 +152,13 @@ namespace AutomationProjectBuilder.Misc
 
                 _projectRoot = _fileReadWrite.RootModule;
                 _moduleFunctions = _fileReadWrite.ModuleFunctions;
+                _moduleParameters = _fileReadWrite.ModuleParameters;
             }
             else
             {
                 _projectRoot = new ProjectModule("Empty project", ModuleType.Uncategorized);
                 _moduleFunctions.Clear();
+                _moduleParameters.Clear();
             }
         }
 

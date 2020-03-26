@@ -23,11 +23,6 @@
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"  />
                     </GridView>
                 </ListView.View>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
             </ListView>
         </StackPanel>
         <StackPanel Grid.Column="1" Margin="5">

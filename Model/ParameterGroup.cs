@@ -4,12 +4,12 @@ using System.Text;
 
 namespace AutomationProjectBuilder.Model
 {
-    public class ConfigGroup
+    public class ParameterGroup
     {
         public string Name { get; set; }
-        public List<ModuleConfig> Configurations { get; set; } = new List<ModuleConfig>();
+        public List<ParameterSet> Configurations { get; set; } = new List<ParameterSet>();
 
-        public ConfigGroup(string name)
+        public ParameterGroup(string name)
         {
             Name = name;
         }

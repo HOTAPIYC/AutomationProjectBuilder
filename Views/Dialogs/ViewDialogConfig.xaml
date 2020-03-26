@@ -9,21 +9,21 @@
     <Grid>
         <StackPanel Margin="10">
             <ComboBox x:Name="GroupSelection" 
-                      ItemsSource="{Binding ConfigGroups}" 
-                      SelectedItem="{Binding SelectedConfigGroup}" 
+                      ItemsSource="{Binding ParameterGroups}" 
+                      SelectedItem="{Binding SelectedParameterGroup}" 
                       Grid.Column="0">
                 <ComboBox.ItemTemplate>
-                    <DataTemplate DataType="ConfigGroup">
+                    <DataTemplate DataType="ParameterGroup">
                         <TextBlock Text="{Binding Name}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <ComboBox x:Name="ConfigSelection" 
+            <ComboBox x:Name="SetSelection" 
                       ItemsSource="{Binding ElementName=GroupSelection, Path=SelectedItem.Configurations}" 
-                      SelectedItem="{Binding SelectedModuleConfig}" 
+                      SelectedItem="{Binding SelectedParameterSet}" 
                       Grid.Column="1" Margin="0,10">
                 <ComboBox.ItemTemplate>
-                    <DataTemplate DataType="ModuleConfig">
+                    <DataTemplate DataType="ParameterSet">
                         <TextBlock Text="{Binding Name}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>

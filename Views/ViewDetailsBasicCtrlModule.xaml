@@ -6,25 +6,30 @@
              xmlns:local="clr-namespace:AutomationProjectBuilder.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel Margin="5" Background="Aqua">
+    <StackPanel Margin="5" Background="LightYellow">
         <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
             <TextBlock Text="Configuration" Margin="0,5"/>
-            <Button Content="Edit" Command="{Binding CmdEdit}" Width="50" Margin="5,0,0,0"/>
+            <TextBlock Text="{Binding Path=SelectedParameterGroup.Name}" Margin="0,5"/>
+            <TextBlock Text="{Binding Path=SelectedParameterSet.Name}" Margin="0,5"/>
+            <Button Content="Edit" Command="{Binding CmdEdit}" Width="50" Height="26" Margin="5,0,0,0"/>
         </StackPanel>
         <Grid Margin="5,5,5,0" HorizontalAlignment="Stretch">
             <TextBlock Text="Parameters" HorizontalAlignment="Left" Margin="0,5"/>
         </Grid>
-        <ListView x:Name="ParameterList" ItemsSource="{Binding Parameters}" Margin="5">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"  />
-                </GridView>
-            </ListView.View>
-            <ListView.ItemTemplate>
-                <DataTemplate DataType="ConfigValue">
-                    <TextBlock Text="{Binding Name}"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ListView x:Name="ParameterList" ItemsSource="{Binding Parameters}" Grid.Column="0" Margin="0,0,2.5,0">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"  />
+                        <GridViewColumn Header="Value" DisplayMemberBinding="{Binding Value}"  />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <TextBox Text="{Binding ElementName=ParameterList, Path=SelectedItem.Value}" Grid.Column="1" Margin="2.5,0,0,0" VerticalAlignment="Top"/>
+        </Grid>
     </StackPanel>
 </UserControl>
