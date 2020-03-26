@@ -91,7 +91,7 @@ namespace AutomationProjectBuilder.ViewModels
 
         private void HandleListChangeEvent(object sender, EventArgs e)
         {
-            if(DetailsPage.ViewModuleType != _selectedItem.ModuleType || DetailsPage.ViewModuleId != _selectedItem.ModuleId)
+            if(DetailsPage.ModuleType != _selectedItem.ModuleType || DetailsPage.ModuleId != _selectedItem.ModuleId)
             {
                 LoadSelectedModulePage();
             }
@@ -103,13 +103,19 @@ namespace AutomationProjectBuilder.ViewModels
             {
                 case ModuleType.ComplexCtrlModule:
                     DetailsPage = new ViewModelDetailsComplexCtrlModule(
-                        _selectedItem.ModuleId, 
+                        _selectedItem.Module, 
                         _dialogService, 
+                        _dataService);
+                    break;
+                case ModuleType.BasicCtrlModule:
+                    DetailsPage = new ViewModelDetailsBasicCtrlModule(
+                        _selectedItem.Module,
+                        _dialogService,
                         _dataService);
                     break;
                 default:
                     DetailsPage = new ViewModelDetailsBlank();
-                    DetailsPage.ViewModuleType = _selectedItem.ModuleType;
+                    DetailsPage.ModuleType = _selectedItem.ModuleType;
                     break;
             }
         }
@@ -138,7 +144,7 @@ namespace AutomationProjectBuilder.ViewModels
 
             ProjectStructure.Add(
                 new ViewModelTreeItem(
-                    _dataService.Reset(),
+                    _dataService.ResetProjectRoot(),
                     _dialogService,
                     _dataService));
         }

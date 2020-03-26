@@ -19,7 +19,7 @@ namespace AutomationProjectBuilder.Misc
                 NotifyPropertChanged("Name");
             }
         }
-        public ModuleType ViewModuleType { get; set; }
-        public Guid ViewModuleId { get; set; }
+        public ModuleType ModuleType { get; set; }
+        public Guid ModuleId { get; set; }
     }
 }

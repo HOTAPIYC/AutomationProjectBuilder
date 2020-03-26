@@ -17,7 +17,7 @@ namespace AutomationProjectBuilder.ViewModels
         private ICommand _cmdDeleteSubsystem;
         private ICommand _cmdEditSubsystem;
 
-        private ProjectModule _module;
+        public ProjectModule Module { get; set; }
       
         public ViewModelTreeItem Parent { get; set; }
         public bool IsSelected { get; set; }
@@ -28,11 +28,11 @@ namespace AutomationProjectBuilder.ViewModels
         {
             get
             {
-                return _module.Name;
+                return Module.Name;
             }
             set
             {
-                _module.Name = value;
+                Module.Name = value;
                 NotifyPropertChanged("ModuleName");
             }
         }
@@ -41,11 +41,11 @@ namespace AutomationProjectBuilder.ViewModels
         {
             get
             {
-                return _module.Type;
+                return Module.Type;
             }
             set
             {
-                _module.Type = value;
+                Module.Type = value;
                 NotifyPropertChanged("ModuleType");
             }
         }
@@ -54,7 +54,7 @@ namespace AutomationProjectBuilder.ViewModels
         {
             get
             {
-                return _module.Id;
+                return Module.Id;
             }
         }
 
@@ -83,7 +83,7 @@ namespace AutomationProjectBuilder.ViewModels
             _dialogService = dialogService;
             _dataService = dataService;
 
-            _module = module;
+            Module = module;
 
             foreach (ProjectModule projectItem in module.SubModules)
             {
@@ -108,7 +108,7 @@ namespace AutomationProjectBuilder.ViewModels
             {
                 var newItem = new ProjectModule(dialog.ModuleNameInput, dialog.ModuleTypeSelection);
 
-                _module.SubModules.Add(newItem);
+                Module.SubModules.Add(newItem);
 
                 AddSubViewModel(new ViewModelTreeItem(newItem, _dialogService, _dataService));
             }       
@@ -128,7 +128,7 @@ namespace AutomationProjectBuilder.ViewModels
 
         public void EditSubViewModel()
         {
-            var dialog = new ViewModelDialogTreeItem(_module);
+            var dialog = new ViewModelDialogTreeItem(Module);
 
             var result = _dialogService.ShowDialog(dialog);
 
@@ -157,7 +157,7 @@ namespace AutomationProjectBuilder.ViewModels
 
         private void UpdateItem(object sender, EventArgs e)
         {         
-            _dataService.Update(_module);
+            _dataService.UpdateModule(Module);
         }
     }
 }

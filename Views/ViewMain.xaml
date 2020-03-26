@@ -14,6 +14,9 @@
         <DataTemplate DataType="{x:Type viewmodels:ViewModelDetailsComplexCtrlModule}">
             <views:ViewDetailsComplexCtrlModule/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:ViewModelDetailsBasicCtrlModule}">
+            <views:ViewDetailsBasicCtrlModule/>
+        </DataTemplate>
         <converter:EnumConverterToString x:Key="EnumToString" />
         <converter:SelectionConverterToVisibility x:Key="SelectionToVisibility" />
     </Window.Resources>
@@ -67,7 +70,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,5,0,0" Visibility="{Binding ElementName=ProjectTree, Path=SelectedItem, Converter={StaticResource SelectionToVisibility}}">
-                    <TextBlock Text="{Binding ElementName=ProjectTree, Path=SelectedItem.ModuleName}" Margin="5"/>
+                    <TextBlock Text="{Binding ElementName=ProjectTree, Path=SelectedItem.ModuleName}" FontWeight="Bold" Margin="5"/>
                     <TextBlock Text="{Binding ElementName=ProjectTree, Path=SelectedItem.ModuleType, Converter={StaticResource EnumToString}}" Margin="0,5,5,5"/>
                     <Button Content="Edit"
                         Width="50"

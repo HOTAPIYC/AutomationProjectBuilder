@@ -10,6 +10,8 @@ namespace AutomationProjectBuilder.Model
         public Guid Id { get; set; }
         public string Name { get; set; }
         public ModuleType Type { get; set; }
+        public ParameterGroup ParamGroup { get; set; } = new ParameterGroup("");
+        public ParameterSet ParamSet { get; set; } = new ParameterSet("");
         public ObservableCollection<ProjectModule> SubModules { get; set; } = new ObservableCollection<ProjectModule>();
 
         public ProjectModule()

@@ -13,8 +13,12 @@ namespace AutomationProjectBuilder.Misc
         public void UpdateFunction(ModuleFunction function);
 
         public ProjectModule GetProjectRoot();
-        public ProjectModule Reset();
-        public void Update(ProjectModule item);
+        public ProjectModule ResetProjectRoot();
+        public void UpdateModule(ProjectModule item);
+
+        public void SetParameters(Guid ModuleId, List<ModuleParameter> parameters);
+        public List<ModuleParameter> GetParameters(Guid ItemId);
+        public List<ParameterGroup> GetParameterGroups();
 
         public void Save();
         public void SaveAs();
