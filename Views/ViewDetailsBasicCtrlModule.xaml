@@ -8,9 +8,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel Margin="5" Background="LightYellow">
         <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
-            <TextBlock Text="Configuration" Margin="0,5"/>
-            <TextBlock Text="{Binding Path=SelectedParameterGroup.Name}" Margin="0,5"/>
-            <TextBlock Text="{Binding Path=SelectedParameterSet.Name}" Margin="0,5"/>
+            <TextBlock Text="{Binding Path=SelectedParameterGroup.Name}" FontWeight="Bold" Margin="0,5"/>
+            <TextBlock Text="{Binding Path=SelectedParameterSet.Name}" Margin="5"/>
             <Button Content="Edit" Command="{Binding CmdEdit}" Width="50" Height="26" Margin="5,0,0,0"/>
         </StackPanel>
         <Grid Margin="5,5,5,0" HorizontalAlignment="Stretch">
@@ -21,7 +20,11 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <ListView x:Name="ParameterList" ItemsSource="{Binding Parameters}" Grid.Column="0" Margin="0,0,2.5,0">
+            <ListView x:Name="ParameterList" 
+                      ItemsSource="{Binding Parameters}" 
+                      ScrollViewer.CanContentScroll="True"
+                      Height="250"
+                      Grid.Column="0" Margin="0,0,5,0">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"  />
@@ -29,7 +32,8 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <TextBox Text="{Binding ElementName=ParameterList, Path=SelectedItem.Value}" Grid.Column="1" Margin="2.5,0,0,0" VerticalAlignment="Top"/>
+            <TextBox Text="{Binding ElementName=ParameterList, Path=SelectedItem.Value}" 
+                     Grid.Column="1" Margin="5,0,0,0" VerticalAlignment="Top"/>
         </Grid>
     </StackPanel>
 </UserControl>

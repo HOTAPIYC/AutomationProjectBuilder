@@ -17,7 +17,9 @@
                 <TextBlock Text="Functions" Margin="0,5"/>
                 <Button Content="Add" Command="{Binding CmdAddFunction}" Width="50" Margin="5,0,0,0"/>
             </StackPanel>
-            <ListView x:Name="FunctionList" ItemsSource="{Binding ModuleFunctions}">
+            <ListView x:Name="FunctionList" 
+                      ItemsSource="{Binding ModuleFunctions}" 
+                      ScrollViewer.CanContentScroll="True" Height="250">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"  />
