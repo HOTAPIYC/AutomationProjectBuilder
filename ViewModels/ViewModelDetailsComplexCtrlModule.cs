@@ -29,15 +29,15 @@ namespace AutomationProjectBuilder.ViewModels
 
         public ObservableCollection<ModuleFunction> ModuleFunctions { get; set; } = new ObservableCollection<ModuleFunction>();
                        
-        public ViewModelDetailsComplexCtrlModule(Guid moduleId, IDialogService dialogService,IDataService dataService)
+        public ViewModelDetailsComplexCtrlModule(ProjectModule module, IDialogService dialogService,IDataService dataService)
         {
             _dialogService = dialogService;
             _dataService = dataService;
 
-            ModuleId = moduleId;
+            ModuleId = module.Id;
             ModuleType = ModuleType.ComplexCtrlModule;
 
-            ModuleFunctions = dataService.GetFunctions(moduleId);
+            ModuleFunctions = dataService.GetFunctions(module.Id);
 
             _cmdAddFunction = new DelegateCommand(x => AddFunction());
             _cmdDeleteFunction = new DelegateCommand(x => DeleteFunction());

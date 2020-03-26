@@ -54,7 +54,9 @@ namespace AutomationProjectBuilder.Misc
                 }
             }
 
-            var parameters = new XElement("Parameters");
+            var parameters = new XElement("Parameters",
+                new XAttribute("Group", projectModule.ParamGroup.Name),
+                new XAttribute("Set", projectModule.ParamSet.Name));
 
             foreach(ModuleParameter value in moduleParameters)
             {
@@ -103,6 +105,9 @@ namespace AutomationProjectBuilder.Misc
             }
 
             var xmlParameters = xmlModule.Element("Parameters");
+
+            projectModule.ParamGroup = new ParameterGroup((string)xmlParameters.Attribute("Group"));
+            projectModule.ParamSet = new ParameterSet((string)xmlParameters.Attribute("Set"));
 
             foreach(XElement xmlParameter in xmlParameters.Elements("Parameter").ToList())
             {

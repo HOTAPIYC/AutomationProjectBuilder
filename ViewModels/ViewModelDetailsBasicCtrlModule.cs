@@ -15,8 +15,7 @@ namespace AutomationProjectBuilder.ViewModels
 
         private ICommand _cmdEdit;
 
-        private ParameterGroup _selectedParameterGroup;
-        private ParameterSet _selectedParameterSet;
+        public ProjectModule Module;
 
         public ICommand CmdEdit
         {
@@ -27,11 +26,11 @@ namespace AutomationProjectBuilder.ViewModels
         {
             get
             {
-                return _selectedParameterGroup;
+                return Module.ParamGroup;
             }
             set
             {
-                _selectedParameterGroup = value;
+                Module.ParamGroup = value;
                 NotifyPropertChanged("SelectedParameterGroup");
             }
         }
@@ -40,23 +39,25 @@ namespace AutomationProjectBuilder.ViewModels
         {
             get
             {
-                return _selectedParameterSet;
+                return Module.ParamSet;
             }
             set
             {
-                _selectedParameterSet = value;
+                Module.ParamSet = value;
                 NotifyPropertChanged("SelectedParameterSet");
             }
         }
 
         public ObservableCollection<ModuleParameter> Parameters { get; set; } = new ObservableCollection<ModuleParameter>();
 
-        public ViewModelDetailsBasicCtrlModule(Guid moduleId, IDialogService dialogService, IDataService dataService)
+        public ViewModelDetailsBasicCtrlModule(ProjectModule module, IDialogService dialogService, IDataService dataService)
         {
             _dialogService = dialogService;
             _dataService = dataService;
 
-            ModuleId = moduleId;
+            Module = module;
+
+            ModuleId = module.Id;
             ModuleType = ModuleType.ComplexCtrlModule;
 
             _cmdEdit = new DelegateCommand(x => LoadParameterSet());

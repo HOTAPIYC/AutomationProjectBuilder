@@ -103,13 +103,13 @@ namespace AutomationProjectBuilder.ViewModels
             {
                 case ModuleType.ComplexCtrlModule:
                     DetailsPage = new ViewModelDetailsComplexCtrlModule(
-                        _selectedItem.ModuleId, 
+                        _selectedItem.Module, 
                         _dialogService, 
                         _dataService);
                     break;
                 case ModuleType.BasicCtrlModule:
                     DetailsPage = new ViewModelDetailsBasicCtrlModule(
-                        _selectedItem.ModuleId,
+                        _selectedItem.Module,
                         _dialogService,
                         _dataService);
                     break;

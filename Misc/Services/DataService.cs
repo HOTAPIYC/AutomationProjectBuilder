@@ -11,10 +11,12 @@ namespace AutomationProjectBuilder.Misc
 {
     public class DataService : IDataService
     {
+        private ProjectModule _projectRoot;
+
         private List<ModuleFunction> _moduleFunctions = new List<ModuleFunction>();
         private List<ModuleParameter> _moduleParameters = new List<ModuleParameter>();
         private List<ParameterGroup> _customConfig;
-        private ProjectModule _projectRoot;
+
         private FileReadWrite _fileReadWrite = new FileReadWrite();
         private IConfigService _settings;
 
@@ -31,12 +33,10 @@ namespace AutomationProjectBuilder.Misc
         {
             return new ObservableCollection<ModuleFunction>(_moduleFunctions.Where(fct => fct.ModuleId == ItemId).ToList());
         }
-
         public void AddFunction(ModuleFunction function)
         {
             _moduleFunctions.Add(function);
         }
-
         public void UpdateFunction(ModuleFunction function)
         {
             var index = _moduleFunctions.FindIndex(fct => fct.ModuleId == function.ModuleId);
@@ -50,7 +50,6 @@ namespace AutomationProjectBuilder.Misc
         {
             return _projectRoot;
         }
-
         public ProjectModule ResetProjectRoot()
         {
             _projectRoot = new ProjectModule("Empty project", ModuleType.Uncategorized);
@@ -58,19 +57,17 @@ namespace AutomationProjectBuilder.Misc
 
             return _projectRoot;
         }
-
-        public void UpdateModule(ProjectModule item)
+        public void UpdateModule(ProjectModule projectModule)
         {
-            if(item.Id == _projectRoot.Id)
+            if(projectModule.Id == _projectRoot.Id)
             {
-                _projectRoot = item;
+                _projectRoot = projectModule;
             }
             else
             {
-                ReplaceSubModule(item, _projectRoot);
+                ReplaceSubModule(projectModule, _projectRoot);
             }
         }
-
         private void ReplaceSubModule(ProjectModule newModule, ProjectModule root)
         {
             if(root.SubModules.Where(module => module.Id == newModule.Id).ToList().Count > 0)
@@ -85,7 +82,7 @@ namespace AutomationProjectBuilder.Misc
                 }
             }
         }
-
+ 
         // Configuration
 
         public void SetParameters(Guid moduleId,List<ModuleParameter> parameters)
@@ -97,12 +94,10 @@ namespace AutomationProjectBuilder.Misc
                 _moduleParameters.Add(parameter);
             }
         }
-
         public List<ModuleParameter> GetParameters(Guid moduleId)
         {
             return _moduleParameters.Where(parameter => parameter.ModuleId == moduleId).ToList();
         }
-
         public List<ParameterGroup> GetParameterGroups()
         {
             return _customConfig;
@@ -125,7 +120,6 @@ namespace AutomationProjectBuilder.Misc
                 SaveAs();
             }
         }
-
         public void SaveAs()
         {
             var dialog = new SaveFileDialog();
@@ -143,7 +137,6 @@ namespace AutomationProjectBuilder.Misc
                     (string)_settings.Get("LastFilePath"));
             }
         }
-
         public void Load()
         {
             if (File.Exists((string)_settings.Get("LastFilePath")))
@@ -161,7 +154,6 @@ namespace AutomationProjectBuilder.Misc
                 _moduleParameters.Clear();
             }
         }
-
         public void Open()
         {
             var dialog = new OpenFileDialog();
@@ -175,6 +167,5 @@ namespace AutomationProjectBuilder.Misc
                 Load();
             }
         }
-
     }
 }
