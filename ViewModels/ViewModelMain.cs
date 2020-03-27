@@ -101,14 +101,14 @@ namespace AutomationProjectBuilder.ViewModels
         {
             switch (_selectedItem.ModuleType)
             {
-                case ModuleType.ComplexCtrlModule:
-                    DetailsPage = new ViewModelDetailsComplexCtrlModule(
+                case ModuleType.EquipmentModule:
+                    DetailsPage = new ViewModelDetailsEqModule(
                         _selectedItem.Module, 
                         _dialogService, 
                         _dataService);
                     break;
-                case ModuleType.BasicCtrlModule:
-                    DetailsPage = new ViewModelDetailsBasicCtrlModule(
+                case ModuleType.CtrlModule:
+                    DetailsPage = new ViewModelDetailsCtrlModule(
                         _selectedItem.Module,
                         _dialogService,
                         _dataService);

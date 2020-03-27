@@ -11,11 +11,11 @@
         <DataTemplate DataType="{x:Type viewmodels:ViewModelDetailsBlank}">
             <views:ViewDetailsBlank/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodels:ViewModelDetailsComplexCtrlModule}">
-            <views:ViewDetailsComplexCtrlModule/>
+        <DataTemplate DataType="{x:Type viewmodels:ViewModelDetailsEqModule}">
+            <views:ViewDetailsEqModule/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodels:ViewModelDetailsBasicCtrlModule}">
-            <views:ViewDetailsBasicCtrlModule/>
+        <DataTemplate DataType="{x:Type viewmodels:ViewModelDetailsCtrlModule}">
+            <views:ViewDetailsCtrlModule/>
         </DataTemplate>
         <converter:EnumConverterToString x:Key="EnumToString" />
         <converter:SelectionConverterToVisibility x:Key="SelectionToVisibility" />

@@ -9,10 +9,8 @@ namespace AutomationProjectBuilder.Model
     {
         [Description("Uncategorized")]
         Uncategorized,
-        [Description("Basic control module")]
-        BasicCtrlModule,
-        [Description("Complex control module")]
-        ComplexCtrlModule,
+        [Description("Control module")]
+        CtrlModule,
         [Description("Equipment module")]
         EquipmentModule,
         [Description("Process cell")]

@@ -16,9 +16,9 @@ namespace AutomationProjectBuilder.Views
     /// <summary>
     /// Interaktionslogik für ViewDetailsComplexCtrlModule.xaml
     /// </summary>
-    public partial class ViewDetailsComplexCtrlModule : UserControl
+    public partial class ViewDetailsEqModule : UserControl
     {
-        public ViewDetailsComplexCtrlModule()
+        public ViewDetailsEqModule()
         {
             InitializeComponent();
         }

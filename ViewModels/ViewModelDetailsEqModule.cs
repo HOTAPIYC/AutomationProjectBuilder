@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace AutomationProjectBuilder.ViewModels
 {
-    public class ViewModelDetailsComplexCtrlModule : ViewModelDetailsBase
+    public class ViewModelDetailsEqModule : ViewModelDetailsBase
     {
         private IDialogService _dialogService;
         private IDataService _dataService;
@@ -29,13 +29,13 @@ namespace AutomationProjectBuilder.ViewModels
 
         public ObservableCollection<ModuleFunction> ModuleFunctions { get; set; } = new ObservableCollection<ModuleFunction>();
                        
-        public ViewModelDetailsComplexCtrlModule(ProjectModule module, IDialogService dialogService,IDataService dataService)
+        public ViewModelDetailsEqModule(ProjectModule module, IDialogService dialogService,IDataService dataService)
         {
             _dialogService = dialogService;
             _dataService = dataService;
 
             ModuleId = module.Id;
-            ModuleType = ModuleType.ComplexCtrlModule;
+            ModuleType = ModuleType.EquipmentModule;
 
             ModuleFunctions = dataService.GetFunctions(module.Id);
 
