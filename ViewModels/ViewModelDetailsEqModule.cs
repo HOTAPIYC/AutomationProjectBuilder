@@ -19,16 +19,16 @@ namespace AutomationProjectBuilder.ViewModels
 
         public ICommand CmdAddFunction
         {
-            get { return _cmdAddFunction; }
+            get => _cmdAddFunction;
         }
 
         public ICommand CmdDeleteFunction
         {
-            get { return _cmdDeleteFunction; }
+            get => _cmdDeleteFunction;
         }
 
-        public ObservableCollection<ModuleFunction> ModuleFunctions { get; set; } = new ObservableCollection<ModuleFunction>();
-                       
+        public ObservableCollection<ViewModelListItem> FunctionList { get; set; } = new ObservableCollection<ViewModelListItem>();
+
         public ViewModelDetailsEqModule(ProjectModule module, IDialogService dialogService,IDataService dataService)
         {
             _dialogService = dialogService;
@@ -36,8 +36,11 @@ namespace AutomationProjectBuilder.ViewModels
 
             ModuleId = module.Id;
             ModuleType = ModuleType.EquipmentModule;
-
-            ModuleFunctions = dataService.GetFunctions(module.Id);
+            
+            foreach(ModuleFunction function in dataService.GetFunctions(module.Id))
+            {
+                FunctionList.Add(new ViewModelListItem(function));
+            }
 
             _cmdAddFunction = new DelegateCommand(x => AddFunction());
             _cmdDeleteFunction = new DelegateCommand(x => DeleteFunction());
@@ -55,7 +58,7 @@ namespace AutomationProjectBuilder.ViewModels
 
                 _dataService.AddFunction(moduleFunction);
 
-                ModuleFunctions.Add(moduleFunction);
+                FunctionList.Add(new ViewModelListItem(moduleFunction));
             }
         }
 

@@ -21,25 +21,22 @@ namespace AutomationProjectBuilder.ViewModels
         
         public ICommand CmdAddFunction
         {
-            get { return _cmdAddFunction; }
+            get => _cmdAddFunction;
         }
 
         public ICommand CmdDeleteFunction
         {
-            get { return _cmdDeleteFunction; }
+            get => _cmdDeleteFunction;
         }
 
         public ICommand CmdEdit
         {
-            get { return _cmdEdit; }
+            get => _cmdEdit;
         }
 
         public ParameterGroup SelectedParameterGroup
         {
-            get
-            {
-                return Module.ParamGroup;
-            }
+            get => Module.ParamGroup;
             set
             {
                 Module.ParamGroup = value;
@@ -49,10 +46,7 @@ namespace AutomationProjectBuilder.ViewModels
 
         public ParameterSet SelectedParameterSet
         {
-            get
-            {
-                return Module.ParamSet;
-            }
+            get => Module.ParamSet;
             set
             {
                 Module.ParamSet = value;
@@ -60,8 +54,8 @@ namespace AutomationProjectBuilder.ViewModels
             }
         }
 
-        public ObservableCollection<ModuleParameter> Parameters { get; set; } = new ObservableCollection<ModuleParameter>();
-        public ObservableCollection<ModuleFunction> ModuleFunctions { get; set; } = new ObservableCollection<ModuleFunction>();
+        public ObservableCollection<ViewModelListItem> ParameterList { get; set; } = new ObservableCollection<ViewModelListItem>();
+        public ObservableCollection<ViewModelListItem> FunctionsList { get; set; } = new ObservableCollection<ViewModelListItem>();
 
         public ViewModelDetailsCtrlModule(ProjectModule module, IDialogService dialogService, IDataService dataService)
         {
@@ -77,8 +71,15 @@ namespace AutomationProjectBuilder.ViewModels
             _cmdDeleteFunction = new DelegateCommand(x => DeleteFunction());
             _cmdEdit = new DelegateCommand(x => LoadParameterSet());
            
-            Parameters = new ObservableCollection<ModuleParameter>(_dataService.GetParameters(ModuleId));
-            ModuleFunctions = dataService.GetFunctions(module.Id);
+            foreach(ModuleParameter parameter in dataService.GetParameters(ModuleId))
+            {
+                ParameterList.Add(new ViewModelListItem(parameter));
+            }
+
+            foreach(ModuleFunction function in dataService.GetFunctions(module.Id))
+            {
+                FunctionsList.Add(new ViewModelListItem(function));
+            }
         }
         private void LoadParameterSet() 
         {
@@ -91,16 +92,18 @@ namespace AutomationProjectBuilder.ViewModels
                 SelectedParameterGroup = dialog.SelectedParameterGroup;
                 SelectedParameterSet = dialog.SelectedParameterSet;
 
-                Parameters.Clear();
+                ParameterList.Clear();
 
-                foreach(ModuleParameter param in SelectedParameterSet.Parameters)
+                var newParameterSet = SelectedParameterSet.Parameters;
+
+                foreach (ModuleParameter parameter in newParameterSet)
                 {
-                    param.ModuleId = ModuleId;
+                    parameter.ModuleId = ModuleId;
                     
-                    Parameters.Add(param);
+                    ParameterList.Add(new ViewModelListItem(parameter));
                 }
 
-                _dataService.SetParameters(ModuleId, new List<ModuleParameter>(Parameters));
+                _dataService.SetParameters(ModuleId, newParameterSet);
             }
         }
 
@@ -116,7 +119,7 @@ namespace AutomationProjectBuilder.ViewModels
 
                 _dataService.AddFunction(moduleFunction);
 
-                ModuleFunctions.Add(moduleFunction);
+                FunctionsList.Add(new ViewModelListItem(moduleFunction));
             }
         }
 

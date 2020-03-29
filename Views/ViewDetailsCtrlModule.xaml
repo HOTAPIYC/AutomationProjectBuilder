@@ -24,7 +24,7 @@
                         <TextBlock Text="Parameters" Margin="0,5"/>
                     </StackPanel>
                     <ListView x:Name="ParameterList" 
-                              ItemsSource="{Binding Parameters}"
+                              ItemsSource="{Binding ParameterList}"
                               ScrollViewer.CanContentScroll="True"
                               Height="250">
                         <ListView.View>
@@ -42,8 +42,8 @@
                         <TextBlock Text="Functions" Margin="0,5"/>
                         <Button Content="Add" Command="{Binding CmdAddFunction}" Width="50" Margin="5,0,0,0"/>
                     </StackPanel>
-                    <ListView x:Name="FunctionList" 
-                      ItemsSource="{Binding ModuleFunctions}" 
+                    <ListView x:Name="FunctionsList" 
+                      ItemsSource="{Binding FunctionsList}" 
                       ScrollViewer.CanContentScroll="True" Height="200">
                         <ListView.View>
                             <GridView>
@@ -53,7 +53,7 @@
                     </ListView>
                     <StackPanel Margin="0,5">
                         <TextBlock Text="Function description" Margin="0,5"/>
-                        <TextBox Text="{Binding ElementName=FunctionList, Path=SelectedItem.Description}" Margin="0,5" MinLines="5"/>
+                        <TextBox Text="{Binding ElementName=FunctionsList, Path=SelectedItem.Description}" Margin="0,5" MinLines="5"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
