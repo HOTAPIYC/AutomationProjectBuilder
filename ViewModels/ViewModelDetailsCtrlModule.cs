@@ -99,18 +99,11 @@ namespace AutomationProjectBuilder.ViewModels
 
         private void AddFunction()
         {
-            var dialog = new ViewModelDialogTextInput("");
+            var moduleFunction = new ModuleFunction(ModuleId, "New function");
 
-            var result = _dialogService.ShowDialog(dialog);
+            _dataService.AddFunction(moduleFunction);
 
-            if (result.Value)
-            {
-                var moduleFunction = new ModuleFunction(ModuleId, dialog.TextInput);
-
-                _dataService.AddFunction(moduleFunction);
-
-                FunctionsList.Add(new ViewModelListItem(FunctionsList, moduleFunction, _dataService));
-            }
+            FunctionsList.Add(new ViewModelListItem(FunctionsList, moduleFunction, _dataService));
         }
     }
 }

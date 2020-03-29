@@ -1,8 +1,5 @@
 ﻿using AutomationProjectBuilder.Misc;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using System.Windows.Input;
 
 namespace AutomationProjectBuilder.ViewModels
@@ -53,6 +50,9 @@ namespace AutomationProjectBuilder.ViewModels
             set 
             {
                 _isSelected = value;
+
+                if (!value) IsEditMode = false;
+
                 NotifyPropertChanged("IsSelected");
             }
         }

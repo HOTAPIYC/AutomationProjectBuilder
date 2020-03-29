@@ -12,60 +12,50 @@
     <UserControl.Resources>
         <converter:BoolToVisibility x:Key="BoolToVisibility"/>
     </UserControl.Resources>
-    <Grid Margin="5" Background="Beige">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" Margin="5">
-            <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
-                <TextBlock Text="Functions" Margin="0,5"/>
-                <Button Content="Add" Command="{Binding CmdAddFunction}" Width="50" Margin="5,0,0,0"/>
-            </StackPanel>
-            <ListView x:Name="FunctionList" 
-                      ItemsSource="{Binding FunctionList}" 
-                      ScrollViewer.CanContentScroll="True" Height="250">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Name" Width="Auto">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Grid Height="20">
-                                        <TextBlock Text="{Binding Name}"
-                                                   VerticalAlignment="Center"/>
-                                        <TextBox Text="{Binding Name}"
-                                                 VerticalAlignment="Center"
-                                                 Visibility="{Binding IsEditMode, Converter={StaticResource BoolToVisibility}}"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="Functions" Width="Auto">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button Content="Edit" 
-                                            Command="{Binding CmdEdit}"
-                                            Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}"/>
-                                        <Button Content="Delete"
-                                            Command="{Binding CmdDelete}"
-                                            Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-                <ListView.Resources>
-                    <Style TargetType="{x:Type ListViewItem}">
-                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
-                    </Style>
-                </ListView.Resources>
-            </ListView>
+    <ScrollViewer>
+        <StackPanel Margin="5" Background="LightYellow">
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Margin="5" Grid.Column="0" Grid.Row="0">
+                    <TextBlock Text="Functions" VerticalAlignment="Center"/>
+                    <Button Content="Add" Command="{Binding CmdAddFunction}" Width="50" Height="26" Margin="5,0,0,0"/>
+                </StackPanel>
+                <ListView x:Name="FunctionsList" ItemsSource="{Binding FunctionsList}" ScrollViewer.CanContentScroll="True" Height="150" Margin="5" Grid.Column="0" Grid.Row="1">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Height="26" Grid.Column="0" Margin="0,0,5,0">
+                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                                    <TextBox Text="{Binding Name}" VerticalAlignment="Center" Visibility="{Binding IsEditMode, Converter={StaticResource BoolToVisibility}}"/>
+                                </Grid>
+                                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                    <Button Content="Edit" Command="{Binding CmdEdit}" Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}" Height="26" Width="50"/>
+                                    <Button Content="Delete" Command="{Binding CmdDelete}" Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}" Height="26" Width="50"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                            <Setter Property="HorizontalContentAlignment"  Value="Stretch"></Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+                <StackPanel Margin="5" Orientation="Horizontal" Grid.Column="0" Grid.Row="2">
+                    <TextBlock Text="Function description" VerticalAlignment="Center"/>
+                </StackPanel>
+                <TextBox Text="{Binding ElementName=FunctionsList, Path=SelectedItem.Description}" Margin="5" MinLines="5" Grid.Column="0" Grid.Row="3"/>
+            </Grid>
         </StackPanel>
-        <StackPanel Grid.Column="1" Margin="5">
-            <TextBlock Text="Description" Margin="0,5"/>
-            <TextBox Text="{Binding ElementName=FunctionList, Path=SelectedItem.Description}" Margin="0,5" MinLines="5"/>
-        </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </UserControl>

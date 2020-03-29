@@ -18,7 +18,7 @@ namespace AutomationProjectBuilder.ViewModels
 
         public ICommand CmdAddFunction { get => _cmdAddFunction; }
 
-        public ObservableCollection<ViewModelListItem> FunctionList { get; set; } = new ObservableCollection<ViewModelListItem>();
+        public ObservableCollection<ViewModelListItem> FunctionsList { get; set; } = new ObservableCollection<ViewModelListItem>();
 
         public ViewModelDetailsEqModule(ProjectModule module, IDialogService dialogService,IDataService dataService)
         {
@@ -30,7 +30,7 @@ namespace AutomationProjectBuilder.ViewModels
             
             foreach(ModuleFunction function in dataService.GetFunctions(module.Id))
             {
-                FunctionList.Add(new ViewModelListItem(FunctionList, function, dataService));
+                FunctionsList.Add(new ViewModelListItem(FunctionsList, function, dataService));
             }
 
             _cmdAddFunction = new DelegateCommand(x => AddFunction());
@@ -38,18 +38,11 @@ namespace AutomationProjectBuilder.ViewModels
 
         private void AddFunction()
         {
-            var dialog = new ViewModelDialogTextInput("");
+            var moduleFunction = new ModuleFunction(ModuleId, "New function");
 
-            var result = _dialogService.ShowDialog(dialog);
+            _dataService.AddFunction(moduleFunction);
 
-            if (result.Value)
-            {
-                var moduleFunction = new ModuleFunction(ModuleId, dialog.TextInput);
-
-                _dataService.AddFunction(moduleFunction);
-
-                FunctionList.Add(new ViewModelListItem(FunctionList, moduleFunction, _dataService));
-            }
+            FunctionsList.Add(new ViewModelListItem(FunctionsList, moduleFunction, _dataService));
         }
     }
 }
