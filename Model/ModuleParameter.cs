@@ -7,6 +7,7 @@ namespace AutomationProjectBuilder.Model
 {
     public class ModuleParameter : IListItem
     {
+        public Guid Id { get; } = Guid.NewGuid();
         public Guid ModuleId { get; set; }
         public string Name { get; set; }
         public object Value { get; set; }

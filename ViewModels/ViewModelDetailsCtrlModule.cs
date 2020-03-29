@@ -14,7 +14,6 @@ namespace AutomationProjectBuilder.ViewModels
         private IDataService _dataService;
 
         private ICommand _cmdAddFunction;
-        private ICommand _cmdDeleteFunction;
         private ICommand _cmdEdit;
         
         public ProjectModule Module { get; set; }
@@ -22,11 +21,6 @@ namespace AutomationProjectBuilder.ViewModels
         public ICommand CmdAddFunction
         {
             get => _cmdAddFunction;
-        }
-
-        public ICommand CmdDeleteFunction
-        {
-            get => _cmdDeleteFunction;
         }
 
         public ICommand CmdEdit
@@ -68,17 +62,16 @@ namespace AutomationProjectBuilder.ViewModels
             ModuleType = ModuleType.CtrlModule;
 
             _cmdAddFunction = new DelegateCommand(x => AddFunction());
-            _cmdDeleteFunction = new DelegateCommand(x => DeleteFunction());
             _cmdEdit = new DelegateCommand(x => LoadParameterSet());
            
             foreach(ModuleParameter parameter in dataService.GetParameters(ModuleId))
             {
-                ParameterList.Add(new ViewModelListItem(parameter));
+                ParameterList.Add(new ViewModelListItem(ParameterList, parameter, dataService));
             }
 
             foreach(ModuleFunction function in dataService.GetFunctions(module.Id))
             {
-                FunctionsList.Add(new ViewModelListItem(function));
+                FunctionsList.Add(new ViewModelListItem(FunctionsList, function, dataService));
             }
         }
         private void LoadParameterSet() 
@@ -100,7 +93,7 @@ namespace AutomationProjectBuilder.ViewModels
                 {
                     parameter.ModuleId = ModuleId;
                     
-                    ParameterList.Add(new ViewModelListItem(parameter));
+                    ParameterList.Add(new ViewModelListItem(ParameterList, parameter, _dataService));
                 }
 
                 _dataService.SetParameters(ModuleId, newParameterSet);
@@ -119,13 +112,8 @@ namespace AutomationProjectBuilder.ViewModels
 
                 _dataService.AddFunction(moduleFunction);
 
-                FunctionsList.Add(new ViewModelListItem(moduleFunction));
+                FunctionsList.Add(new ViewModelListItem(FunctionsList, moduleFunction, _dataService));
             }
-        }
-
-        private void DeleteFunction()
-        {
-
         }
     }
 }

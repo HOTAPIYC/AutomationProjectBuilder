@@ -20,11 +20,16 @@ namespace AutomationProjectBuilder.Misc
         private FileReadWrite _fileReadWrite = new FileReadWrite();
         private IConfigService _settings;
 
+        private IDictionary<Type, int> _listItemTypes = new Dictionary<Type, int>();
+
         public DataService(IConfigService configService)
         {
             _settings = configService;
 
             _customConfig = _fileReadWrite.ReadConfiguration("G:\\CustomConfig.xml");
+
+            _listItemTypes.Add(typeof(ModuleFunction), 1);
+            _listItemTypes.Add(typeof(ModuleParameter), 2);
         }
         
         // Module functions
@@ -37,11 +42,17 @@ namespace AutomationProjectBuilder.Misc
         {
             _moduleFunctions.Add(function);
         }
-        public void UpdateFunction(ModuleFunction function)
+        public void DeleteListItem(IListItem function)
         {
-            var index = _moduleFunctions.FindIndex(fct => fct.ModuleId == function.ModuleId);
-
-            _moduleFunctions[index] = function;
+            switch (_listItemTypes[function.GetType()])
+            {
+                case 1:
+                    _moduleFunctions.Remove((ModuleFunction)function);
+                    break;
+                case 2:
+                    _moduleParameters.Remove((ModuleParameter)function);
+                    break;
+            }
         }
 
         // Project tree

@@ -15,16 +15,10 @@ namespace AutomationProjectBuilder.ViewModels
         private IDataService _dataService;
 
         private ICommand _cmdAddFunction;
-        private ICommand _cmdDeleteFunction;
 
         public ICommand CmdAddFunction
         {
             get => _cmdAddFunction;
-        }
-
-        public ICommand CmdDeleteFunction
-        {
-            get => _cmdDeleteFunction;
         }
 
         public ObservableCollection<ViewModelListItem> FunctionList { get; set; } = new ObservableCollection<ViewModelListItem>();
@@ -39,11 +33,10 @@ namespace AutomationProjectBuilder.ViewModels
             
             foreach(ModuleFunction function in dataService.GetFunctions(module.Id))
             {
-                FunctionList.Add(new ViewModelListItem(function));
+                FunctionList.Add(new ViewModelListItem(FunctionList, function, dataService));
             }
 
             _cmdAddFunction = new DelegateCommand(x => AddFunction());
-            _cmdDeleteFunction = new DelegateCommand(x => DeleteFunction());
         }
 
         private void AddFunction()
@@ -58,13 +51,8 @@ namespace AutomationProjectBuilder.ViewModels
 
                 _dataService.AddFunction(moduleFunction);
 
-                FunctionList.Add(new ViewModelListItem(moduleFunction));
+                FunctionList.Add(new ViewModelListItem(FunctionList, moduleFunction, _dataService));
             }
-        }
-
-        private void DeleteFunction()
-        {
-
         }
     }
 }

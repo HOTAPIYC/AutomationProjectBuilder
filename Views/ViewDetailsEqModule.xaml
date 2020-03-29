@@ -4,9 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AutomationProjectBuilder.Views"
+             xmlns:viewmodels="clr-namespace:AutomationProjectBuilder.ViewModels"
+             xmlns:converter="clr-namespace:AutomationProjectBuilder.Misc"
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converter:BoolToVisibility x:Key="BoolToVisibility"/>
+    </UserControl.Resources>
     <Grid Margin="5" Background="Beige">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -22,9 +27,40 @@
                       ScrollViewer.CanContentScroll="True" Height="250">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"  />
+                        <GridViewColumn Header="Name" Width="Auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid Height="20">
+                                        <TextBlock Text="{Binding Name}"
+                                                   VerticalAlignment="Center"/>
+                                        <TextBox Text="{Binding Name}"
+                                                 VerticalAlignment="Center"
+                                                 Visibility="{Binding IsEditMode, Converter={StaticResource BoolToVisibility}}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Functions" Width="Auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="Edit" 
+                                            Command="{Binding CmdEdit}"
+                                            Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}"/>
+                                        <Button Content="Delete"
+                                            Command="{Binding CmdDelete}"
+                                            Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
+                <ListView.Resources>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                    </Style>
+                </ListView.Resources>
             </ListView>
         </StackPanel>
         <StackPanel Grid.Column="1" Margin="5">
