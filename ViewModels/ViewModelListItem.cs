@@ -70,7 +70,7 @@ namespace AutomationProjectBuilder.ViewModels
         public ICommand CmdEdit { get => _cmdEdit; }
         public ICommand CmdDelete { get => _cmdDelete; }
 
-        public ViewModelListItem(ObservableCollection<ViewModelListItem> parent, IListItem listItem, IDataService dataService)
+        public ViewModelListItem(ICollection<ViewModelListItem> parent, IListItem listItem, IDataService dataService)
         {
             _listItem = listItem;
 

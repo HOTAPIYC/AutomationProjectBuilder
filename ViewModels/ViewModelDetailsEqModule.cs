@@ -16,10 +16,7 @@ namespace AutomationProjectBuilder.ViewModels
 
         private ICommand _cmdAddFunction;
 
-        public ICommand CmdAddFunction
-        {
-            get => _cmdAddFunction;
-        }
+        public ICommand CmdAddFunction { get => _cmdAddFunction; }
 
         public ObservableCollection<ViewModelListItem> FunctionList { get; set; } = new ObservableCollection<ViewModelListItem>();
 

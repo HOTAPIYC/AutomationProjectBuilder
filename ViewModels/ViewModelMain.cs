@@ -12,19 +12,17 @@ namespace AutomationProjectBuilder.ViewModels
         private IDataService _dataService;
 
         private ViewModelDetailsBase _detailsPage;
+        private ViewModelTreeItem _selectedItem;
+
         private ICommand _cmdSelectedItem;
         private ICommand _cmdSaveFile;
         private ICommand _cmdOpenFile;
         private ICommand _cmdSaveAsFile;
         private ICommand _cmdNewFile;
-        private ViewModelTreeItem _selectedItem;
 
         public ViewModelDetailsBase DetailsPage
         {
-            get
-            {
-                return _detailsPage;
-            }
+            get => _detailsPage;
             set
             {
                 _detailsPage = value;
@@ -32,30 +30,15 @@ namespace AutomationProjectBuilder.ViewModels
             }
         }
         
-        public ICommand CmdSelectedItem
-        {
-            get { return _cmdSelectedItem; }
-        }
+        public ICommand CmdSelectedItem { get => _cmdSelectedItem; }
 
-        public ICommand CmdSaveFile
-        {
-            get { return _cmdSaveFile; }
-        }
+        public ICommand CmdSaveFile { get => _cmdSaveFile; }
+        
+        public ICommand CmdOpenFile { get => _cmdOpenFile; }
 
-        public ICommand CmdOpenFile
-        {
-            get { return _cmdOpenFile; }
-        }
+        public ICommand CmdSaveAsFile { get => _cmdSaveAsFile; }
 
-        public ICommand CmdSaveAsFile
-        {
-            get { return _cmdSaveAsFile; }
-        }
-
-        public ICommand CmdNewFile
-        {
-            get { return _cmdNewFile; }
-        }
+        public ICommand CmdNewFile { get => _cmdNewFile; }
 
         public ObservableCollection<ViewModelTreeItem> ProjectStructure { get; } = new ObservableCollection<ViewModelTreeItem>();
 

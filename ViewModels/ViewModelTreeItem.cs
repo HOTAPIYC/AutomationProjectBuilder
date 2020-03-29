@@ -26,10 +26,7 @@ namespace AutomationProjectBuilder.ViewModels
 
         public string ModuleName
         {
-            get
-            {
-                return Module.Name;
-            }
+            get => Module.Name;
             set
             {
                 Module.Name = value;
@@ -39,10 +36,7 @@ namespace AutomationProjectBuilder.ViewModels
 
         public ModuleType ModuleType
         {
-            get
-            {
-                return Module.Type;
-            }
+            get => Module.Type;
             set
             {
                 Module.Type = value;
@@ -50,28 +44,13 @@ namespace AutomationProjectBuilder.ViewModels
             }
         }
 
-        public Guid ModuleId
-        {
-            get
-            {
-                return Module.Id;
-            }
-        }
+        public Guid ModuleId { get => Module.Id; }
 
-        public ICommand CmdAddSubsystem
-        {
-            get { return _cmdAddSubsystem; }
-        }
+        public ICommand CmdAddSubsystem { get => _cmdAddSubsystem; }
 
-        public ICommand CmdDeleteSubsystem
-        {
-            get { return _cmdDeleteSubsystem; }
-        }
+        public ICommand CmdDeleteSubsystem  { get => _cmdDeleteSubsystem; }
 
-        public ICommand CmdEditSubsystem
-        {
-            get { return _cmdEditSubsystem; }
-        }
+        public ICommand CmdEditSubsystem { get => _cmdEditSubsystem; }
 
         public ViewModelTreeItem()
         {
@@ -98,7 +77,7 @@ namespace AutomationProjectBuilder.ViewModels
             SubViewModels.CollectionChanged += UpdateItem;
         }
 
-        public void CreateSubViewModel()
+        private void CreateSubViewModel()
         {
             var dialog = new ViewModelDialogTreeItem(new ProjectModule());
 
@@ -114,14 +93,14 @@ namespace AutomationProjectBuilder.ViewModels
             }       
         }
 
-        public void AddSubViewModel(ViewModelTreeItem subsystem)
+        private void AddSubViewModel(ViewModelTreeItem subsystem)
         {
             subsystem.Parent = this;
 
             SubViewModels.Add(subsystem);
         }
 
-        public void DeleteSubViewModel()
+        private void DeleteSubViewModel()
         {
             Parent.SubViewModels.Remove(this);
         }
