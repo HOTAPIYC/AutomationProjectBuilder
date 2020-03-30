@@ -1,7 +1,8 @@
-﻿using AutomationProjectBuilder.Model;
+﻿using AutomationProjectBuilder.Misc;
+using AutomationProjectBuilder.Model;
 using System;
 
-namespace AutomationProjectBuilder.Misc
+namespace AutomationProjectBuilder.ViewModels
 {
     public abstract class ViewModelDetailsBase : ViewModelBase
     {

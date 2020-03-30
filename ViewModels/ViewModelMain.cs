@@ -1,5 +1,6 @@
 ﻿using AutomationProjectBuilder.Misc;
 using AutomationProjectBuilder.Model;
+using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -48,8 +49,8 @@ namespace AutomationProjectBuilder.ViewModels
             _dataService = dataService;
 
             _cmdSelectedItem = new DelegateCommand(x => GetSelectedItem());
-            _cmdSaveFile = new DelegateCommand(x => _dataService.Save());
-            _cmdSaveAsFile = new DelegateCommand(x => _dataService.SaveAs());
+            _cmdSaveFile = new DelegateCommand(x => SaveFile());
+            _cmdSaveAsFile = new DelegateCommand(x => SaveFileAs());
             _cmdOpenFile = new DelegateCommand(x => OpenFile());
             _cmdNewFile = new DelegateCommand(x => New());
 
@@ -105,9 +106,36 @@ namespace AutomationProjectBuilder.ViewModels
 
         private void OpenFile()
         {
-            _dataService.Open();
+            var dialog = new OpenFileDialog();
 
-            GetProjectStructure();         
+            var result = dialog.ShowDialog();
+
+            if (result.Value)
+            {
+                _dataService.Open(dialog.FileName);
+
+                GetProjectStructure();
+            }                                          
+        }
+
+        private void SaveFile()
+        {
+            if (!_dataService.Save())
+            {
+                SaveFileAs();
+            }                  
+        }
+
+        private void SaveFileAs()
+        {
+            var dialog = new SaveFileDialog();
+
+            var result = dialog.ShowDialog();
+
+            if (result.Value)
+            {
+                _dataService.SaveAs(dialog.FileName);
+            }
         }
 
         private void GetProjectStructure()

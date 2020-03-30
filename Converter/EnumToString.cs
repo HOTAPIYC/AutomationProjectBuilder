@@ -1,21 +1,14 @@
-﻿using System;
-using System.Windows;
+﻿using AutomationProjectBuilder.Misc;
+using System;
 using System.Windows.Data;
 
-namespace AutomationProjectBuilder.Misc
+namespace AutomationProjectBuilder.Converter
 {
-    public class BoolToVisibility : IValueConverter
+	public class EnumConverterToString : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			if ((bool)value)
-			{
-				return Visibility.Visible;
-			}
-			else
-			{
-				return Visibility.Collapsed;
-			}
+			return EnumHelper.Description((Enum)value);
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

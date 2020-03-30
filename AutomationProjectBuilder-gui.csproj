@@ -6,6 +6,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon />
     <Win32Resource />
+    <RootNamespace>AutomationProjectBuilder</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,24 +14,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
+    <ProjectReference Include="..\AutomationProjectBuilder-data\AutomationProjectBuilder-data.csproj" />
+    <ProjectReference Include="..\AutomationProjectBuilder-model\AutomationProjectBuilder-model.csproj" />
+    <ProjectReference Include="..\AutomationProjectBuilder-res\AutomationProjectBuilder-resources.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Page Update="Views\Dialogs\ViewDialogTextInput.xaml">
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

@@ -20,9 +20,8 @@ namespace AutomationProjectBuilder
         {
             base.OnStartup(e);
 
-            IConfigService settings = new ConfigService(new ProjectSettings());
             IDialogService dialogService = new DialogService(MainWindow);
-            IDataService dataService = new DataService(settings);
+            IDataService dataService = new DataService();
 
             dialogService.Register<ViewModelDialogTreeItem, ViewDialogTreeItem>();
             dialogService.Register<ViewModelDialogTextInput, ViewDialogTextInput>();
