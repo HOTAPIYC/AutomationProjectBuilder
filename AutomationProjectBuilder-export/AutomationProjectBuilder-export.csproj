@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>AutomationProjectBuilder.Export</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\" />
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutomationProjectBuilder-data\AutomationProjectBuilder-data.csproj" />
+    <ProjectReference Include="..\AutomationProjectBuilder-model\AutomationProjectBuilder-model.csproj" />
+    <ProjectReference Include="..\AutomationProjectBuilder-res\AutomationProjectBuilder-resources.csproj" />
+  </ItemGroup>
+
+</Project>
