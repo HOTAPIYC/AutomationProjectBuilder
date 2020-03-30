@@ -14,8 +14,8 @@
     <ScrollViewer>
         <StackPanel Margin="5" Background="LightYellow">
             <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
-                <TextBlock Text="{Binding Path=SelectedParameterGroup.Name}" FontWeight="Bold" VerticalAlignment="Center" Margin="5"/>
-                <TextBlock Text="{Binding Path=SelectedParameterSet.Name}" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding NameParamGrp}" FontWeight="Bold" VerticalAlignment="Center" Margin="5"/>
+                <TextBlock Text="{Binding NameParamSet}" VerticalAlignment="Center"/>
                 <Button Content="Edit" Command="{Binding CmdEdit}" Width="50" Height="26" Margin="5,0,0,0"/>
             </StackPanel>
             <Grid Margin="5">

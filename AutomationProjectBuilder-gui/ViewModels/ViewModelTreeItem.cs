@@ -72,9 +72,6 @@ namespace AutomationProjectBuilder.ViewModels
             _cmdAddSubsystem = new DelegateCommand(x => CreateSubViewModel());
             _cmdDeleteSubsystem = new DelegateCommand(x => DeleteSubViewModel());
             _cmdEditSubsystem = new DelegateCommand(x => EditSubViewModel());
-
-            PropertyChanged += UpdateItem;
-            SubViewModels.CollectionChanged += UpdateItem;
         }
 
         private void CreateSubViewModel()
@@ -132,11 +129,6 @@ namespace AutomationProjectBuilder.ViewModels
                 }
             }
             return viewModel;
-        }
-
-        private void UpdateItem(object sender, EventArgs e)
-        {         
-            _dataService.UpdateModule(Module);
         }
     }
 }

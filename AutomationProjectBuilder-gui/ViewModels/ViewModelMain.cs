@@ -1,5 +1,6 @@
 ﻿using AutomationProjectBuilder.Misc;
 using AutomationProjectBuilder.Model;
+using AutomationProjectBuilder.ViewModels.Dialogs;
 using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
@@ -20,6 +21,7 @@ namespace AutomationProjectBuilder.ViewModels
         private ICommand _cmdOpenFile;
         private ICommand _cmdSaveAsFile;
         private ICommand _cmdNewFile;
+        private ICommand _cmdExport;
 
         public ViewModelDetailsBase DetailsPage
         {
@@ -41,6 +43,8 @@ namespace AutomationProjectBuilder.ViewModels
 
         public ICommand CmdNewFile { get => _cmdNewFile; }
 
+        public ICommand CmdExport { get => _cmdExport; }
+
         public ObservableCollection<ViewModelTreeItem> ProjectStructure { get; } = new ObservableCollection<ViewModelTreeItem>();
 
         public ViewModelMain(IDialogService dialogService, IDataService dataService)
@@ -53,6 +57,7 @@ namespace AutomationProjectBuilder.ViewModels
             _cmdSaveAsFile = new DelegateCommand(x => SaveFileAs());
             _cmdOpenFile = new DelegateCommand(x => OpenFile());
             _cmdNewFile = new DelegateCommand(x => New());
+            _cmdExport = new DelegateCommand(x => Export());
 
             DetailsPage = new ViewModelDetailsBlank();
 
@@ -158,6 +163,15 @@ namespace AutomationProjectBuilder.ViewModels
                     _dataService.ResetProjectRoot(),
                     _dialogService,
                     _dataService));
+        }
+
+        private void Export()
+        {
+            var dialog = new ViewModelDialogPlcExport();
+
+            var result = _dialogService.ShowDialog(dialog);
+
+            if (result.Value) _dataService.CreatePlcCode(dialog.ExportSettings);
         }
     }
 }

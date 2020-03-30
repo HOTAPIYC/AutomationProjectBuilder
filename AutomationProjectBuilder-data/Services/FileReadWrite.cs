@@ -6,30 +6,18 @@ using System.Xml.Linq;
 
 namespace AutomationProjectBuilder.Misc
 {
-    public class FileReadWrite
+    public static class FileReadWrite
     {
-        public ProjectModule RootModule { get; set; }
-        public List<ModuleFunction> ModuleFunctions { get; set; } = new List<ModuleFunction>();
-        public List<ModuleParameter> ModuleParameters { get; set; } = new List<ModuleParameter>();
-
-        // Project file
-
-        public void CreateFile(
-            ProjectModule projectModule, 
-            List<ModuleFunction> moduleFunctions, 
-            List<ModuleParameter> moduleParameters, string filePath)
+        public static void CreateFile(ProjectModule projectModule, string filePath)
         {
             var doc = new XDocument();
 
-            doc.Add(CreateXmlModules(projectModule, moduleFunctions, moduleParameters));
+            doc.Add(CreateXmlModules(projectModule));
 
             doc.Save(filePath);
         }
 
-        private XElement CreateXmlModules(
-            ProjectModule projectModule, 
-            List<ModuleFunction> moduleFunctions, 
-            List<ModuleParameter> moduleParameters)
+        private static XElement CreateXmlModules(ProjectModule projectModule)
         {
             var module = new XElement("Module", 
                 new XAttribute("Name", projectModule.Name),
@@ -39,32 +27,26 @@ namespace AutomationProjectBuilder.Misc
 
             foreach(ProjectModule subitem in projectModule.SubModules)
             {
-                submodules.Add(CreateXmlModules(subitem, moduleFunctions, moduleParameters));
+                submodules.Add(CreateXmlModules(subitem));
             }
 
             var functions = new XElement("Functions");
 
-            foreach(ModuleFunction function in moduleFunctions)
+            foreach(ModuleFunction function in projectModule.Functions)
             {
-                if(function.ModuleId == projectModule.Id)
-                {
-                    functions.Add(new XElement("Function", 
-                        new XAttribute("Name",function.Name), 
-                        new XAttribute("Description",function.Description)));
-                }
+                functions.Add(new XElement("Function",
+                    new XAttribute("Name", function.Name),
+                    new XAttribute("Description", function.Description)));
             }
 
             var parameters = new XElement("Parameters",
-                new XAttribute("Group", projectModule.ParamGroup.Name),
-                new XAttribute("Set", projectModule.ParamSet.Name));
+                new XAttribute("Group", projectModule.NameParamGrp),
+                new XAttribute("Set", projectModule.NameParamSet));
 
-            foreach(ModuleParameter value in moduleParameters)
+            foreach(ModuleParameter value in projectModule.Parameters)
             {
-                if(value.ModuleId == projectModule.Id)
-                {
-                    parameters.Add(new XElement("Parameter",
-                        new XAttribute("Name", value.Name), value.Value));
-                }
+                parameters.Add(new XElement("Parameter",
+                    new XAttribute("Name", value.Name), value.Value));
             }
 
             module.Add(submodules);
@@ -74,14 +56,14 @@ namespace AutomationProjectBuilder.Misc
             return module;
         }
 
-        public void ReadFile(string filePath)
+        public static ProjectModule ReadFile(string filePath)
         {
             var doc = XDocument.Load(filePath);
 
-            RootModule = ReadXmlModules(doc.Elements("Module").FirstOrDefault());
+            return ReadXmlModules(doc.Elements("Module").FirstOrDefault());
         }
 
-        private ProjectModule ReadXmlModules(XElement xmlModule)
+        private static ProjectModule ReadXmlModules(XElement xmlModule)
         {
             ModuleType moduleType;
             Enum.TryParse((string)xmlModule.Attribute("Type"), out moduleType);
@@ -99,19 +81,19 @@ namespace AutomationProjectBuilder.Misc
 
             foreach(XElement xmlFunction in xmlFunctions.Elements("Function").ToList())
             {
-                ModuleFunctions.Add(new ModuleFunction(projectModule.Id, 
+                projectModule.Functions.Add(new ModuleFunction(projectModule.Id, 
                     (string)xmlFunction.Attribute("Name"), 
                     (string)xmlFunction.Attribute("Description")));
             }
 
             var xmlParameters = xmlModule.Element("Parameters");
 
-            projectModule.ParamGroup = new ParameterGroup((string)xmlParameters.Attribute("Group"));
-            projectModule.ParamSet = new ParameterSet((string)xmlParameters.Attribute("Set"));
+            projectModule.NameParamGrp = (string)xmlParameters.Attribute("Group");
+            projectModule.NameParamSet = (string)xmlParameters.Attribute("Set");
 
             foreach(XElement xmlParameter in xmlParameters.Elements("Parameter").ToList())
             {
-                ModuleParameters.Add(new ModuleParameter(projectModule.Id,
+                projectModule.Parameters.Add(new ModuleParameter(projectModule.Id,
                     (string)xmlParameter.Attribute("Name"),
                     (object)xmlParameter.Value));
             }
@@ -119,9 +101,7 @@ namespace AutomationProjectBuilder.Misc
             return projectModule;
         }
 
-        // Custom configuration
-
-        public List<ParameterGroup> ReadConfiguration(string filePath)
+        public static List<ParameterGroup> ReadConfiguration(string filePath)
         {
             var doc = XDocument.Load(filePath);
             var content = doc.Element("CustomConfiguration");

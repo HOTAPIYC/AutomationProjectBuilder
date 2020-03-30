@@ -25,23 +25,23 @@ namespace AutomationProjectBuilder.ViewModels
             get => _cmdEdit;
         }
 
-        public ParameterGroup SelectedParameterGroup
+        public string NameParamGrp
         {
-            get => Module.ParamGroup;
+            get => Module.NameParamGrp;
             set
             {
-                Module.ParamGroup = value;
-                NotifyPropertChanged("SelectedParameterGroup");
+                Module.NameParamGrp = value;
+                NotifyPropertChanged("NameParamGrp");
             }
         }
 
-        public ParameterSet SelectedParameterSet
+        public string NameParamSet
         {
-            get => Module.ParamSet;
+            get => Module.NameParamSet;
             set
             {
-                Module.ParamSet = value;
-                NotifyPropertChanged("SelectedParameterSet");
+                Module.NameParamSet = value;
+                NotifyPropertChanged("NameParamSet");
             }
         }
 
@@ -61,14 +61,14 @@ namespace AutomationProjectBuilder.ViewModels
             _cmdAddFunction = new DelegateCommand(x => AddFunction());
             _cmdEdit = new DelegateCommand(x => LoadParameterSet());
            
-            foreach(ModuleParameter parameter in dataService.GetParameters(ModuleId))
+            foreach(ModuleParameter parameter in module.Parameters)
             {
-                ParameterList.Add(new ViewModelListItem(ParameterList, parameter, dataService));
+                ParameterList.Add(new ViewModelListItem(parameter, this.ParameterList, module.Parameters));
             }
 
-            foreach(ModuleFunction function in dataService.GetFunctions(module.Id))
+            foreach(ModuleFunction function in module.Functions)
             {
-                FunctionsList.Add(new ViewModelListItem(FunctionsList, function, dataService));
+                FunctionsList.Add(new ViewModelListItem(function, this.FunctionsList, module.Functions));
             }
         }
         private void LoadParameterSet() 
@@ -79,31 +79,31 @@ namespace AutomationProjectBuilder.ViewModels
             
             if(result.Value && dialog.SelectedParameterGroup != null && dialog.SelectedParameterSet != null)
             {
-                SelectedParameterGroup = dialog.SelectedParameterGroup;
-                SelectedParameterSet = dialog.SelectedParameterSet;
+                NameParamGrp = dialog.SelectedParameterGroup.Name;
+                NameParamSet = dialog.SelectedParameterSet.Name;
 
                 ParameterList.Clear();
 
-                var newParameterSet = SelectedParameterSet.Parameters;
+                var newParameterSet = dialog.SelectedParameterSet.Parameters;
 
                 foreach (ModuleParameter parameter in newParameterSet)
                 {
                     parameter.ModuleId = ModuleId;
-                    
-                    ParameterList.Add(new ViewModelListItem(ParameterList, parameter, _dataService));
-                }
 
-                _dataService.SetParameters(ModuleId, newParameterSet);
+                    Module.Parameters.Add(parameter);
+
+                    ParameterList.Add(new ViewModelListItem(parameter, this.ParameterList, Module.Parameters));                  
+                }
             }
         }
 
         private void AddFunction()
         {
-            var moduleFunction = new ModuleFunction(ModuleId, "New function");
+            var function = new ModuleFunction(ModuleId, "New function");
 
-            _dataService.AddFunction(moduleFunction);
+            Module.Functions.Add(function);
 
-            FunctionsList.Add(new ViewModelListItem(FunctionsList, moduleFunction, _dataService));
+            FunctionsList.Add(new ViewModelListItem(function, this.FunctionsList, Module.Functions));
         }
     }
 }

@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AutomationProjectBuilder-export\AutomationProjectBuilder-export.csproj" />
     <ProjectReference Include="..\AutomationProjectBuilder-model\AutomationProjectBuilder-model.csproj" />
     <ProjectReference Include="..\AutomationProjectBuilder-res\AutomationProjectBuilder-resources.csproj" />
   </ItemGroup>

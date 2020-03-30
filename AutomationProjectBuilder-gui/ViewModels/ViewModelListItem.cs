@@ -7,7 +7,6 @@ namespace AutomationProjectBuilder.ViewModels
     public class ViewModelListItem : ViewModelBase
     {     
         private IListItem _listItem;
-        private IDataService _dataService;
 
         private bool _isSelected = false;
         private bool _isEditMode = false;
@@ -70,14 +69,12 @@ namespace AutomationProjectBuilder.ViewModels
         public ICommand CmdEdit { get => _cmdEdit; }
         public ICommand CmdDelete { get => _cmdDelete; }
 
-        public ViewModelListItem(ICollection<ViewModelListItem> parent, IListItem listItem, IDataService dataService)
+        public ViewModelListItem(IListItem listItem, ICollection<ViewModelListItem> parentvm, ICollection<IListItem> parent)
         {
             _listItem = listItem;
 
-            _dataService = dataService;
-
             _cmdEdit = new DelegateCommand(x => { IsEditMode = !IsEditMode; });
-            _cmdDelete = new DelegateCommand(x => { dataService.DeleteListItem(listItem); parent.Remove(this); });
+            _cmdDelete = new DelegateCommand(x => { parent.Remove(listItem); parentvm.Remove(this); });
         }
     }
 }

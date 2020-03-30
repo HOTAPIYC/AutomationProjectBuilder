@@ -30,6 +30,7 @@
             <Button Content="Open" Command="{Binding CmdOpenFile}" Width="50" Height="26" Margin="5,5,0,5" HorizontalAlignment="Left"/>
             <Button Content="Save" Command="{Binding CmdSaveFile}" Width="50" Height="26" Margin="5,5,0,5" HorizontalAlignment="Left"/>
             <Button Content="Save As" Command="{Binding CmdSaveAsFile}" Width="50" Height="26" Margin="5,5,0,5" HorizontalAlignment="Left"/>
+            <Button Content="Export" Command="{Binding CmdExport}" Width="50" Height="26" Margin="5,5,0,5" HorizontalAlignment="Left"/>
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
