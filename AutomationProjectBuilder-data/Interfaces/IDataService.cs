@@ -1,8 +1,6 @@
-﻿using AutomationProjectBuilder.Model;
-using System;
+﻿using AutomationProjectBuilder.Interfaces;
+using AutomationProjectBuilder.Model;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 
 namespace AutomationProjectBuilder.Misc
 {
@@ -22,6 +20,6 @@ namespace AutomationProjectBuilder.Misc
 
         public void Open(string filePath);
 
-        public void CreatePlcCode(IDictionary<string, object> settings);
+        public void CreatePlcCode(ISetting settings);
     }
 }

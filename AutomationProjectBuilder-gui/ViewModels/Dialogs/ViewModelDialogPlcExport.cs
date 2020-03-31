@@ -1,4 +1,6 @@
-﻿using AutomationProjectBuilder.Misc;
+﻿using AutomationProjectBuilder.Data.Services;
+using AutomationProjectBuilder.Interfaces;
+using AutomationProjectBuilder.Misc;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -14,7 +16,7 @@ namespace AutomationProjectBuilder.ViewModels.Dialogs
 
         private string _filePath;
 
-        public IDictionary<string,object> ExportSettings { get; set; } = new Dictionary<string, object>();
+        public ISetting ExportSettings { get; set; } = new ExportSettings();
 
         public string FilePath
         {

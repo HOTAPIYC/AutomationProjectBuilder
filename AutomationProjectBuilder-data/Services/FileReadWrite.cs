@@ -116,7 +116,7 @@ namespace AutomationProjectBuilder.Misc
                 {
                     var customconfiguration = new ParameterSet((string)config.Attribute("Name"));
 
-                    foreach(XElement param in config.Elements("Parameter"))
+                    foreach(XElement param in config.Element("Parameters").Elements("Parameter"))
                     {
                         customconfiguration.Parameters.Add(new ModuleParameter((string)param.Attribute("Name")));
                     }

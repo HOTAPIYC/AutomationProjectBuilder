@@ -26,6 +26,7 @@ namespace AutomationProjectBuilder.Export.Enums
         DT,
         TOD,
         STRING,
-        WSTRING
+        WSTRING,
+        DERIVED
     }
 }

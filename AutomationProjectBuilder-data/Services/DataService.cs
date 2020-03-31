@@ -1,4 +1,5 @@
 ﻿using AutomationProjectBuilder.Export.CodeGenerator;
+using AutomationProjectBuilder.Interfaces;
 using AutomationProjectBuilder.Model;
 using System.Collections.Generic;
 using System.IO;
@@ -71,9 +72,11 @@ namespace AutomationProjectBuilder.Misc
             Load();
         }
 
-        public void CreatePlcCode(IDictionary<string, object> settings)
+        public void CreatePlcCode(ISetting settings)
         {
-            CodeGenerator.CreatePlcCode(_projectRoot, settings);
+            var codegenerator = new CodeGenerator(settings);
+
+            codegenerator.CreatePlcCode(_projectRoot);
         }
     }
 }

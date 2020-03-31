@@ -6,6 +6,7 @@ namespace AutomationProjectBuilder.Export.Components
     {
         public string Name { get; set; }
         public PlcDataType DataType { get; set; }
+        public string DerivedType { get; set; }
         public PlcVarType VarType { get; set; }
         public string InitVal { get; set; }
         public string Address { get; set; }
@@ -17,6 +18,15 @@ namespace AutomationProjectBuilder.Export.Components
             VarType = varType;
             Name = name;
             DataType = dataType;
+            Comment = comment;
+        }
+
+        public PlcVariable(PlcVarType varType, string name, string derivedType, string comment)
+        {
+            VarType = varType;
+            Name = name;
+            DataType = PlcDataType.DERIVED;
+            DerivedType = derivedType;
             Comment = comment;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using AutomationProjectBuilder.Export.Enums;
+using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
@@ -7,27 +8,32 @@ namespace AutomationProjectBuilder.Export.Components
     public class PlcFunctionBlock
     {
         public string Name { get; set; }
+        public Guid ObjectId { get; set; }
 
         private List<PlcVariable> _variables;
         private XElement _body;
 
-        public PlcFunctionBlock(string name)
+        public PlcFunctionBlock(string name, Guid objectId)
         {
             Name = name;
+            ObjectId = objectId;
 
             _variables = new List<PlcVariable>();
-            _body = new XElement(PlcOpenNamespaces.Ns + "body");
+            _body = new XElement(PlcOpenNamespaces.Ns + "body", 
+                new XElement(PlcOpenNamespaces.Ns + PlcPouType.ST.ToString(),
+                new XElement(PlcOpenNamespaces.Xhtmlns + "xhtml")));
         }
 
-        public void AddVar(PlcVarType varType, string name, PlcDataType dataType, string comment)
+        public void AddVar(PlcVariable var)
         {
-            _variables.Add(new PlcVariable(varType, name, dataType, comment));
+            _variables.Add(var);
         }
 
         public void SetBody(string body)
         {
-           _body.Add(new XElement(PlcOpenNamespaces.Ns + PlcPouType.ST.ToString(),
-                     new XElement(PlcOpenNamespaces.Xhtmlns + "xhtml",body)));
+            _body = new XElement(PlcOpenNamespaces.Ns + "body",
+                 new XElement(PlcOpenNamespaces.Ns + PlcPouType.ST.ToString(),
+                 new XElement(PlcOpenNamespaces.Xhtmlns + "xhtml",body)));
         }
 
         public XElement GetXml()
@@ -44,12 +50,23 @@ namespace AutomationProjectBuilder.Export.Components
             foreach (PlcVariable var in _variables)
             {
                 XElement newVar = new XElement(PlcOpenNamespaces.Ns + "variable",
-                    new XAttribute("name",var.Name),
-                    new XElement(PlcOpenNamespaces.Ns + "type",
+                    new XAttribute("name",var.Name));
+
+                if (var.DataType != PlcDataType.DERIVED)
+                {
+                    newVar.Add(new XElement(PlcOpenNamespaces.Ns + "type",
                         new XElement(PlcOpenNamespaces.Ns + var.DataType.ToString())),
                         new XElement(PlcOpenNamespaces.Ns + "documentation",
-                            new XElement(PlcOpenNamespaces.Xhtmlns + "xhtml", " " + var.Comment))
-                        );
+                        new XElement(PlcOpenNamespaces.Xhtmlns + "xhtml", " " + var.Comment)));
+                }
+                else
+                {
+                    newVar.Add(new XElement(PlcOpenNamespaces.Ns + "type",
+                        new XElement(PlcOpenNamespaces.Ns + "derived",
+                            new XAttribute("name",var.DerivedType))),
+                        new XElement(PlcOpenNamespaces.Ns + "documentation",
+                        new XElement(PlcOpenNamespaces.Xhtmlns + "xhtml", " " + var.Comment)));
+                }
 
                 switch (var.VarType)
                 {
@@ -71,8 +88,18 @@ namespace AutomationProjectBuilder.Export.Components
             if (outputVars.HasElements) { pouInterface.Add(outputVars); }
             if (localVars.HasElements) { pouInterface.Add(localVars); }
 
+            XElement addData = new XElement(PlcOpenNamespaces.Ns + "addData");
+
+            XElement objectId = new XElement(PlcOpenNamespaces.Ns + "data",
+                new XAttribute("name", "http://www.3s-software.com/plcopenxml/objectid"),
+                new XAttribute("handleUnknown","discard"),
+                new XElement(PlcOpenNamespaces.Ns + "ObjectId",ObjectId.ToString()));
+
+            addData.Add(objectId);
+
             fb.Add(pouInterface);
             fb.Add(_body);
+            fb.Add(addData);
 
             return fb;
         }
