@@ -1,9 +1,7 @@
-﻿using AutomationProjectBuilder.Data.Services;
-using AutomationProjectBuilder.Interfaces;
+﻿using AutomationProjectBuilder.Interfaces;
 using AutomationProjectBuilder.Misc;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace AutomationProjectBuilder.ViewModels.Dialogs
@@ -16,7 +14,7 @@ namespace AutomationProjectBuilder.ViewModels.Dialogs
 
         private string _filePath;
 
-        public ISetting ExportSettings { get; set; } = new ExportSettings();
+        public IDataService _dataservice;
 
         public string FilePath
         {
@@ -30,10 +28,10 @@ namespace AutomationProjectBuilder.ViewModels.Dialogs
 
         public string ProjectName
         {
-            get => (string)ExportSettings["ProjectName"];
+            get => (string)_dataservice.Settings["ProjectName"];
             set
             {
-                ExportSettings["ProjectName"] = value;
+                _dataservice.Settings["ProjectName"] = value;
                 NotifyPropertChanged("ProjectName");
             }
         }
@@ -44,12 +42,11 @@ namespace AutomationProjectBuilder.ViewModels.Dialogs
 
         public event EventHandler<DialogCloseRequestedEventArgs> CloseRequested;
 
-        public ViewModelDialogPlcExport()
+        public ViewModelDialogPlcExport(IDataService dataservice)
         {
             FilePath = "Choose a file path";
 
-            ExportSettings["FilePath"] = "";
-            ExportSettings["ProjectName"] = "Enter a name";
+            _dataservice = dataservice;
 
             _cmdTarget = new DelegateCommand(x => ChooseFilePath());         
             _cmdExport = new DelegateCommand(x => CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(true)));
@@ -66,7 +63,7 @@ namespace AutomationProjectBuilder.ViewModels.Dialogs
             {
                 FilePath = dialog.FileName;
 
-                ExportSettings["FilePath"] = dialog.FileName;
+                _dataservice.Settings["ExportFilePath"] = dialog.FileName;
             }
         }
     }

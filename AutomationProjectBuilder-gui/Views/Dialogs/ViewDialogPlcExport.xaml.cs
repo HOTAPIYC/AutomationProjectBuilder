@@ -1,4 +1,4 @@
-﻿using AutomationProjectBuilder.Misc;
+﻿using AutomationProjectBuilder.Interfaces;
 using System.Windows;
 
 namespace AutomationProjectBuilder.Views.Dialogs

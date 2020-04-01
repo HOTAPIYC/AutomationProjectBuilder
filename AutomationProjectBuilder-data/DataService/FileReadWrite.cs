@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace AutomationProjectBuilder.Misc
+namespace AutomationProjectBuilder.Data.Services
 {
     public static class FileReadWrite
     {

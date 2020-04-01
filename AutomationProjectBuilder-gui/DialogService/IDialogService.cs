@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace AutomationProjectBuilder.Misc
+namespace AutomationProjectBuilder.Interfaces
 {
     public interface IDialog
     {

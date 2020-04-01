@@ -1,9 +1,9 @@
-﻿using Microsoft.Win32;
+﻿using AutomationProjectBuilder.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Windows;
 
-namespace AutomationProjectBuilder.Misc
+namespace AutomationProjectBuilder.Gui.Dialogs
 {
     public class DialogService : IDialogService
     {

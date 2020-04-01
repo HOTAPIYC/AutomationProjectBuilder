@@ -1,4 +1,6 @@
-﻿using AutomationProjectBuilder.Misc;
+﻿using AutomationProjectBuilder.Gui.Dialogs;
+using AutomationProjectBuilder.Interfaces;
+using AutomationProjectBuilder.Misc;
 using AutomationProjectBuilder.Model;
 using AutomationProjectBuilder.ViewModels.Dialogs;
 using Microsoft.Win32;
@@ -12,6 +14,7 @@ namespace AutomationProjectBuilder.ViewModels
     {
         private IDialogService _dialogService;
         private IDataService _dataService;
+        private ICodeGenService _plcCodeService;
 
         private ViewModelDetailsBase _detailsPage;
         private ViewModelTreeItem _selectedItem;
@@ -47,10 +50,11 @@ namespace AutomationProjectBuilder.ViewModels
 
         public ObservableCollection<ViewModelTreeItem> ProjectStructure { get; } = new ObservableCollection<ViewModelTreeItem>();
 
-        public ViewModelMain(IDialogService dialogService, IDataService dataService)
+        public ViewModelMain(IDialogService dialogService, IDataService dataService, ICodeGenService plcCodeService)
         {
             _dialogService = dialogService;
             _dataService = dataService;
+            _plcCodeService = plcCodeService;
 
             _cmdSelectedItem = new DelegateCommand(x => GetSelectedItem());
             _cmdSaveFile = new DelegateCommand(x => SaveFile());
@@ -167,11 +171,11 @@ namespace AutomationProjectBuilder.ViewModels
 
         private void Export()
         {
-            var dialog = new ViewModelDialogPlcExport();
+            var dialog = new ViewModelDialogPlcExport(_dataService);
 
             var result = _dialogService.ShowDialog(dialog);
 
-            if (result.Value) _dataService.CreatePlcCode(dialog.ExportSettings);
+            if (result.Value) _plcCodeService.CreatePlcCode();
         }
     }
 }

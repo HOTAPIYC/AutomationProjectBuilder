@@ -1,29 +1,31 @@
 ﻿using AutomationProjectBuilder.Export.Components;
-using AutomationProjectBuilder.Export.Enums;
 using AutomationProjectBuilder.Interfaces;
 using AutomationProjectBuilder.Model;
 using System.Linq;
 
 namespace AutomationProjectBuilder.Export.CodeGenerator
 {
-    public class CodeGenerator
+    public class CodeGenService : ICodeGenService
     {
-        private ISetting _settings;
+        private ISettings _settings;
+        private IDataService _dataservice;
 
-        public CodeGenerator(ISetting settings)
+        public CodeGenService(IDataService dataservice)
         {
-            _settings = settings;
+            _dataservice = dataservice;
+            _settings = dataservice.Settings;
+
         }
         
-        public void CreatePlcCode(ProjectModule projectModule)
+        public void CreatePlcCode()
         {
             var export = new PlcOpenXmlDoc((string)_settings["ProjectName"]);
 
-            var plcFolderStruct = CreatePlcFunctionBlocks(new PlcFolderStructure((string)_settings["ProjectName"]), projectModule);
+            var plcFolderStruct = CreatePlcFunctionBlocks(new PlcFolderStructure((string)_settings["ProjectName"]), _dataservice.GetProjectRoot());
 
             export.SetProjectStructure(plcFolderStruct);
 
-            export.SaveXml((string)_settings["FilePath"]);
+            export.SaveXml((string)_settings["ExportFilePath"]);
         }
 
         private PlcFolderStructure CreatePlcFunctionBlocks(PlcFolderStructure folder, ProjectModule module)

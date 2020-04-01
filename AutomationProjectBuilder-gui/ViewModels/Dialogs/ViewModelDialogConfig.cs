@@ -1,9 +1,8 @@
-﻿using AutomationProjectBuilder.Misc;
+﻿using AutomationProjectBuilder.Interfaces;
+using AutomationProjectBuilder.Misc;
 using AutomationProjectBuilder.Model;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Windows.Input;
 
 namespace AutomationProjectBuilder.ViewModels

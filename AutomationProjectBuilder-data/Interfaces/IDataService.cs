@@ -2,10 +2,11 @@
 using AutomationProjectBuilder.Model;
 using System.Collections.Generic;
 
-namespace AutomationProjectBuilder.Misc
+namespace AutomationProjectBuilder.Interfaces
 {
     public interface IDataService
     {
+        public ISettings Settings { get; }
         public ProjectModule GetProjectRoot();
 
         public ProjectModule ResetProjectRoot();
@@ -19,7 +20,5 @@ namespace AutomationProjectBuilder.Misc
         public void Load();
 
         public void Open(string filePath);
-
-        public void CreatePlcCode(ISetting settings);
     }
 }

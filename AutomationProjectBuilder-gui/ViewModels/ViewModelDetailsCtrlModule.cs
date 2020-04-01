@@ -1,4 +1,6 @@
-﻿using AutomationProjectBuilder.Misc;
+﻿using AutomationProjectBuilder.Gui.Dialogs;
+using AutomationProjectBuilder.Interfaces;
+using AutomationProjectBuilder.Misc;
 using AutomationProjectBuilder.Model;
 using System.Collections.ObjectModel;
 using System.Windows.Input;

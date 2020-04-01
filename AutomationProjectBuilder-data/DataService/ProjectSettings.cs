@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace AutomationProjectBuilder.Misc
+namespace AutomationProjectBuilder.Data.Services
 {
-    public class ProjectSettings : ISetting
+    public class ProjectSettings : ISettings
     {
         private IDictionary<string,object> settings = new Dictionary<string,object>();
         public ProjectSettings()
@@ -13,6 +13,8 @@ namespace AutomationProjectBuilder.Misc
             
             settings["LastFilePath"] = "";
             settings["ConfigFilePath"] = "G:\\CustomConfig.xml";
+            settings["ProjectName"] = "Enter a name";
+            settings["ExportFilePath"] = "Choose a path";
         }
         
         public object this[string propertyName]

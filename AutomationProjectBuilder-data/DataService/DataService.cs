@@ -1,10 +1,9 @@
-﻿using AutomationProjectBuilder.Export.CodeGenerator;
-using AutomationProjectBuilder.Interfaces;
+﻿using AutomationProjectBuilder.Interfaces;
 using AutomationProjectBuilder.Model;
 using System.Collections.Generic;
 using System.IO;
 
-namespace AutomationProjectBuilder.Misc
+namespace AutomationProjectBuilder.Data.Services
 {
     public class DataService : IDataService
     {
@@ -12,11 +11,11 @@ namespace AutomationProjectBuilder.Misc
 
         private List<ParameterGroup> _customConfig = new List<ParameterGroup>();
 
-        private ProjectSettings _settings = new ProjectSettings();
+        public ISettings Settings { get; } = new ProjectSettings();
 
         public DataService()
         {
-            _customConfig = FileReadWrite.ReadConfiguration((string)_settings["ConfigFilePath"]);
+            _customConfig = FileReadWrite.ReadConfiguration((string)Settings["ConfigFilePath"]);
         }
         
         public ProjectModule GetProjectRoot()
@@ -37,9 +36,9 @@ namespace AutomationProjectBuilder.Misc
 
         public bool Save()
         {
-            if (File.Exists((string)_settings["LastFilePath"]))
+            if (File.Exists((string)Settings["LastFilePath"]))
             {
-                FileReadWrite.CreateFile(_projectRoot, (string)_settings["LastFilePath"]);
+                FileReadWrite.CreateFile(_projectRoot, (string)Settings["LastFilePath"]);
 
                 return true;
             }
@@ -50,15 +49,15 @@ namespace AutomationProjectBuilder.Misc
         }
         public void SaveAs(string filePath)
         {
-            _settings["LastFilePath"] = filePath;
+            Settings["LastFilePath"] = filePath;
 
-            FileReadWrite.CreateFile(_projectRoot, (string)_settings["LastFilePath"]);
+            FileReadWrite.CreateFile(_projectRoot, (string)Settings["LastFilePath"]);
         }
         public void Load()
         {
-            if (File.Exists((string)_settings["LastFilePath"]))
+            if (File.Exists((string)Settings["LastFilePath"]))
             {
-                _projectRoot = FileReadWrite.ReadFile((string)_settings["LastFilePath"]);
+                _projectRoot = FileReadWrite.ReadFile((string)Settings["LastFilePath"]);
             }
             else
             {
@@ -67,16 +66,9 @@ namespace AutomationProjectBuilder.Misc
         }
         public void Open(string filePath)
         {
-            _settings["LastFilePath"] = filePath;
+            Settings["LastFilePath"] = filePath;
 
             Load();
-        }
-
-        public void CreatePlcCode(ISetting settings)
-        {
-            var codegenerator = new CodeGenerator(settings);
-
-            codegenerator.CreatePlcCode(_projectRoot);
         }
     }
 }

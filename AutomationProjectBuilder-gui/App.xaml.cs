@@ -1,5 +1,8 @@
 ﻿using System.Windows;
-using AutomationProjectBuilder.Misc;
+using AutomationProjectBuilder.Data.Services;
+using AutomationProjectBuilder.Export.CodeGenerator;
+using AutomationProjectBuilder.Gui.Dialogs;
+using AutomationProjectBuilder.Interfaces;
 using AutomationProjectBuilder.ViewModels;
 using AutomationProjectBuilder.ViewModels.Dialogs;
 using AutomationProjectBuilder.Views;
@@ -18,13 +21,14 @@ namespace AutomationProjectBuilder
 
             IDialogService dialogService = new DialogService(MainWindow);
             IDataService dataService = new DataService();
+            ICodeGenService plcCodeService = new CodeGenService(dataService);
 
             dialogService.Register<ViewModelDialogTreeItem, ViewDialogTreeItem>();
             dialogService.Register<ViewModelDialogTextInput, ViewDialogTextInput>();
             dialogService.Register<ViewModelDialogConfig, ViewDialogConfig>();
             dialogService.Register<ViewModelDialogPlcExport, ViewDialogPlcExport>();
 
-            ViewMain mainView = new ViewMain() { DataContext = new ViewModelMain(dialogService, dataService) };
+            ViewMain mainView = new ViewMain() { DataContext = new ViewModelMain(dialogService, dataService, plcCodeService) };
 
             mainView.Show();
         }
