@@ -1,4 +1,5 @@
 ﻿using AutomationProjectBuilder.Export.Components;
+using AutomationProjectBuilder.Export.Enums;
 using AutomationProjectBuilder.Interfaces;
 using AutomationProjectBuilder.Model;
 using System.Linq;
@@ -21,16 +22,21 @@ namespace AutomationProjectBuilder.Export.CodeGenerator
         {
             var export = new PlcOpenXmlDoc((string)_settings["ProjectName"]);
 
-            var plcFolderStruct = CreatePlcFunctionBlocks(new PlcFolderStructure((string)_settings["ProjectName"]), _dataservice.GetProjectRoot());
+            var pouFolder = CreatePlcFunctionBlocks(new PlcFolder((string)_settings["ProjectName"]), _dataservice.GetProjectRoot());
 
-            export.SetProjectStructure(plcFolderStruct);
+            export.SetProjectStructure(pouFolder);
 
             export.SaveXml((string)_settings["ExportFilePath"]);
         }
 
-        private PlcFolderStructure CreatePlcFunctionBlocks(PlcFolderStructure folder, ProjectModule module)
+        private PlcFolder CreatePlcFunctionBlocks(PlcFolder folder, ProjectModule module)
         {
             var functionblock = new PlcFunctionBlock(GetFunctionBlockName(module), module.Id);
+
+            foreach(IListItem function in module.Functions)
+            {
+                functionblock.AddMethod(GetMethodName(function), PlcDataType.BOOL);
+            }
 
             folder.PlcFunctionBlocks.Add(functionblock);
 
@@ -40,8 +46,8 @@ namespace AutomationProjectBuilder.Export.CodeGenerator
             var hasSubModules = module.SubModules.Where(x => x.Type != ModuleType.RecipePhase).ToList().Count > 0;
             var hasRecipePhases = module.SubModules.Where(x => x.Type == ModuleType.RecipePhase).ToList().Count > 0;
 
-            if (!hasSubfolderModules && hasSubModules) folder.SubFolders.Add(new PlcFolderStructure("Modules"));
-            if (!hasSubfolderRecipePhases && hasRecipePhases) folder.SubFolders.Add(new PlcFolderStructure("RecipePhases"));
+            if (!hasSubfolderModules && hasSubModules) folder.SubFolders.Add(new PlcFolder("Modules"));
+            if (!hasSubfolderRecipePhases && hasRecipePhases) folder.SubFolders.Add(new PlcFolder("RecipePhases"));
 
             foreach (ProjectModule submodule in module.SubModules.Where(x => x.Type != ModuleType.RecipePhase).ToList())
             {
@@ -58,17 +64,24 @@ namespace AutomationProjectBuilder.Export.CodeGenerator
 
         private string GetFunctionBlockName(ProjectModule projectModule)
         {
+            var name = projectModule.Name.Replace(" ", "");
+
             switch (projectModule.Type)
             {
                 case ModuleType.CtrlModule:
-                    return string.Format("{0}_{1}", "CM", projectModule.Name);
+                    return string.Format("{0}_{1}", "CM", name);
                 case ModuleType.EquipmentModule:
-                    return string.Format("{0}_{1}", "EQM", projectModule.Name);
+                    return string.Format("{0}_{1}", "EQM", name);
                 case ModuleType.ProcessCell:
-                    return string.Format("{0}_{1}", "PC", projectModule.Name);
+                    return string.Format("{0}_{1}", "PC", name);
                 default:
-                    return projectModule.Name;
+                    return name;
             }
+        }
+
+        private string GetMethodName(IListItem function)
+        {
+            return string.Format("{0}_{1}", "M", function.Name.Replace(" ", ""));
         }
     }
 }

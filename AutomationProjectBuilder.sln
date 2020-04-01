@@ -8,7 +8,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomationProjectBuilder-gu
 		{81F98524-0248-46AA-968A-ACE3C0B7AD0B} = {81F98524-0248-46AA-968A-ACE3C0B7AD0B}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomationProjectBuilder-data", "AutomationProjectBuilder-data\AutomationProjectBuilder-data.csproj", "{81F98524-0248-46AA-968A-ACE3C0B7AD0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomationProjectBuilder-resources", "AutomationProjectBuilder-data\AutomationProjectBuilder-resources.csproj", "{81F98524-0248-46AA-968A-ACE3C0B7AD0B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomationProjectBuilder-export", "AutomationProjectBuilder-export\AutomationProjectBuilder-export.csproj", "{A42DCEEA-D0BB-4F74-9574-45CE135F13ED}"
 EndProject

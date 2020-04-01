@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutomationProjectBuilder-data\AutomationProjectBuilder-data.csproj" />
+    <ProjectReference Include="..\AutomationProjectBuilder-data\AutomationProjectBuilder-resources.csproj" />
   </ItemGroup>
 
 </Project>

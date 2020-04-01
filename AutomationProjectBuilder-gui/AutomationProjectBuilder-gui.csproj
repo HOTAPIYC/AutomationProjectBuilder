@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutomationProjectBuilder-data\AutomationProjectBuilder-data.csproj" />
+    <ProjectReference Include="..\AutomationProjectBuilder-data\AutomationProjectBuilder-resources.csproj" />
     <ProjectReference Include="..\AutomationProjectBuilder-export\AutomationProjectBuilder-export.csproj" />
   </ItemGroup>
 

@@ -12,14 +12,13 @@ namespace AutomationProjectBuilder.Export.Components
         private XElement _instances;
         private XElement _addData;
 
-        private PlcFolderStructure _plcFolders { get; set; }
+        private PlcFolder _pouFolders;
 
         public PlcOpenXmlDoc(string name)
         {
-            // Create root
             _project = new XElement(PlcOpenNamespaces.Ns + "project",
                 new XElement(PlcOpenNamespaces.Ns + "fileHeader",
-                    new XAttribute("companyName", "Me"),
+                    new XAttribute("companyName", "OpenSource"),
                     new XAttribute("productName", "AutomationProjectBuilder"),
                     new XAttribute("productVersion", "0.0.1"),
                     new XAttribute("creationDateTime", DateTime.Now.ToString("yyyy-MM-ddThh:mm:ss"))),
@@ -43,7 +42,6 @@ namespace AutomationProjectBuilder.Export.Components
                             )
                         );
 
-            // Create sections
             _types = new XElement(PlcOpenNamespaces.Ns + "types");
             _dataTypes = new XElement(PlcOpenNamespaces.Ns + "dataTypes");
             _pous = new XElement(PlcOpenNamespaces.Ns + "pous");
@@ -54,23 +52,23 @@ namespace AutomationProjectBuilder.Export.Components
 
         public void AddFunctionBlock(PlcFunctionBlock functionblock)
         {
-            _pous.Add(functionblock.GetXml());
+            _pous.Add(functionblock.GetPouXml());
         }
 
-        public void SetProjectStructure(PlcFolderStructure folders)
+        public void SetProjectStructure(PlcFolder folders)
         {
-            _plcFolders = folders;
+            _pouFolders = folders;
         }
-        private void AddFunctionBlocks(PlcFolderStructure folders)
+        private void FolderContentToXml(PlcFolder folders)
         {
             foreach(PlcFunctionBlock functionblock in folders.PlcFunctionBlocks)
             {
                 AddFunctionBlock(functionblock);
             }
 
-            foreach(PlcFolderStructure subfolder in folders.SubFolders)
+            foreach(PlcFolder subfolder in folders.SubFolders)
             {
-                AddFunctionBlocks(subfolder);
+                FolderContentToXml(subfolder);
             }
         }
 
@@ -78,8 +76,9 @@ namespace AutomationProjectBuilder.Export.Components
         {
             XDocument doc = new XDocument();
 
-            AddFunctionBlocks(_plcFolders);
-            CreateProjectStructure(_plcFolders);
+            FolderContentToXml(_pouFolders);
+
+            _addData.Add(FolderStructureToXml(_pouFolders));
 
             _types.Add(_dataTypes);
             _types.Add(_pous);
@@ -94,29 +93,25 @@ namespace AutomationProjectBuilder.Export.Components
             doc.Save(filepath);
         }
 
-        private void CreateProjectStructure(PlcFolderStructure plcStructure)
+        private XElement FolderStructureToXml(PlcFolder folder)
         {
-            _addData.Add(new XElement(PlcOpenNamespaces.Ns + "data",
+            return new XElement(PlcOpenNamespaces.Ns + "data",
                 new XAttribute("name", "http://www.3s-software.com/plcopenxml/projectstructure"),
                 new XAttribute("handleUnknown","discard"),
-                AddFolder(new XElement(PlcOpenNamespaces.Ns + "ProjectStructure"), plcStructure)));
+                AddFolder(new XElement(PlcOpenNamespaces.Ns + "ProjectStructure"), folder));
         }
 
-        private XElement AddFolder(XElement folderNode, PlcFolderStructure folder)
+        private XElement AddFolder(XElement folderNode, PlcFolder folder)
         {
             folderNode.Add(new XElement(PlcOpenNamespaces.Ns + "Folder",
                 new XAttribute("Name", folder.Name)));
 
-            var test = folderNode.Element(PlcOpenNamespaces.Ns + "Folder");
-
             foreach (PlcFunctionBlock functionblock in folder.PlcFunctionBlocks)
             {                   
-                folderNode.Element(PlcOpenNamespaces.Ns + "Folder").Add(new XElement(PlcOpenNamespaces.Ns + "Object",
-                    new XAttribute("Name", functionblock.Name),
-                    new XAttribute("ObjectId", functionblock.ObjectId)));
+                folderNode.Element(PlcOpenNamespaces.Ns + "Folder").Add(functionblock.GetProjectStructureXml());
             }
             
-            foreach(PlcFolderStructure subfolder in folder.SubFolders)
+            foreach(PlcFolder subfolder in folder.SubFolders)
             {
                 AddFolder(folderNode.Element(PlcOpenNamespaces.Ns + "Folder"), subfolder);
             }

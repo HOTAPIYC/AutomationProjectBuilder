@@ -4,13 +4,13 @@ using System.Text;
 
 namespace AutomationProjectBuilder.Export.Components
 {
-    public class PlcFolderStructure
+    public class PlcFolder
     {
         public string Name { get; set; }
         public List<PlcFunctionBlock> PlcFunctionBlocks { get; set; } = new List<PlcFunctionBlock>();
-        public List<PlcFolderStructure> SubFolders { get; set; } = new List<PlcFolderStructure>();
+        public List<PlcFolder> SubFolders { get; set; } = new List<PlcFolder>();
 
-        public PlcFolderStructure(string name)
+        public PlcFolder(string name)
         {
             Name = name;
         }
