@@ -15,7 +15,7 @@ namespace AutomationProjectBuilder.Data.Services
 
         public DataService()
         {
-            _customConfig = FileReadWrite.ReadConfiguration((string)Settings["ConfigFilePath"]);
+            _customConfig = FileReadWrite.ReadConfiguration((string)Settings["FilePathConfig"]);
         }
         
         public ProjectModule GetProjectRoot()
@@ -36,9 +36,9 @@ namespace AutomationProjectBuilder.Data.Services
 
         public bool Save()
         {
-            if (File.Exists((string)Settings["LastFilePath"]))
+            if (File.Exists((string)Settings["FilePathLast"]))
             {
-                FileReadWrite.CreateFile(_projectRoot, (string)Settings["LastFilePath"]);
+                FileReadWrite.CreateFile(_projectRoot, (string)Settings["FilePathLast"]);
 
                 return true;
             }
@@ -49,15 +49,15 @@ namespace AutomationProjectBuilder.Data.Services
         }
         public void SaveAs(string filePath)
         {
-            Settings["LastFilePath"] = filePath;
+            Settings["FilePathLast"] = filePath;
 
-            FileReadWrite.CreateFile(_projectRoot, (string)Settings["LastFilePath"]);
+            FileReadWrite.CreateFile(_projectRoot, (string)Settings["FilePathLast"]);
         }
         public void Load()
         {
-            if (File.Exists((string)Settings["LastFilePath"]))
+            if (File.Exists((string)Settings["FilePathLast"]))
             {
-                _projectRoot = FileReadWrite.ReadFile((string)Settings["LastFilePath"]);
+                _projectRoot = FileReadWrite.ReadFile((string)Settings["FilePathLast"]);
             }
             else
             {
@@ -66,7 +66,7 @@ namespace AutomationProjectBuilder.Data.Services
         }
         public void Open(string filePath)
         {
-            Settings["LastFilePath"] = filePath;
+            Settings["FilePathLast"] = filePath;
 
             Load();
         }

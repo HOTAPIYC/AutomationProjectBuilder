@@ -44,9 +44,12 @@ namespace AutomationProjectBuilder.ViewModels.Dialogs
 
         public ViewModelDialogPlcExport(IDataService dataservice)
         {
-            FilePath = "Choose a file path";
-
             _dataservice = dataservice;
+
+            if ((string)_dataservice.Settings["FilePathExport"] != "")
+                FilePath = (string)_dataservice.Settings["FilePathExport"];
+            else
+                FilePath = "Please choose a file path.";
 
             _cmdTarget = new DelegateCommand(x => ChooseFilePath());         
             _cmdExport = new DelegateCommand(x => CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(true)));
@@ -63,7 +66,7 @@ namespace AutomationProjectBuilder.ViewModels.Dialogs
             {
                 FilePath = dialog.FileName;
 
-                _dataservice.Settings["ExportFilePath"] = dialog.FileName;
+                _dataservice.Settings["FilePathExport"] = dialog.FileName;
             }
         }
     }

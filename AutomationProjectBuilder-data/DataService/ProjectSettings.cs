@@ -1,5 +1,4 @@
 ﻿using AutomationProjectBuilder.Interfaces;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace AutomationProjectBuilder.Data.Services
@@ -10,11 +9,12 @@ namespace AutomationProjectBuilder.Data.Services
         public ProjectSettings()
         {
             // Read settings from database. Temp solution with hardcoded values.
-            
-            settings["LastFilePath"] = "";
-            settings["ConfigFilePath"] = "G:\\CustomConfig.xml";
-            settings["ProjectName"] = "Enter a name";
-            settings["ExportFilePath"] = "Choose a path";
+
+            settings["ProjectName"] = "";
+
+            settings["FilePathLast"] = "";
+            settings["FilePathConfig"] = "G:\\CustomConfig.xml";
+            settings["FilePathExport"] = "";
         }
         
         public object this[string propertyName]

@@ -10,7 +10,7 @@ namespace AutomationProjectBuilder.Model
         public string Name { get; set; }
         public ModuleType Type { get; set; }
         public string NameParamGrp { get; set; } = "";
-        public string NameParamSet { get; set; } = "";
+        public string NameParamSet { get; set; } = "No parameter loaded";
         public List<ProjectModule> SubModules { get; set; } = new List<ProjectModule>();
         public List<IListItem> Functions { get; set; } = new List<IListItem>();
         public List<IListItem> Parameters { get; set; } = new List<IListItem>();

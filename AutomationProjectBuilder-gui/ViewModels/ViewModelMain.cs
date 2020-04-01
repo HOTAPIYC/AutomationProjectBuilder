@@ -25,6 +25,7 @@ namespace AutomationProjectBuilder.ViewModels
         private ICommand _cmdSaveAsFile;
         private ICommand _cmdNewFile;
         private ICommand _cmdExport;
+        private ICommand _cmdSettings;
 
         public ViewModelDetailsBase DetailsPage
         {
@@ -37,16 +38,12 @@ namespace AutomationProjectBuilder.ViewModels
         }
         
         public ICommand CmdSelectedItem { get => _cmdSelectedItem; }
-
-        public ICommand CmdSaveFile { get => _cmdSaveFile; }
-        
+        public ICommand CmdSaveFile { get => _cmdSaveFile; }       
         public ICommand CmdOpenFile { get => _cmdOpenFile; }
-
         public ICommand CmdSaveAsFile { get => _cmdSaveAsFile; }
-
         public ICommand CmdNewFile { get => _cmdNewFile; }
-
         public ICommand CmdExport { get => _cmdExport; }
+        public ICommand CmdSettings { get => _cmdSettings; }
 
         public ObservableCollection<ViewModelTreeItem> ProjectStructure { get; } = new ObservableCollection<ViewModelTreeItem>();
 
@@ -62,6 +59,7 @@ namespace AutomationProjectBuilder.ViewModels
             _cmdOpenFile = new DelegateCommand(x => OpenFile());
             _cmdNewFile = new DelegateCommand(x => New());
             _cmdExport = new DelegateCommand(x => Export());
+            _cmdSettings = new DelegateCommand(x => ShowAppSettings());
 
             DetailsPage = new ViewModelDetailsBlank();
 
@@ -176,6 +174,13 @@ namespace AutomationProjectBuilder.ViewModels
             var result = _dialogService.ShowDialog(dialog);
 
             if (result.Value) _plcCodeService.CreatePlcCode();
+        }
+
+        private void ShowAppSettings()
+        {
+            var dialog = new ViewModelDialogSettings(_dataService);
+
+            _dialogService.ShowDialog(dialog);
         }
     }
 }

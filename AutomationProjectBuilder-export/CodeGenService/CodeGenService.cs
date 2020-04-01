@@ -26,7 +26,7 @@ namespace AutomationProjectBuilder.Export.CodeGenerator
 
             export.SetProjectStructure(pouFolder);
 
-            export.SaveXml((string)_settings["ExportFilePath"]);
+            export.SaveXml((string)_settings["FilePathExport"]);
         }
 
         private PlcFolder CreatePlcFunctionBlocks(PlcFolder folder, ProjectModule module)
@@ -35,7 +35,7 @@ namespace AutomationProjectBuilder.Export.CodeGenerator
 
             foreach(IListItem function in module.Functions)
             {
-                functionblock.AddMethod(GetMethodName(function), PlcDataType.BOOL);
+                functionblock.Methods.Add(new PlcMethod(GetMethodName(function), PlcDataType.BOOL));
             }
 
             folder.PlcFunctionBlocks.Add(functionblock);
