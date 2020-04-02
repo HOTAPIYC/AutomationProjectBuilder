@@ -12,13 +12,15 @@
         <converter:BoolToVisibility x:Key="BoolToVisibility"/>
     </UserControl.Resources>
     <ScrollViewer>
-        <StackPanel Margin="5" Background="LightYellow">
-            <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
+        <StackPanel Background="DarkGray">
+            <StackPanel Margin="0,5,5,0" Orientation="Horizontal">
                 <TextBlock Text="{Binding NameParamGrp}" FontWeight="Bold" VerticalAlignment="Center" Margin="5"/>
                 <TextBlock Text="{Binding NameParamSet}" VerticalAlignment="Center"/>
-                <Button Content="Edit" Command="{Binding CmdEdit}" Width="50" Height="26" Margin="5,0,0,0"/>
+                <Button Style="{StaticResource IconButton}" Command="{Binding CmdEdit}" Margin="5,0,0,0">
+                    <Image Source="/Assets/pencil-outline.png" />
+                </Button>
             </StackPanel>
-            <Grid Margin="5">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -39,7 +41,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="20"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid Height="26" Grid.Column="0">
                                     <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
@@ -48,8 +50,10 @@
                                     <TextBlock Text="{Binding Value}" VerticalAlignment="Center"/>
                                     <TextBox Text="{Binding Value}" VerticalAlignment="Center" Visibility="{Binding IsEditMode, Converter={StaticResource BoolToVisibility}}"/>
                                 </Grid>
-                                <StackPanel Orientation="Horizontal" Grid.Column="2">
-                                    <Button Content="Edit" Command="{Binding CmdEdit}" Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}" Height="26" Width="50" />
+                                <StackPanel Orientation="Horizontal" Grid.Column="2" Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}">
+                                    <Button Style="{StaticResource IconButton}" Command="{Binding CmdEdit}">
+                                        <Image Source="/Assets/pencil-outline.png" />
+                                    </Button>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
@@ -63,7 +67,9 @@
                 </ListView>
                 <StackPanel Orientation="Horizontal" Margin="5" Grid.Column="1" Grid.Row="0">
                     <TextBlock Text="Functions" VerticalAlignment="Center"/>
-                    <Button Content="Add" Command="{Binding CmdAddFunction}" Width="50" Height="26" Margin="5,0,0,0"/>
+                    <Button Style="{StaticResource IconButton}" Command="{Binding CmdAddFunction}" Margin="5,0,0,0">
+                        <Image Source="/Assets/plus.png" />
+                    </Button>
                 </StackPanel>
                 <ListView x:Name="FunctionsList" ItemsSource="{Binding FunctionsList}" ScrollViewer.CanContentScroll="True" Height="150" Margin="5" Grid.Column="1" Grid.Row="1">
                     <ListView.ItemTemplate>
@@ -71,15 +77,19 @@
                             <Grid HorizontalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="40"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid Height="26" Grid.Column="0" Margin="0,0,5,0">
                                     <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
                                     <TextBox Text="{Binding Name}" VerticalAlignment="Center" Visibility="{Binding IsEditMode, Converter={StaticResource BoolToVisibility}}"/>
                                 </Grid>
-                                <StackPanel Orientation="Horizontal" Grid.Column="1">
-                                    <Button Content="Edit" Command="{Binding CmdEdit}" Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}" Height="26" Width="50"/>
-                                    <Button Content="Delete" Command="{Binding CmdDelete}" Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}" Height="26" Width="50"/>
+                                <StackPanel Orientation="Horizontal" Grid.Column="1" Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}">
+                                    <Button Style="{StaticResource IconButton}" Command="{Binding CmdEdit}">
+                                        <Image Source="/Assets/pencil-outline.png" />
+                                    </Button>
+                                    <Button Style="{StaticResource IconButton}" Command="{Binding CmdDelete}">
+                                        <Image Source="/Assets/trash-can-outline.png" />
+                                    </Button>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>

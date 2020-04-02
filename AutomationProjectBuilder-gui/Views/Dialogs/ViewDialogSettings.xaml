@@ -10,7 +10,9 @@
         <StackPanel Margin="10,5">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Source for custom configuration" FontWeight="Bold" VerticalAlignment="Center"/>
-                <Button Content="Edit" Command="{Binding CmdSetConfigSource}" Width="50" Height="26" Margin="5,0"/>
+                <Button Style="{StaticResource IconButton}" Command="{Binding CmdSetConfigSource}" Margin="5,0">
+                    <Image Source="/Assets/pencil-outline.png" />
+                </Button>
             </StackPanel>
             <TextBox Text="{Binding FilePathConfig}" IsManipulationEnabled="False" VerticalAlignment="Center" Margin="0,5"/>
         </StackPanel>

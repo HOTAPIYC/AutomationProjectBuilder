@@ -25,36 +25,76 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="LightGray" >
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <Button Content="New" Command="{Binding CmdNewFile}" Width="50" Height="26" Margin="5,5,0,5" HorizontalAlignment="Left"/>
-                <Button Content="Open" Command="{Binding CmdOpenFile}" Width="50" Height="26" Margin="5,5,0,5" HorizontalAlignment="Left"/>
-                <Button Content="Save" Command="{Binding CmdSaveFile}" Width="50" Height="26" Margin="5,5,0,5" HorizontalAlignment="Left"/>
-                <Button Content="Save As" Command="{Binding CmdSaveAsFile}" Width="50" Height="26" Margin="5,5,0,5" HorizontalAlignment="Left"/>
-                <Button Content="Export" Command="{Binding CmdExport}" Width="50" Height="26" Margin="5,5,0,5" HorizontalAlignment="Left"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Settings" Command="{Binding CmdSettings}" Width="50" Height="26" Margin="0,5,5,5" HorizontalAlignment="Left"/>
-            </StackPanel>
-        </Grid>
+        <Menu Grid.Row="0">
+            <MenuItem Header="File" Height="23">
+                <MenuItem Header="_New" Command="{Binding CmdNewFile}"/>
+                <MenuItem Header="_Open" Command="{Binding CmdOpenFile}">
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/folder-open-outline.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Save" Command="{Binding CmdSaveFile}">
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/content-save-outline.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Save As" Command="{Binding CmdSaveAsFile}"/>
+            </MenuItem>
+            <MenuItem Header="Export" Height="23">
+                <MenuItem Header="_Export to plcOpen XML" Command="{Binding CmdExport}">
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/application-export.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Extras" Height="23">
+                <MenuItem Header="_Settings" Command="{Binding CmdSettings}">
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/cog-outline.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_About">
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/information-outline.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="4"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TreeView x:Name="ProjectTree" ItemsSource="{Binding ProjectStructure}" Grid.Column="0">
+            <TreeView x:Name="ProjectTree" ItemsSource="{Binding ProjectStructure}" Style="{StaticResource CustomTreeView}" Grid.Column="0">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding SubViewModels}">
-                        <TextBlock x:Name="TreeItemName" Text="{Binding ModuleName, Mode=TwoWay}">
-                            <TextBlock.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="Add" Command="{Binding CmdAddSubsystem}"/>
-                                    <MenuItem Header="Delete" Command="{Binding CmdDeleteSubsystem}"/>
-                                    <MenuItem Header="Edit" Command="{Binding CmdEditSubsystem}"/>
-                                </ContextMenu>
-                            </TextBlock.ContextMenu>
-                        </TextBlock>
+                        <StackPanel Orientation="Horizontal" Margin="1">
+                            <Border Style="{StaticResource IconBorder}" Margin="0,0,5,0">
+                                <Image Source="/Assets/file-outline.png" />
+                            </Border>
+                            <TextBlock x:Name="TreeItemName" Text="{Binding ModuleName, Mode=TwoWay}" VerticalAlignment="Center" Margin="0,0,2,0">
+                                <TextBlock.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Add" Command="{Binding CmdAddSubsystem}">
+                                            <MenuItem.Icon>
+                                                <Image Source="/Assets/plus.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Delete" Command="{Binding CmdDeleteSubsystem}">
+                                            <MenuItem.Icon>
+                                                <Image Source="/Assets/trash-can-outline.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Edit" Command="{Binding CmdEditSubsystem}">
+                                            <MenuItem.Icon>
+                                                <Image Source="/Assets/pencil-outline.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </TextBlock.ContextMenu>
+                            </TextBlock>
+                        </StackPanel>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
                 <TreeView.ItemContainerStyle>
@@ -69,8 +109,8 @@
                     </behaviors:EventTrigger>
                 </behaviors:Interaction.Triggers>
             </TreeView>
-            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch" />
-            <Grid Grid.Column="2">
+            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch" Background="DarkGray"/>
+            <Grid Grid.Column="2" Background="DarkGray">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
@@ -78,10 +118,9 @@
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,5,0,0" Visibility="{Binding ElementName=ProjectTree, Path=SelectedItem, Converter={StaticResource SelectionToVisibility}}">
                     <TextBlock Text="{Binding ElementName=ProjectTree, Path=SelectedItem.ModuleName}" FontWeight="Bold" Margin="5"/>
                     <TextBlock Text="{Binding ElementName=ProjectTree, Path=SelectedItem.ModuleType, Converter={StaticResource EnumToString}}" Margin="0,5,5,5"/>
-                    <Button Content="Edit"
-                        Width="50"
-                        DataContext="{Binding ElementName=ProjectTree, Path=SelectedItem}" 
-                        Command="{Binding CmdEditSubsystem}"/>
+                    <Button Style="{StaticResource IconButton}" Command="{Binding CmdEditSubsystem}" DataContext="{Binding ElementName=ProjectTree, Path=SelectedItem}">
+                        <Image Source="/Assets/pencil-outline.png" />
+                    </Button>
                 </StackPanel>
                 <ContentControl Content="{Binding DetailsPage}" Grid.Row="1"/>
             </Grid>

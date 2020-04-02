@@ -5,6 +5,10 @@
              xmlns:viewmodels="clr-namespace:AutomationProjectBuilder.ViewModels"
              xmlns:views="clr-namespace:AutomationProjectBuilder.Views">
     <Application.Resources>
-        
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Assets/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

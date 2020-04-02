@@ -14,7 +14,9 @@
             <TextBox Text="{Binding ProjectName}" Margin="0,5,0,0"/>
             <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
                 <TextBlock Text="Export file path" FontWeight="Bold" VerticalAlignment="Center"/>
-                <Button Content="Edit" Command="{Binding CmdTarget}" Width="50" Height="26" Margin="5,0"/>
+                <Button Style="{StaticResource IconButton}" Command="{Binding CmdTarget}" Margin="5,0">
+                    <Image Source="/Assets/pencil-outline.png" />
+                </Button>
             </StackPanel>
             <TextBox Text="{Binding FilePath}" IsManipulationEnabled="False" Margin="0,5,0,0"/>
         </StackPanel>

@@ -10,6 +10,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\application-export.png" />
+    <None Remove="Assets\cog-outline.png" />
+    <None Remove="Assets\content-save-outline.png" />
+    <None Remove="Assets\file-outline.png" />
+    <None Remove="Assets\folder-open-outline.png" />
+    <None Remove="Assets\information-outline.png" />
+    <None Remove="Assets\pencil-outline.png" />
+    <None Remove="Assets\plus.png" />
+    <None Remove="Assets\power.png" />
+    <None Remove="Assets\trash-can-outline.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
   </ItemGroup>
 
@@ -26,6 +39,19 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\application-export.png" />
+    <Resource Include="Assets\cog-outline.png" />
+    <Resource Include="Assets\content-save-outline.png" />
+    <Resource Include="Assets\file-outline.png" />
+    <Resource Include="Assets\folder-open-outline.png" />
+    <Resource Include="Assets\information-outline.png" />
+    <Resource Include="Assets\pencil-outline.png" />
+    <Resource Include="Assets\plus.png" />
+    <Resource Include="Assets\power.png" />
+    <Resource Include="Assets\trash-can-outline.png" />
   </ItemGroup>
 
 </Project>
