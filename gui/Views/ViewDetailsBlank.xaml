@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:AutomationProjectBuilder.Gui.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="DarkGray">
-        <TextBlock Text="Automation project builder" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+    <Grid>
+            
     </Grid>
 </UserControl>

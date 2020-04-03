@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 namespace AutomationProjectBuilder.Gui.Views
 {
     /// <summary>
-    /// Interaktionslogik für DetailsView.xaml
+    /// Interaktionslogik für ViewDetailsBlank1.xaml
     /// </summary>
     public partial class ViewDetailsBlank : UserControl
     {

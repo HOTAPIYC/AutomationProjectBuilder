@@ -2,13 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>apb_gui</RootNamespace>
+    <RootNamespace>AutomationProjectBuilder.Gui</RootNamespace>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <Win32Resource />
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Assets\application-export.png" />
     <None Remove="Assets\cog-outline.png" />
+    <None Remove="Assets\cog_wheel_graphic.png" />
     <None Remove="Assets\content-save-outline.png" />
     <None Remove="Assets\file-outline.png" />
     <None Remove="Assets\folder-open-outline.png" />
@@ -17,6 +20,7 @@
     <None Remove="Assets\plus.png" />
     <None Remove="Assets\power.png" />
     <None Remove="Assets\trash-can-outline.png" />
+    <None Remove="icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,12 +28,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutomationProjectBuilder-data\data.csproj" />
+    <ProjectReference Include="..\data\data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Assets\application-export.png" />
     <Resource Include="Assets\cog-outline.png" />
+    <Resource Include="Assets\cog_wheel_graphic.png" />
     <Resource Include="Assets\content-save-outline.png" />
     <Resource Include="Assets\file-outline.png" />
     <Resource Include="Assets\folder-open-outline.png" />
@@ -38,6 +43,7 @@
     <Resource Include="Assets\plus.png" />
     <Resource Include="Assets\power.png" />
     <Resource Include="Assets\trash-can-outline.png" />
+    <Resource Include="icon.ico" />
   </ItemGroup>
 
   <ItemGroup>

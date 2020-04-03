@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace AutomationProjectBuilder.Gui.ViewModels
 {
-    public class ViewModelDetailsCtrlModule : ViewModelDetailsBase
+    public class ViewModelDetailsEqCtrlModule : ViewModelDetailsBase
     {
         private IDialogService _dialogService;
         private IDataService _dataService;
@@ -48,7 +48,7 @@ namespace AutomationProjectBuilder.Gui.ViewModels
         public ObservableCollection<ViewModelListItem> ParameterList { get; set; } = new ObservableCollection<ViewModelListItem>();
         public ObservableCollection<ViewModelListItem> FunctionsList { get; set; } = new ObservableCollection<ViewModelListItem>();
 
-        public ViewModelDetailsCtrlModule(ProjectModule module, IDialogService dialogService, IDataService dataService)
+        public ViewModelDetailsEqCtrlModule(ProjectModule module, IDialogService dialogService, IDataService dataService)
         {
             _dialogService = dialogService;
             _dataService = dataService;
@@ -56,7 +56,7 @@ namespace AutomationProjectBuilder.Gui.ViewModels
             Module = module;
 
             ModuleId = module.Id;
-            ModuleType = ModuleType.CtrlModule;
+            ModuleType = module.Type;
 
             _cmdAddFunction = new DelegateCommand(x => AddFunction());
             _cmdEdit = new DelegateCommand(x => LoadParameterSet());

@@ -56,7 +56,7 @@ namespace AutomationProjectBuilder.Gui.ViewModels
             _cmdExport = new DelegateCommand(x => Export());
             _cmdSettings = new DelegateCommand(x => ShowAppSettings());
 
-            DetailsPage = new ViewModelDetailsBlank();
+            DetailsPage = new ViewModelDetailsLandingPage();
 
             _dataService.Load();
 
@@ -88,13 +88,8 @@ namespace AutomationProjectBuilder.Gui.ViewModels
             switch (_selectedItem.ModuleType)
             {
                 case ModuleType.EquipmentModule:
-                    DetailsPage = new ViewModelDetailsEqModule(
-                        _selectedItem.Module, 
-                        _dialogService, 
-                        _dataService);
-                    break;
                 case ModuleType.CtrlModule:
-                    DetailsPage = new ViewModelDetailsCtrlModule(
+                    DetailsPage = new ViewModelDetailsEqCtrlModule(
                         _selectedItem.Module,
                         _dialogService,
                         _dataService);

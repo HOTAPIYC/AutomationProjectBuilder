@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\apb-gui\gui.csproj" />
-    <ProjectReference Include="..\AutomationProjectBuilder-export\export.csproj" />
+    <ProjectReference Include="..\gui\gui.csproj" />
+    <ProjectReference Include="..\export\export.csproj" />
   </ItemGroup>
 
 </Project>

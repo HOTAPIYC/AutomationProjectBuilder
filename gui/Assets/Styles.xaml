@@ -4,6 +4,7 @@
                     xmlns:views="clr-namespace:AutomationProjectBuilder.Gui.Views"
                     xmlns:viewmodels="clr-namespace:AutomationProjectBuilder.Gui.ViewModels"
                     xmlns:converter="clr-namespace:AutomationProjectBuilder.Gui.Converter">
+    
     <Style x:Key="IconButton" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
@@ -21,18 +22,48 @@
         <Setter Property="BorderBrush" Value="Transparent"/>
     </Style>
 
+    <DataTemplate DataType="{x:Type viewmodels:ViewModelDetailsLandingPage}">
+        <views:ViewDetailsLandingPage/>
+    </DataTemplate>
     <DataTemplate DataType="{x:Type viewmodels:ViewModelDetailsBlank}">
         <views:ViewDetailsBlank/>
     </DataTemplate>
-    <DataTemplate DataType="{x:Type viewmodels:ViewModelDetailsEqModule}">
-        <views:ViewDetailsEqModule/>
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type viewmodels:ViewModelDetailsCtrlModule}">
-        <views:ViewDetailsCtrlModule/>
+    <DataTemplate DataType="{x:Type viewmodels:ViewModelDetailsEqCtrlModule}">
+        <views:ViewDetailsEqCtrlModule/>
     </DataTemplate>
     
     <converter:EnumConverterToString x:Key="EnumToString" />
     <converter:EnumConverterToList x:Key="EnumToList"/>
     <converter:SelectionConverterToVisibility x:Key="SelectionToVisibility" />
     <converter:BoolToVisibility x:Key="BoolToVisibility"/>
+
+    <Style x:Key="ShadowHorizontal" TargetType="Rectangle">
+        <Setter Property="Height" Value="8"/>
+        <Setter Property="Opacity" Value="0.1"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Stretch" Value="Fill"/>
+        <Setter Property="Fill">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Color="#FF222222" Offset="0.0" />
+                    <GradientStop Color="#00FFFFFF" Offset="1.0" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ShadowVertical" TargetType="Rectangle">
+        <Setter Property="Width" Value="8"/>
+        <Setter Property="Opacity" Value="0.1"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Stretch" Value="Fill"/>
+        <Setter Property="Fill">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="1,0.5" EndPoint="0,0.5">
+                    <GradientStop Color="#FF222222" Offset="0.0" />
+                    <GradientStop Color="#00FFFFFF" Offset="1.0" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

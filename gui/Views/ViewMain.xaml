@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
         WindowStartupLocation="CenterScreen"
-        Title="AutomationProjectBuilder" Height="450" Width="800">
+        Title="AutomationProjectBuilder" Height="600" Width="900" MinHeight="600"
+        Icon="pack://application:,,,/gui;component/icon.ico">
+    
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -11,11 +13,13 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        
         <Menu Grid.Row="0">
             <MenuItem Header="File" Height="23">
                 <MenuItem Header="_New" Command="{Binding CmdNewFile}"/>
@@ -51,6 +55,7 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
+
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
@@ -100,12 +105,13 @@
                     </behaviors:EventTrigger>
                 </behaviors:Interaction.Triggers>
             </TreeView>
-            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch" Background="DarkGray"/>
+           
             <Grid Grid.Column="2" Background="DarkGray">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+                
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,5,0,0" Visibility="{Binding ElementName=ProjectTree, Path=SelectedItem, Converter={StaticResource SelectionToVisibility}}">
                     <TextBlock Text="{Binding ElementName=ProjectTree, Path=SelectedItem.ModuleName}" FontWeight="Bold" Margin="5"/>
                     <TextBlock Text="{Binding ElementName=ProjectTree, Path=SelectedItem.ModuleType, Converter={StaticResource EnumToString}}" Margin="0,5,5,5"/>
@@ -113,8 +119,15 @@
                         <Image Source="pack://application:,,,/gui;component/Assets/pencil-outline.png" />
                     </Button>
                 </StackPanel>
-                <ContentControl Content="{Binding DetailsPage}" Grid.Row="1"/>
+                
+                <ContentControl Content="{Binding DetailsPage}" Grid.Row="1" MinWidth="600" ScrollViewer.CanContentScroll="True"/>
             </Grid>
+
+            <Rectangle Style="{StaticResource ShadowVertical}" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
+
+            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch" Background="Transparent"/>
         </Grid>
+
+        <Rectangle Style="{StaticResource ShadowHorizontal}" Grid.Row="1"/>
     </Grid>
 </Window>
