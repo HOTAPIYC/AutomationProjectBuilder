@@ -1,0 +1,30 @@
+﻿<Window x:Class="AutomationProjectBuilder.Gui.Views.ViewDialogSettings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:AutomationProjectBuilder.Gui.Views"
+        ShowInTaskbar="false"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Title="ViewDialogSettings" Height="500" Width="400">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/gui;component/Assets/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <StackPanel Margin="10,5">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Source for custom configuration" FontWeight="Bold" VerticalAlignment="Center"/>
+                <Button Style="{StaticResource IconButton}" Command="{Binding CmdSetConfigSource}" Margin="5,0">
+                    <Image Source="pack://application:,,,/gui;component/Assets/pencil-outline.png" />
+                </Button>
+            </StackPanel>
+            <TextBox Text="{Binding FilePathConfig}" IsManipulationEnabled="False" VerticalAlignment="Center" Margin="0,5"/>
+        </StackPanel>
+        <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Button Content="Close" Command="{Binding CmdClose}" MinWidth="100" Height="26" Margin="10,0,0,0"/>
+        </StackPanel>
+    </Grid>
+</Window>
