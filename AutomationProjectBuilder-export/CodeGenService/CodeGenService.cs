@@ -2,11 +2,12 @@
 using AutomationProjectBuilder.Export.Enums;
 using AutomationProjectBuilder.Interfaces;
 using AutomationProjectBuilder.Model;
+using System;
 using System.Linq;
 
 namespace AutomationProjectBuilder.Export.CodeGenerator
 {
-    public class CodeGenService : ICodeGenService
+    public class CodeGenService
     {
         private ISettings _settings;
         private IDataService _dataservice;
@@ -16,9 +17,15 @@ namespace AutomationProjectBuilder.Export.CodeGenerator
             _dataservice = dataservice;
             _settings = dataservice.Settings;
 
+            _dataservice.ExportRequested += OnExportRequest;
         }
         
-        public void CreatePlcCode()
+        private void OnExportRequest(object sender, EventArgs e)
+        {
+            CreatePlcCode();
+        }
+
+        private void CreatePlcCode()
         {
             var export = new PlcOpenXmlDoc((string)_settings["ProjectName"]);
 

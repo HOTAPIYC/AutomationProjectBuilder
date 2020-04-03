@@ -8,7 +8,11 @@
         WindowStartupLocation="CenterScreen"
         Title="Item Details" Height="150" Width="400">
     <Window.Resources>
-        <converter:EnumConverterToList x:Key="EnumToList"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/AutomationProjectBuilder-gui;component/Assets/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
     <Grid>
         <StackPanel Margin="10">

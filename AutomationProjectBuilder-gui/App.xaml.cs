@@ -15,13 +15,13 @@ namespace AutomationProjectBuilder
     /// </summary>
     public partial class App : Application
     {
+        private IDataService _dataService;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             IDialogService dialogService = new DialogService(MainWindow);
-            IDataService dataService = new DataService();
-            ICodeGenService plcCodeService = new CodeGenService(dataService);
 
             dialogService.Register<ViewModelDialogTreeItem, ViewDialogTreeItem>();
             dialogService.Register<ViewModelDialogTextInput, ViewDialogTextInput>();
@@ -29,9 +29,14 @@ namespace AutomationProjectBuilder
             dialogService.Register<ViewModelDialogPlcExport, ViewDialogPlcExport>();
             dialogService.Register<ViewModelDialogSettings, ViewDialogSettings>();
 
-            ViewMain mainView = new ViewMain() { DataContext = new ViewModelMain(dialogService, dataService, plcCodeService) };
+            ViewMain mainView = new ViewMain() { DataContext = new ViewModelMain(dialogService, _dataService) };
 
             mainView.Show();
+        }
+
+        public void SetDataService(IDataService dataService)
+        {
+            _dataService = dataService;
         }
     }
 }

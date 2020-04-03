@@ -1,5 +1,6 @@
 ﻿using AutomationProjectBuilder.Interfaces;
 using AutomationProjectBuilder.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -11,10 +12,24 @@ namespace AutomationProjectBuilder.Data.Services
 
         private List<ParameterGroup> _customConfig = new List<ParameterGroup>();
 
+        public bool Export()
+        {
+            OnExportRequest(new EventArgs());
+
+            return true;
+        }
+
+        public event EventHandler ExportRequested;
+
+        protected virtual void OnExportRequest(EventArgs e)
+        {
+            ExportRequested?.Invoke(this, e);
+        }
+
         public ISettings Settings { get; } = new ProjectSettings();
 
         public DataService()
-        {
+        {           
             _customConfig = FileReadWrite.ReadConfiguration((string)Settings["FilePathConfig"]);
         }
         

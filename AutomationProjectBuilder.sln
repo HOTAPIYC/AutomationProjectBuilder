@@ -12,6 +12,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomationProjectBuilder-re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomationProjectBuilder-export", "AutomationProjectBuilder-export\AutomationProjectBuilder-export.csproj", "{A42DCEEA-D0BB-4F74-9574-45CE135F13ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomationProjectBuilder", "AutomationProjectBuilder\AutomationProjectBuilder.csproj", "{7CE9998D-C5C5-4E56-89F6-B12B6623AAF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{A42DCEEA-D0BB-4F74-9574-45CE135F13ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A42DCEEA-D0BB-4F74-9574-45CE135F13ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A42DCEEA-D0BB-4F74-9574-45CE135F13ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CE9998D-C5C5-4E56-89F6-B12B6623AAF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CE9998D-C5C5-4E56-89F6-B12B6623AAF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CE9998D-C5C5-4E56-89F6-B12B6623AAF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CE9998D-C5C5-4E56-89F6-B12B6623AAF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,7 +9,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <converter:BoolToVisibility x:Key="BoolToVisibility"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/AutomationProjectBuilder-gui;component/Assets/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
     <ScrollViewer>
         <StackPanel Background="DarkGray">
@@ -17,7 +21,7 @@
                 <TextBlock Text="{Binding NameParamGrp}" FontWeight="Bold" VerticalAlignment="Center" Margin="5"/>
                 <TextBlock Text="{Binding NameParamSet}" VerticalAlignment="Center"/>
                 <Button Style="{StaticResource IconButton}" Command="{Binding CmdEdit}" Margin="5,0,0,0">
-                    <Image Source="/Assets/pencil-outline.png" />
+                    <Image Source="pack://application:,,,/AutomationProjectBuilder-gui;component/Assets/pencil-outline.png" />
                 </Button>
             </StackPanel>
             <Grid>
@@ -52,7 +56,7 @@
                                 </Grid>
                                 <StackPanel Orientation="Horizontal" Grid.Column="2" Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}">
                                     <Button Style="{StaticResource IconButton}" Command="{Binding CmdEdit}">
-                                        <Image Source="/Assets/pencil-outline.png" />
+                                        <Image Source="pack://application:,,,/AutomationProjectBuilder-gui;component/Assets/pencil-outline.png" />
                                     </Button>
                                 </StackPanel>
                             </Grid>
@@ -68,7 +72,7 @@
                 <StackPanel Orientation="Horizontal" Margin="5" Grid.Column="1" Grid.Row="0">
                     <TextBlock Text="Functions" VerticalAlignment="Center"/>
                     <Button Style="{StaticResource IconButton}" Command="{Binding CmdAddFunction}" Margin="5,0,0,0">
-                        <Image Source="/Assets/plus.png" />
+                        <Image Source="pack://application:,,,/AutomationProjectBuilder-gui;component/Assets/plus.png" />
                     </Button>
                 </StackPanel>
                 <ListView x:Name="FunctionsList" ItemsSource="{Binding FunctionsList}" ScrollViewer.CanContentScroll="True" Height="150" Margin="5" Grid.Column="1" Grid.Row="1">
@@ -85,10 +89,10 @@
                                 </Grid>
                                 <StackPanel Orientation="Horizontal" Grid.Column="1" Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}">
                                     <Button Style="{StaticResource IconButton}" Command="{Binding CmdEdit}">
-                                        <Image Source="/Assets/pencil-outline.png" />
+                                        <Image Source="pack://application:,,,/AutomationProjectBuilder-gui;component/Assets/pencil-outline.png" />
                                     </Button>
                                     <Button Style="{StaticResource IconButton}" Command="{Binding CmdDelete}">
-                                        <Image Source="/Assets/trash-can-outline.png" />
+                                        <Image Source="pack://application:,,,/AutomationProjectBuilder-gui;component/Assets/trash-can-outline.png" />
                                     </Button>
                                 </StackPanel>
                             </Grid>
