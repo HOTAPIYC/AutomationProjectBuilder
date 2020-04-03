@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AutomationProjectBuilder.Interfaces
+namespace AutomationProjectBuilder.Data.Interfaces
 {
     public interface IListItem
     {

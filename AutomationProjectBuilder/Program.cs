@@ -1,5 +1,6 @@
-﻿using AutomationProjectBuilder.Data.Services;
-using AutomationProjectBuilder.Export.CodeGenerator;
+﻿using AutomationProjectBuilder.Data;
+using AutomationProjectBuilder.Export;
+using AutomationProjectBuilder.Gui;
 using System;
 
 namespace AutomationProjectBuilder
@@ -12,13 +13,9 @@ namespace AutomationProjectBuilder
             Console.WriteLine("Automation project builder version 0.0.1.\nDon't close this window while the application is running!");
 
             var dataService = new DataService();
-            var plcExport = new CodeGenService(dataService);
 
-            var application = new App();
-
-            application.SetDataService(dataService);
-
-            application.Run();
+            var plcExport = new PlcExport(dataService);
+            var userinterface = new UserInterface(dataService);
         }
     }
 }

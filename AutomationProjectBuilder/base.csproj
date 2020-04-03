@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\apb-gui\gui.csproj" />
+    <ProjectReference Include="..\AutomationProjectBuilder-export\export.csproj" />
+  </ItemGroup>
+
+</Project>

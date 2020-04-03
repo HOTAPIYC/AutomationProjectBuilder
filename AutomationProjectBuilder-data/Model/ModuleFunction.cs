@@ -1,7 +1,7 @@
-﻿using AutomationProjectBuilder.Interfaces;
+﻿using AutomationProjectBuilder.Data.Interfaces;
 using System;
 
-namespace AutomationProjectBuilder.Model
+namespace AutomationProjectBuilder.Data.Model
 {
     public class ModuleFunction : IListItem
     {

@@ -1,8 +1,8 @@
-﻿using AutomationProjectBuilder.Interfaces;
+﻿using AutomationProjectBuilder.Data.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace AutomationProjectBuilder.Model
+namespace AutomationProjectBuilder.Data.Model
 {
     public class ProjectModule
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AutomationProjectBuilder.Model
+namespace AutomationProjectBuilder.Data.Model
 {
     public class ParameterGroup
     {

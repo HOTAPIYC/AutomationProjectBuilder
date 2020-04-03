@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace AutomationProjectBuilder.Model
+namespace AutomationProjectBuilder.Data.Model
 {
     public enum ModuleType
     {

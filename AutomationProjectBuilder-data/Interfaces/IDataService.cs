@@ -1,13 +1,13 @@
-﻿using AutomationProjectBuilder.Interfaces;
-using AutomationProjectBuilder.Model;
+﻿using AutomationProjectBuilder.Data.Model;
 using System;
 using System.Collections.Generic;
 
-namespace AutomationProjectBuilder.Interfaces
+namespace AutomationProjectBuilder.Data.Interfaces
 {
     public interface IDataService
     {
-        public bool Export();        
+        public bool Export();    
+        
         public event EventHandler ExportRequested;
         public ISettings Settings { get; }
         public ProjectModule GetProjectRoot();

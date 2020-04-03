@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AutomationProjectBuilder.Interfaces
+namespace AutomationProjectBuilder.Data.Interfaces
 {
     public interface ISettings
     {
