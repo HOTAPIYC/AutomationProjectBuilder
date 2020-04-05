@@ -2,9 +2,9 @@
 
 namespace AutomationProjectBuilder.Gui.Views
 {
-    public partial class ViewDialogSettings : UserControl
+    public partial class ViewDialogNotification : UserControl
     {
-        public ViewDialogSettings()
+        public ViewDialogNotification()
         {
             InitializeComponent();
         }

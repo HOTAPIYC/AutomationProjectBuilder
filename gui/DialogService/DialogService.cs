@@ -1,39 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace AutomationProjectBuilder.Gui
 {
-    public class DialogService : IDialogService
+    public class DialogService : ViewModelBase, IDialogService
     {
-        private readonly Window owner;
+        private ViewModelBase _dialogContent;
+        private Visibility _dialogVisibility = Visibility.Collapsed;
+        private bool _isOpen = false;
+        private TaskCompletionSource<bool> _taskCompletionSource = null;
 
-        public DialogService(Window owner)
+        public ViewModelBase DialogContent
         {
-            this.owner = owner;
-            Mappings = new Dictionary<Type, Type>();
+            get => _dialogContent;
+            set { _dialogContent = value; NotifyPropertChanged("DialogContent"); }
         }
 
-        public IDictionary<Type, Type> Mappings { get; }
-
-        public void Register<TViewModel, TView>() where TViewModel : IDialogRequestClose
-                                                  where TView : IDialog
+        public Visibility DialogVisibility
         {
-            if (Mappings.ContainsKey(typeof(TViewModel)))
-            {
-                throw new ArgumentException($"Type {typeof(TViewModel)} is already mapped to type {typeof(TView)}");
-            }
-
-            Mappings.Add(typeof(TViewModel), typeof(TView));
+            get => _dialogVisibility;
+            set { _dialogVisibility = value; NotifyPropertChanged("DialogVisibility"); }
         }
 
-        public bool? ShowDialog<TViewModel>(TViewModel viewModel) where TViewModel : IDialogRequestClose
+        public bool IsOpen
         {
-            Type viewType = Mappings[typeof(TViewModel)];
+            get => _isOpen;
+            set { _isOpen = value; NotifyPropertChanged("IsOpen"); }
+        }
 
-            IDialog dialog = (IDialog)Activator.CreateInstance(viewType);
-
+        public async Task<bool?> ShowDialog<TViewModel>(TViewModel viewModel) where TViewModel : ViewModelBase, IDialogRequestClose
+        {
             EventHandler<DialogCloseRequestedEventArgs> handler = null;
+
+            _taskCompletionSource = new TaskCompletionSource<bool>();
 
             handler = (sender, e) =>
             {
@@ -41,20 +42,24 @@ namespace AutomationProjectBuilder.Gui
 
                 if (e.DialogResult.HasValue)
                 {
-                    dialog.DialogResult = e.DialogResult;
+                    viewModel.DialogResult = e.DialogResult;
                 }
-                else
-                {
-                    dialog.Close();
-                }
+
+                IsOpen = false;
+
+                _taskCompletionSource?.TrySetResult(true);
             };
 
             viewModel.CloseRequested += handler;
 
-            dialog.DataContext = viewModel;
-            dialog.Owner = owner;
+            DialogContent = viewModel;
+            DialogVisibility = Visibility.Visible;
 
-            return dialog.ShowDialog();
+            IsOpen = true;
+
+            await _taskCompletionSource.Task;
+
+            return viewModel.DialogResult;
         }
     }
 }

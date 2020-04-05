@@ -17,14 +17,12 @@ namespace AutomationProjectBuilder.Gui.ViewModels
         public string FilePathConfig
         {
             get => _filePathConfig;
-            set
-            {
-                _filePathConfig = value;
-                NotifyPropertChanged("FilePathConfig");
-            }
+            set { _filePathConfig = value; NotifyPropertChanged("FilePathConfig"); }
         }
         public ICommand CmdSetConfigSource { get => _cmdSetConfigSource; }
         public ICommand CmdClose { get => _cmdClose; }
+
+        public bool? DialogResult { get; set; }
 
         public event EventHandler<DialogCloseRequestedEventArgs> CloseRequested;
 
@@ -34,22 +32,23 @@ namespace AutomationProjectBuilder.Gui.ViewModels
 
             FilePathConfig = (string)_dataservice.Settings["FilePathConfig"];
 
-            _cmdSetConfigSource = new DelegateCommand(x => ChooseFilePath());
-            _cmdClose = new DelegateCommand(x => CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(true)));
-        }
-
-        private void ChooseFilePath()
-        {
-            var dialog = new OpenFileDialog();
-
-            var result = dialog.ShowDialog();
-
-            if (result.Value)
+            _cmdSetConfigSource = new DelegateCommand(x => 
             {
-                FilePathConfig = dialog.FileName;
+                var dialog = new OpenFileDialog();
 
-                _dataservice.Settings["FilePathConfig"] = dialog.FileName;
-            }
+                var result = dialog.ShowDialog();
+
+                if (result.Value)
+                {
+                    FilePathConfig = dialog.FileName;
+
+                    _dataservice.Settings["FilePathConfig"] = dialog.FileName;
+                }
+            });
+            _cmdClose = new DelegateCommand(x => 
+            { 
+                CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(true)); 
+            });
         }
     }
 }

@@ -9,7 +9,8 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/gui;component/Assets/Styles.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/gui;component/Controls/Styles.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/gui;component/Controls/DialogHost.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -129,5 +130,9 @@
         </Grid>
 
         <Rectangle Style="{StaticResource ShadowHorizontal}" Grid.Row="1"/>
+
+        <UserControl Template="{StaticResource DialogHostTemplate}" 
+                     DataContext="{Binding DialogHost}"
+                     Grid.RowSpan="2"/>
     </Grid>
 </Window>

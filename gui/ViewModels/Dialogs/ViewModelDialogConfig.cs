@@ -16,48 +16,41 @@ namespace AutomationProjectBuilder.Gui.ViewModels
 
         public ICommand CmdApply
         {
-            get { return _cmdApply; }
+            get => _cmdApply;
         }
 
         public ICommand CmdCancel
         {
-            get { return _cmdCancel; }
+            get => _cmdCancel;
         }
 
         public ParameterGroup SelectedParameterGroup
         {
-            get
-            {
-                return _selectedParameterGroup;
-            }
-            set
-            {
-                _selectedParameterGroup = value;
-                NotifyPropertChanged("SelectedParameterGroup");
-            }
+            get => _selectedParameterGroup;
+            set { _selectedParameterGroup = value; NotifyPropertChanged("SelectedParameterGroup"); }
         }
 
         public ParameterSet SelectedParameterSet
         {
-            get
-            {
-                return _selectedParameterSet;
-            }
-            set
-            {
-                _selectedParameterSet = value;
-                NotifyPropertChanged("SelectedParameterSet");
-            }
+            get =>  _selectedParameterSet;
+            set { _selectedParameterSet = value; NotifyPropertChanged("SelectedParameterSet"); }
         }
 
         public ObservableCollection<ParameterGroup> ParameterGroups { get; set; }
+        public bool? DialogResult { get; set; }
 
         public event EventHandler<DialogCloseRequestedEventArgs> CloseRequested;
 
         public ViewModelDialogConfig(IDataService dataService)
         {
-            _cmdApply = new DelegateCommand(x => CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(true)));
-            _cmdCancel = new DelegateCommand(x => CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(false)));
+            _cmdApply = new DelegateCommand(x =>
+            {
+                CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(true));
+            });
+            _cmdCancel = new DelegateCommand(x => 
+            {
+                CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(false));
+            });
 
             ParameterGroups = new ObservableCollection<ParameterGroup>(dataService.GetParameterGroups());
         }

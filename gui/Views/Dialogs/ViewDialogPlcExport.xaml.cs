@@ -1,8 +1,8 @@
-﻿using System.Windows;
+﻿using System.Windows.Controls;
 
 namespace AutomationProjectBuilder.Gui.Views
 {
-    public partial class ViewDialogPlcExport : Window, IDialog
+    public partial class ViewDialogPlcExport : UserControl
     {
         public ViewDialogPlcExport()
         {

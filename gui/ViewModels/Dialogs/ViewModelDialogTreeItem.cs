@@ -14,39 +14,27 @@ namespace AutomationProjectBuilder.Gui.ViewModels
 
         public ICommand CmdSave
         {
-            get { return _cmdSave; }
+            get => _cmdSave;
         }
 
         public ICommand CmdCancel
         {
-            get { return _cmdCancel; }
+            get => _cmdCancel;
         }
 
         public string ModuleNameInput
         {
-            get
-            {
-                return _moduleNameInput;
-            }
-            set
-            {
-                _moduleNameInput = value;
-                NotifyPropertChanged("ModuleName");
-            }
+            get => _moduleNameInput;
+            set { _moduleNameInput = value; NotifyPropertChanged("ModuleName"); }
         }
 
         public ModuleType ModuleTypeSelection
         {
-            get
-            {
-                return _moduleTypeSelection;
-            }
-            set
-            {
-                _moduleTypeSelection = value;
-                NotifyPropertChanged("ModuleTypeSelection");
-            }
+            get => _moduleTypeSelection;
+            set { _moduleTypeSelection = value; NotifyPropertChanged("ModuleTypeSelection"); }
         }
+
+        public bool? DialogResult { get; set; }
 
         public event EventHandler<DialogCloseRequestedEventArgs> CloseRequested;
 
@@ -55,8 +43,14 @@ namespace AutomationProjectBuilder.Gui.ViewModels
             ModuleNameInput = item.Name;
             ModuleTypeSelection = item.Type;
             
-            _cmdSave = new DelegateCommand(x => CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(true)));
-            _cmdCancel = new DelegateCommand(x => CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(false)));
+            _cmdSave = new DelegateCommand(x => 
+            { 
+                CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(true)); 
+            });
+            _cmdCancel = new DelegateCommand(x => 
+            { 
+                CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(false)); 
+            });
         }
     }
 }

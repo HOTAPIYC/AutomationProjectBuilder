@@ -1,27 +1,23 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace AutomationProjectBuilder.Gui
 {
-    public interface IDialog
-    {
-        public object DataContext { get; set; }
-        public bool? DialogResult { get; set; }
-        public Window Owner { get; set; }
-        public void Close();
-        public bool? ShowDialog();
-    }
-
     public interface IDialogService
     {
-        public void Register<TViewModel, TView>() where TViewModel : IDialogRequestClose where TView : IDialog;
+        public ViewModelBase DialogContent { get; set; }
 
-        public bool? ShowDialog<TViewModel>(TViewModel viewModel) where TViewModel : IDialogRequestClose;
+        public Visibility DialogVisibility { get; set; }
+
+        public Task<bool?> ShowDialog<TViewModel>(TViewModel viewModel) where TViewModel : ViewModelBase, IDialogRequestClose;
     }
 
     public interface IDialogRequestClose
     {
         public event EventHandler<DialogCloseRequestedEventArgs> CloseRequested;
+
+        public bool? DialogResult { get; set; }
     }
 
     public class DialogCloseRequestedEventArgs : EventArgs

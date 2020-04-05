@@ -41,6 +41,10 @@ namespace AutomationProjectBuilder.Gui.ViewModels
         public ICommand CmdExport { get => _cmdExport; }
         public ICommand CmdSettings { get => _cmdSettings; }
 
+        public IDialogService DialogHost
+        {
+            get => _dialogService;
+        }
         public ObservableCollection<ViewModelTreeItem> ProjectStructure { get; } = new ObservableCollection<ViewModelTreeItem>();
 
         public ViewModelMain(IDialogService dialogService, IDataService dataService)
@@ -157,11 +161,11 @@ namespace AutomationProjectBuilder.Gui.ViewModels
                     _dataService));
         }
 
-        private void Export()
+        private async void Export()
         {
             var dialog = new ViewModelDialogPlcExport(_dataService);
 
-            var result = _dialogService.ShowDialog(dialog);
+            var result = await _dialogService.ShowDialog(dialog);
 
             if (result.Value) _dataService.Export();
         }

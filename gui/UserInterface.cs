@@ -13,13 +13,7 @@ namespace AutomationProjectBuilder.Gui
 
             ViewMain mainView = new ViewMain();
 
-            IDialogService dialogService = new DialogService(mainView);
-
-            dialogService.Register<ViewModelDialogTreeItem, ViewDialogTreeItem>();
-            dialogService.Register<ViewModelDialogTextInput, ViewDialogTextInput>();
-            dialogService.Register<ViewModelDialogConfig, ViewDialogConfig>();
-            dialogService.Register<ViewModelDialogPlcExport, ViewDialogPlcExport>();
-            dialogService.Register<ViewModelDialogSettings, ViewDialogSettings>();
+            IDialogService dialogService = new DialogService();
 
             mainView.DataContext = new ViewModelMain(dialogService, _dataService);
 

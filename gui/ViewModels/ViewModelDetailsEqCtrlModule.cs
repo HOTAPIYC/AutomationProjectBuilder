@@ -71,11 +71,11 @@ namespace AutomationProjectBuilder.Gui.ViewModels
                 FunctionsList.Add(new ViewModelListItem(function, this.FunctionsList, module.Functions));
             }
         }
-        private void LoadParameterSet() 
+        private async void LoadParameterSet() 
         {
             var dialog = new ViewModelDialogConfig(_dataService);
 
-            var result = _dialogService.ShowDialog(dialog);
+            var result = await _dialogService.ShowDialog(dialog);
             
             if(result.Value && dialog.SelectedParameterGroup != null && dialog.SelectedParameterSet != null)
             {

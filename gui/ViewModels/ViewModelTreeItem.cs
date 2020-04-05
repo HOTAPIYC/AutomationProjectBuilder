@@ -72,11 +72,11 @@ namespace AutomationProjectBuilder.Gui.ViewModels
             _cmdEditSubsystem = new DelegateCommand(x => EditSubViewModel());
         }
 
-        private void CreateSubViewModel()
+        private async void CreateSubViewModel()
         {
             var dialog = new ViewModelDialogTreeItem(new ProjectModule());
 
-            var result = _dialogService.ShowDialog(dialog);         
+            var result = await _dialogService.ShowDialog(dialog);         
 
             if(result.Value)
             {
@@ -100,11 +100,11 @@ namespace AutomationProjectBuilder.Gui.ViewModels
             Parent.SubViewModels.Remove(this);
         }
 
-        public void EditSubViewModel()
+        public async void EditSubViewModel()
         {
             var dialog = new ViewModelDialogTreeItem(Module);
 
-            var result = _dialogService.ShowDialog(dialog);
+            var result = await _dialogService.ShowDialog(dialog);
 
             if (result.Value)
             {

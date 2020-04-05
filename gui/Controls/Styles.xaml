@@ -31,7 +31,23 @@
     <DataTemplate DataType="{x:Type viewmodels:ViewModelDetailsEqCtrlModule}">
         <views:ViewDetailsEqCtrlModule/>
     </DataTemplate>
-    
+
+    <DataTemplate DataType="{x:Type viewmodels:ViewModelDialogConfig}">
+        <views:ViewDialogConfig/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewmodels:ViewModelDialogNotification}">
+        <views:ViewDialogNotification/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewmodels:ViewModelDialogPlcExport}">
+        <views:ViewDialogPlcExport/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewmodels:ViewModelDialogSettings}">
+        <views:ViewDialogSettings/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewmodels:ViewModelDialogTreeItem}">
+        <views:ViewDialogTreeItem/>
+    </DataTemplate>
+
     <converter:EnumConverterToString x:Key="EnumToString" />
     <converter:EnumConverterToList x:Key="EnumToList"/>
     <converter:SelectionConverterToVisibility x:Key="SelectionToVisibility" />
