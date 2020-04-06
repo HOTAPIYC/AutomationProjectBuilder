@@ -16,10 +16,10 @@
     </UserControl.Resources>
     <StackPanel>
         <StackPanel Margin="10,0">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Parameter set" 
-                               Foreground="DarkGray"
-                               Margin="0,0,0,5"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <TextBlock Text="Parameter set"
+                           VerticalAlignment="Center"
+                           Foreground="DarkGray"/>
                 <Button Style="{StaticResource IconButton}" 
                             Command="{Binding CmdEdit}" 
                             Margin="5,0">

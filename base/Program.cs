@@ -10,7 +10,7 @@ namespace AutomationProjectBuilder
         [STAThread]
         static void Main(string[] args)
         {
-            Console.WriteLine("Automation project builder version 0.0.1.\nDon't close this window while the application is running!");
+            Console.WriteLine("Automation Project Builder version 0.0.1.\nDon't close this window while the application is running!");
 
             var dataService = new DataService();
 
