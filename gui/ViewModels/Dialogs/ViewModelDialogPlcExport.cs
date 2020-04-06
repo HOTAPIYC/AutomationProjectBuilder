@@ -56,6 +56,7 @@ namespace AutomationProjectBuilder.Gui.ViewModels
             _cmdTarget = new DelegateCommand(x => 
             {
                 var dialog = new SaveFileDialog();
+                dialog.Filter = "xml files (*.xml)|*.xml";
 
                 var result = dialog.ShowDialog();
 

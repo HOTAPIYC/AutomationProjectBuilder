@@ -46,7 +46,9 @@ namespace AutomationProjectBuilder.Gui.ViewModels
                 }
             });
             _cmdClose = new DelegateCommand(x => 
-            { 
+            {
+                _dataservice.LoadParameterGroups();
+                
                 CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(true)); 
             });
         }

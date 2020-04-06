@@ -29,8 +29,8 @@ namespace AutomationProjectBuilder.Data
         public ISettings Settings { get; } = new ProjectSettings();
 
         public DataService()
-        {           
-            _customConfig = FileReadWrite.ReadConfiguration((string)Settings["FilePathConfig"]);
+        {
+            LoadParameterGroups();
         }
         
         public ProjectModule GetProjectRoot()
@@ -84,6 +84,12 @@ namespace AutomationProjectBuilder.Data
             Settings["FilePathLast"] = filePath;
 
             Load();
+        }
+
+        public void LoadParameterGroups()
+        {
+            if((string)Settings["FilePathConfig"] != "")
+                _customConfig = FileReadWrite.ReadConfiguration((string)Settings["FilePathConfig"]);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace AutomationProjectBuilder.Data
             settings["ProjectName"] = "";
 
             settings["FilePathLast"] = "";
-            settings["FilePathConfig"] = "G:\\CustomConfig.xml";
+            settings["FilePathConfig"] = "";
             settings["FilePathExport"] = "";
         }
         

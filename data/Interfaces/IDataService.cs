@@ -6,12 +6,12 @@ namespace AutomationProjectBuilder.Data.Interfaces
 {
     public interface IDataService
     {
-        public bool Export();    
-        
+        public bool Export();           
         public event EventHandler ExportRequested;
         public ISettings Settings { get; }
         public ProjectModule GetProjectRoot();
         public ProjectModule ResetProjectRoot();
+        public void LoadParameterGroups();
         public List<ParameterGroup> GetParameterGroups();
         public bool Save();
         public void SaveAs(string filePath);

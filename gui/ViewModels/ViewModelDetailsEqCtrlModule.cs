@@ -44,7 +44,7 @@ namespace AutomationProjectBuilder.Gui.ViewModels
             ModuleId = module.Id;
             ModuleType = module.Type;
 
-            if (module.NameParamSet == "") module.NameParamSet = "No parameter set loaded";
+            if (module.NameParamSet == "") module.NameParamSet = "No parameters set";
 
             _cmdAddFunction = new DelegateCommand(x => 
             { 

@@ -189,6 +189,7 @@ namespace AutomationProjectBuilder.Gui.ViewModels
         private void SaveFileAs()
         {
             var dialog = new SaveFileDialog();
+            dialog.Filter = "xml files (*.xml)|*.xml";
 
             var result = dialog.ShowDialog();
 
