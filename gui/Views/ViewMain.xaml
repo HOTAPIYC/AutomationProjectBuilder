@@ -35,6 +35,18 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="_Save As" Command="{Binding CmdSaveAsFile}"/>
+                <Separator/>
+                <MenuItem Header="Exit">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/gui;component/Assets/power.png" />
+                    </MenuItem.Icon>
+                    <behaviors:Interaction.Triggers>
+                        <behaviors:EventTrigger EventName="Click">
+                            <behaviors:CallMethodAction MethodName="Close"
+                                                        TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
+                        </behaviors:EventTrigger>
+                    </behaviors:Interaction.Triggers>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Export" Height="23">
                 <MenuItem Header="_Export to plcOpen XML" Command="{Binding CmdExport}">
@@ -49,7 +61,7 @@
                         <Image Source="pack://application:,,,/gui;component/Assets/cog-outline.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_About">
+                <MenuItem Header="_About" Command="{Binding CmdAbout}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/gui;component/Assets/information-outline.png" />
                     </MenuItem.Icon>
@@ -107,21 +119,36 @@
                 </behaviors:Interaction.Triggers>
             </TreeView>
            
-            <Grid Grid.Column="2" Background="DarkGray">
+            <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 
-                <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,5,0,0" Visibility="{Binding ElementName=ProjectTree, Path=SelectedItem, Converter={StaticResource SelectionToVisibility}}">
-                    <TextBlock Text="{Binding ElementName=ProjectTree, Path=SelectedItem.ModuleName}" FontWeight="Bold" Margin="5"/>
-                    <TextBlock Text="{Binding ElementName=ProjectTree, Path=SelectedItem.ModuleType, Converter={StaticResource EnumToString}}" Margin="0,5,5,5"/>
-                    <Button Style="{StaticResource IconButton}" Command="{Binding CmdEditSubsystem}" DataContext="{Binding ElementName=ProjectTree, Path=SelectedItem}">
-                        <Image Source="pack://application:,,,/gui;component/Assets/pencil-outline.png" />
-                    </Button>
+                <StackPanel Grid.Row="0" 
+                            Margin="10" 
+                            Visibility="{Binding ElementName=ProjectTree, Path=SelectedItem, Converter={StaticResource SelectionToVisibility}}">
+                    <TextBlock Text="{Binding ElementName=ProjectTree, Path=SelectedItem.ModuleName}" 
+                               FontSize="17"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,5,0,0">
+                        <TextBlock Text="{Binding ElementName=ProjectTree, Path=SelectedItem.ModuleType, Converter={StaticResource EnumToString}}" 
+                                   VerticalAlignment="Center"
+                                   Foreground="DarkGray"
+                                   Margin="0,0,5,0"/>
+                        <Button Style="{StaticResource IconButton}" 
+                                Command="{Binding CmdEditSubsystem}" 
+                                DataContext="{Binding ElementName=ProjectTree, Path=SelectedItem}"
+                                VerticalAlignment="Center">
+                            <Image Source="pack://application:,,,/gui;component/Assets/pencil-outline.png" />
+                        </Button>
+                    </StackPanel>
+                    <Rectangle Fill="LightGray" Stretch="Fill" Height="1" Margin="0,10,0,0"/>
                 </StackPanel>
                 
-                <ContentControl Content="{Binding DetailsPage}" Grid.Row="1" MinWidth="600" ScrollViewer.CanContentScroll="True"/>
+                <ContentControl Content="{Binding DetailsPage}" 
+                                Grid.Row="1" 
+                                MinWidth="600" 
+                                ScrollViewer.CanContentScroll="True"/>
             </Grid>
 
             <Rectangle Style="{StaticResource ShadowVertical}" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Right"/>

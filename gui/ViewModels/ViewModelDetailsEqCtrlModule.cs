@@ -25,24 +25,10 @@ namespace AutomationProjectBuilder.Gui.ViewModels
             get => _cmdEdit;
         }
 
-        public string NameParamGrp
-        {
-            get => Module.NameParamGrp;
-            set
-            {
-                Module.NameParamGrp = value;
-                NotifyPropertChanged("NameParamGrp");
-            }
-        }
-
         public string NameParamSet
         {
             get => Module.NameParamSet;
-            set
-            {
-                Module.NameParamSet = value;
-                NotifyPropertChanged("NameParamSet");
-            }
+            set { Module.NameParamSet = value; NotifyPropertChanged("NameParamSet"); }
         }
 
         public ObservableCollection<ViewModelListItem> ParameterList { get; set; } = new ObservableCollection<ViewModelListItem>();
@@ -58,8 +44,16 @@ namespace AutomationProjectBuilder.Gui.ViewModels
             ModuleId = module.Id;
             ModuleType = module.Type;
 
-            _cmdAddFunction = new DelegateCommand(x => AddFunction());
-            _cmdEdit = new DelegateCommand(x => LoadParameterSet());
+            if (module.NameParamSet == "") module.NameParamSet = "No parameter set loaded";
+
+            _cmdAddFunction = new DelegateCommand(x => 
+            { 
+                AddFunction(); 
+            });
+            _cmdEdit = new DelegateCommand(x => 
+            { 
+                LoadParameterSet(); 
+            });
            
             foreach(ModuleParameter parameter in module.Parameters)
             {
@@ -79,9 +73,10 @@ namespace AutomationProjectBuilder.Gui.ViewModels
             
             if(result.Value && dialog.SelectedParameterGroup != null && dialog.SelectedParameterSet != null)
             {
-                NameParamGrp = dialog.SelectedParameterGroup.Name;
                 NameParamSet = dialog.SelectedParameterSet.Name;
 
+                Module.Parameters.Clear();
+                
                 ParameterList.Clear();
 
                 var newParameterSet = dialog.SelectedParameterSet.Parameters;

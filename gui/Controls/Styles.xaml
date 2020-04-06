@@ -47,6 +47,9 @@
     <DataTemplate DataType="{x:Type viewmodels:ViewModelDialogTreeItem}">
         <views:ViewDialogTreeItem/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type viewmodels:ViewModelDialogAbout}">
+        <views:ViewDialogAbout/>
+    </DataTemplate>
 
     <converter:EnumConverterToString x:Key="EnumToString" />
     <converter:EnumConverterToList x:Key="EnumToList"/>

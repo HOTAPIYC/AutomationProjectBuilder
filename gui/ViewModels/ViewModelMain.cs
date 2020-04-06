@@ -22,24 +22,52 @@ namespace AutomationProjectBuilder.Gui.ViewModels
         private ICommand _cmdNewFile;
         private ICommand _cmdExport;
         private ICommand _cmdSettings;
+        private ICommand _cmdAbout;
 
         public ViewModelDetailsBase DetailsPage
         {
             get => _detailsPage;
-            set
-            {
-                _detailsPage = value;
-                NotifyPropertChanged("DetailsPage");
-            }
+            set { _detailsPage = value; NotifyPropertChanged("DetailsPage"); }
         }
         
-        public ICommand CmdSelectedItem { get => _cmdSelectedItem; }
-        public ICommand CmdSaveFile { get => _cmdSaveFile; }       
-        public ICommand CmdOpenFile { get => _cmdOpenFile; }
-        public ICommand CmdSaveAsFile { get => _cmdSaveAsFile; }
-        public ICommand CmdNewFile { get => _cmdNewFile; }
-        public ICommand CmdExport { get => _cmdExport; }
-        public ICommand CmdSettings { get => _cmdSettings; }
+        public ICommand CmdSelectedItem 
+        { 
+            get => _cmdSelectedItem; 
+        }
+
+        public ICommand CmdSaveFile 
+        { 
+            get => _cmdSaveFile; 
+        }   
+        
+        public ICommand CmdOpenFile 
+        { 
+            get => _cmdOpenFile; 
+        }
+
+        public ICommand CmdSaveAsFile 
+        { 
+            get => _cmdSaveAsFile; 
+        }
+
+        public ICommand CmdNewFile 
+        { 
+            get => _cmdNewFile; 
+        }
+
+        public ICommand CmdExport 
+        { 
+            get => _cmdExport;       
+        }
+
+        public ICommand CmdSettings 
+        { 
+            get => _cmdSettings;
+        }
+        public ICommand CmdAbout
+        {
+            get => _cmdAbout;
+        }
 
         public IDialogService DialogHost
         {
@@ -52,13 +80,42 @@ namespace AutomationProjectBuilder.Gui.ViewModels
             _dialogService = dialogService;
             _dataService = dataService;
 
-            _cmdSelectedItem = new DelegateCommand(x => GetSelectedItem());
-            _cmdSaveFile = new DelegateCommand(x => SaveFile());
-            _cmdSaveAsFile = new DelegateCommand(x => SaveFileAs());
-            _cmdOpenFile = new DelegateCommand(x => OpenFile());
-            _cmdNewFile = new DelegateCommand(x => New());
-            _cmdExport = new DelegateCommand(x => Export());
-            _cmdSettings = new DelegateCommand(x => ShowAppSettings());
+            _cmdSelectedItem = new DelegateCommand(x =>
+            {
+                GetSelectedItem();
+            });
+            _cmdSaveFile = new DelegateCommand(x =>
+            {
+                SaveFile();
+            });
+            _cmdSaveAsFile = new DelegateCommand(x => 
+            {
+                SaveFileAs(); 
+            });
+            _cmdOpenFile = new DelegateCommand(x => 
+            {
+                OpenFile(); 
+            });
+            _cmdNewFile = new DelegateCommand(x => 
+            { 
+                New(); }
+            );
+            _cmdExport = new DelegateCommand(x => 
+            { 
+                Export(); 
+            });
+            _cmdSettings = new DelegateCommand(x => 
+            {
+                var dialog = new ViewModelDialogSettings(_dataService);
+
+                _dialogService.ShowDialog(dialog);
+            });
+            _cmdAbout = new DelegateCommand(x => 
+            {
+                var dialog = new ViewModelDialogAbout();
+
+                _dialogService.ShowDialog(dialog);
+            });
 
             DetailsPage = new ViewModelDetailsLandingPage();
 
@@ -116,7 +173,9 @@ namespace AutomationProjectBuilder.Gui.ViewModels
                 _dataService.Open(dialog.FileName);
 
                 GetProjectStructure();
-            }                                          
+            }
+
+            DetailsPage = new ViewModelDetailsLandingPage();
         }
 
         private void SaveFile()
@@ -168,13 +227,6 @@ namespace AutomationProjectBuilder.Gui.ViewModels
             var result = await _dialogService.ShowDialog(dialog);
 
             if (result.Value) _dataService.Export();
-        }
-
-        private void ShowAppSettings()
-        {
-            var dialog = new ViewModelDialogSettings(_dataService);
-
-            _dialogService.ShowDialog(dialog);
         }
     }
 }

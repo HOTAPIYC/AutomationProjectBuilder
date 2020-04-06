@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="AutomationProjectBuilder.Gui.Views.ViewDialogAbout"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Height="250" Width="300">
+    <Grid>
+        <Rectangle Fill="White" 
+                   RadiusX="3" 
+                   RadiusY="3"/>
+
+        <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <TextBlock Text="About"
+                       FontSize="17"
+                       Margin="10"/>
+
+            <StackPanel Margin="10,0">
+                <TextBlock Text="Automation Project Builder 0.0.1"/>
+
+                <TextBlock TextWrapping="Wrap"
+                           Text="This is a draft application for PLC code generation, following the IEC61131-10 standard. Modify this application to your requirements."
+                           Margin="0,10"/>
+
+                <TextBlock TextWrapping="Wrap"
+                           Text="Background vector created by freepik - www.freepik.com. The icons can be found on www.materialdesignicons.com."/>
+            </StackPanel>
+            
+            <StackPanel HorizontalAlignment="Center" Width="260" Margin="10">
+                <Button Content="Close" 
+                        Command="{Binding CmdClose}" 
+                        Width="100" 
+                        Height="26" 
+                        Margin="10"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>
