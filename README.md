@@ -80,7 +80,7 @@ Project structures created can be saved to or read from a simple XML structure, 
 ```
 
 ## Contact
-If you are interested in extending this to a full application and you have questions or suggestions on improving this, let me know! :man_cartwheeling:
+If you are interested in extending this to a full application and/or you have questions or suggestions on improving this, let me know! :man_cartwheeling:
 
 ## License
 ```
